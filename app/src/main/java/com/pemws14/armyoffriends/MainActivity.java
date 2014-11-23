@@ -24,6 +24,7 @@ import com.parse.ParseQuery;
 
 public class MainActivity extends Activity implements LocationListener  {
     Button LocButton;
+    Button fightButton;
     TextView LocTextView;
     TextView longitudeText;
     TextView latitudeText;
@@ -44,9 +45,11 @@ public class MainActivity extends Activity implements LocationListener  {
 
         // findViewbyIDs
         LocButton = (Button)findViewById(R.id.LocationButton);
+        fightButton = (Button)findViewById(R.id.main_fight_button);
         LocTextView = (TextView)findViewById(R.id.LocationText);
         longitudeText = (TextView)findViewById(R.id.LongitudeText);
         latitudeText = (TextView)findViewById(R.id.LatiuteText);
+
 
         // Location Manager Instanz
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -88,7 +91,16 @@ public class MainActivity extends Activity implements LocationListener  {
       //  ParseObject testObject = new ParseObject("TestObject");
       //  testObject.put("foo", "bar");
       //  testObject.saveInBackground();
+
+        fightButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FightActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
 
     @Override

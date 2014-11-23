@@ -4,5 +4,15 @@
     <string name="app_name">ArmyOfFriends</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_fight">Fight</string>
+
+    <string-array name="left_drawer_list_items">
+        <item>Your Army</item>
+        <item>Fight</item>
+        <item>Latest Actions</item>
+        <item>Your Profile</item>
+    </string-array>
+
+    <string name="title_activity_base">BaseActivity</string>
 
 </resources>
