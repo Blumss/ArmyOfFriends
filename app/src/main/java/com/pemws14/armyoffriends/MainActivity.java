@@ -8,7 +8,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +32,10 @@ public class MainActivity extends Activity implements LocationListener  {
     String provider;
     Criteria criteria;
     Location location;
+    UserLocation userLocation;
+
+
+
 
 
     @Override
@@ -50,20 +53,31 @@ public class MainActivity extends Activity implements LocationListener  {
         longitudeText = (TextView)findViewById(R.id.LongitudeText);
         latitudeText = (TextView)findViewById(R.id.LatiuteText);
 
+        // UserLocation
+        userLocation = new UserLocation();
+
 
         // Location Manager Instanz
         locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
         // überprüft, ob GPS an ist
-        boolean enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean GPSenabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean NETWORKenabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         // EInstellungen werden aufgerufen, damit der Nutzer es anmachen kann
         // Ein Toast oder sowas wäre auch nett
-        if (!enabled) {
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
+        if (!GPSenabled) {
+            //Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            //startActivity(intent);
+            System.out.println("GPS inaktiv");
+        } else{
+            System.out.println("GPS aktiv");
         }
-
+        if (!NETWORKenabled){
+            System.out.println("Network inaktiv");
+        } else {
+            System.out.println("Network aktiv");
+        }
         // Define the criteria how to select the location provider -> use default
         criteria = new Criteria();
      //   criteria.setAccuracy(Criteria.ACCURACY_HIGH);
@@ -170,7 +184,9 @@ public class MainActivity extends Activity implements LocationListener  {
 
     public void getUserLocation(){
 
+        userLocation.getLocation(this, locationResult);
 
+        /*
         location = locationManager.getLastKnownLocation(provider);
         if (location != null) {
             System.out.println("Provider " + provider + " has been selected.");
@@ -179,10 +195,10 @@ public class MainActivity extends Activity implements LocationListener  {
             latitudeText.setText("Location not available");
             longitudeText.setText("Location not available");
         }
-
+        */
         // in Parse speichern noch nicht vollständig implementiert
         ParseGeoPoint point = new ParseGeoPoint(40.0, -30.0);
-        ParseGeoPoint curLoc = new ParseGeoPoint();
+       // ParseGeoPoint curLoc = new ParseGeoPoint();
         ParseObject userObject = new ParseObject("UserObject");
 
         userObject.put("location", point);
@@ -198,4 +214,23 @@ public class MainActivity extends Activity implements LocationListener  {
        // LocTextView.setText("new Location: Latitute: "+latiNew+", Longtitude: "+longiNew);
 
     }
+
+    UserLocation.LocationResult locationResult = new UserLocation.LocationResult(){
+        @Override
+        public void gotLocation(Location location){
+
+            //Got the location!
+            System.out.println("got Location in Main Activity ausgeführt");
+            if (location != null) {
+                System.out.println("Location vorhanden! ");
+                onLocationChanged(location);
+            } else {
+                latitudeText.setText("Location not available");
+                longitudeText.setText("Location not available");
+
+                System.out.println("Location not available! ");
+            }
+
+        }
+    };
 }
