@@ -12,6 +12,12 @@
         <item>Latest Actions</item>
         <item>Your Profile</item>
     </string-array>
+    <array name="left_drawer_list_icons">
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_launcher</item>
+    </array>
 
     <string name="title_activity_base">BaseActivity</string>
 

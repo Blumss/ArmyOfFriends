@@ -7,7 +7,8 @@
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="#fff"/>
     <!-- The navigation drawer -->
     <RelativeLayout
         android:id="@+id/left_drawer"
@@ -18,32 +19,75 @@
         <RelativeLayout
             android:id="@+id/left_drawer_header"
             android:layout_width="match_parent"
-            android:layout_height="30dp">
+            android:layout_height="90dp">
             <ImageView
                 android:id="@+id/left_drawer_user_profile_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/left_drawer_user_profile_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/left_drawer_user_profile_armystrength_lvl"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher"
+                android:layout_margin="12dp" />
+            <RelativeLayout
+                android:id="@+id/left_drawer_user_profile_username_armystrength_lvl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/left_drawer_user_profile_image" >
+                <TextView
+                    android:id="@+id/left_drawer_user_profile_username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:text="Schnabeltier" />
+                <TextView
+                    android:id="@+id/left_drawer_user_profile_armystrength_lvl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:textSize="15sp"
+                    android:text="lvl: 12"
+                    android:textStyle="italic"
+                    android:layout_below="@+id/left_drawer_user_profile_username" />
+            </RelativeLayout>
         </RelativeLayout>
         <ListView
             android:id="@+id/left_drawer_activities_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
-            android:dividerHeight="0dp" />
+            android:dividerHeight="0dp"
+            android:layout_below="@+id/left_drawer_header" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_above="@+id/left_drawer_footer">
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/userpic_placeholder"/>
+
+            <TextView
+                android:id="@+id/drawerListItem"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:paddingRight="40dp"
+                android:layout_toRightOf="@+id/icon"
+                android:text="Impressum"/>
+        </RelativeLayout>
         <TextView
             android:id="@+id/left_drawer_footer"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            />
+            android:text="made with &lt;3 in Munich"/>
     </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>
