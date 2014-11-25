@@ -1,13 +1,18 @@
 package com.pemws14.armyoffriends;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +24,8 @@ import com.parse.Parse;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+
+import java.util.Calendar;
 
 
 public class MainActivity extends Activity implements LocationListener  {
@@ -33,7 +40,8 @@ public class MainActivity extends Activity implements LocationListener  {
     Criteria criteria;
     Location location;
     UserLocation userLocation;
-
+    public static PendingIntent pintent;
+    public static AlarmManager alarm;
 
 
 
@@ -223,6 +231,7 @@ public class MainActivity extends Activity implements LocationListener  {
             System.out.println("got Location in Main Activity ausgeführt");
             if (location != null) {
                 System.out.println("Location vorhanden! ");
+                startBackgroundService();
                 onLocationChanged(location);
             } else {
                 latitudeText.setText("Location not available");
@@ -233,4 +242,39 @@ public class MainActivity extends Activity implements LocationListener  {
 
         }
     };
+
+    protected ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            // TODO Auto-generated method stub
+            System.out.println("MainActivity - ServiceConnection - onServiceConnected");
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            // TODO Auto-generated method stub
+            System.out.println("MainActivity - ServiceConnection - onServiceDisconnected");
+
+        }
+    };
+
+    public void startBackgroundService(){
+        /*
+        // use this to start and trigger a service
+        Context context = this.getApplicationContext();
+        Intent i= new Intent(context, BackgroundService.class);
+        // potentially add data to the intent
+       // i.putExtra("KEY1", "Value to be used by the service");
+        context.startService(i);
+        */
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 10);
+
+        Intent intent = new Intent(this, BackgroundService.class);
+        pintent = PendingIntent.getService(this, 0, intent, 0);
+
+        alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 1000*60, pintent);
+    }
 }
