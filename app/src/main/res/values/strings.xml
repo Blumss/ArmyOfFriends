@@ -13,10 +13,10 @@
         <item>Your Profile</item>
     </string-array>
     <array name="left_drawer_list_icons">
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
-        <item>@drawable/ic_launcher</item>
+        <item>@drawable/ic_menu_army</item>
+        <item>@drawable/ic_menu_fight</item>
+        <item>@drawable/ic_menu_recent</item>
+        <item>@drawable/ic_menu_profile</item>
     </array>
 
     <string name="title_activity_base">BaseActivity</string>
