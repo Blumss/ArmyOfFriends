@@ -2,7 +2,6 @@ package com.pemws14.armyoffriends;
 
 public class GameMechanics {
 
-
     private final int pow = 3;
     private final double rankUpFactor = 1.1;
     private final double levelUpBonus = 0.1;
@@ -42,32 +41,32 @@ public class GameMechanics {
     }
 
     /*
-    returns level for next rank-Up, current rank is parameter
+    returns required level for Rank-up to reach given rank
     Fibonacci
-    getLevelForRankUp(0->1) =    1
-                                +1
-    getLevelForRankUp(1->2) =    2
-                                +2
-    getLevelForRankUp(2->3) =    4
-                                +3
-    getLevelForRankUp(3->4) =    7
-                                +5
-    getLevelForRankUp(4->5) =   12
-                                +8
-    getLevelForRankUp(5->6) =   20
-                               +13
-    getLevelForRankUp(6->7) =   33
-                               +21
-    getLevelForRankUp(7->8) =   54
-                               +34
-    getLevelForRankUp(8->9) =   88
-                               +55
-    getLevelForRankUp(9->10) = 143
+    getLevelForRank(1) =    1 (0->1)
+                           +1
+    getLevelForRank(2) =    2 (1->2)
+                           +2
+    getLevelForRank(3) =    4 (2->3)
+                           +3
+    getLevelForRank(4) =    7 (3->4)
+                           +5
+    getLevelForRank(5) =   12 (4->5)
+                           +8
+    getLevelForRank(6) =   20 (5->6)
+                          +13
+    getLevelForRank(7)     33 (6->7)
+                          +21
+    getLevelForRank(8) =   54 (7->8)
+                          +34
+    getLevelForRank(9) =   88 (8->9)
+                          +55
+    getLevelForRank(10) = 143 (9->10)
      */
-    public int getLevelForRankUp(int rank){
+    public int getLevelForRank(int rank){
         int fib = 0;
-        for (int k = 0; k <= Math.floor((rank + 3 -1) / 2); k++) {
-            fib += binomial(rank + 3 - k - 1, k);
+        for (int k = 0; k <= Math.floor((rank + 1) / 2); k++) {
+            fib += binomial(rank + 1 - k, k);
         }
         return fib - 1;
     }
