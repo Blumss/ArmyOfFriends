@@ -2,6 +2,6 @@
     android:id="@+id/left_drawer_user_profile_username"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff0000"
+    android:textColor="#000"
     android:text="Schnabeltier"/>
 

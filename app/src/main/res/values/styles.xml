@@ -1,8 +1,21 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    <style name="OurAppTheme" parent="ThemeOverlay.AppCompat.Light">
         <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/OurActionBar</item>
+        <item name="colorPrimary">#86272D</item>
+        <item name="colorAccent">#515151</item>
+    </style>
+
+    <style name="OurActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">#86272D</item>
+    </style>
+
+    <style name="OurDrawerTheme" parent="Theme.AppCompat">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#86272D</item>
+        <item name="colorAccent">#515151</item>
     </style>
 
 </resources>
