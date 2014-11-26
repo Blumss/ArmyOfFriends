@@ -116,10 +116,10 @@ public class GameMechanics {
     Iterates over Array of Levels of each soldier in the army
     Sums up all respective strengths
      */
-    public int getArmyStrength(int[] soldiersLevels){
+    public int getArmyStrength(int[] soldiersLevels) {
         int armyStrength = 0;
-        for(int var : soldiersLevels){
-            armyStrength += getStrengthByLevel(soldiersLevels[var]);
+        for (int var : soldiersLevels) {
+            armyStrength += getStrengthByLevel(var);
         }
         return armyStrength;
     }
