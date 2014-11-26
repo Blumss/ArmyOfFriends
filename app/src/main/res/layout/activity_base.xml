@@ -97,9 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-<<<<<<< HEAD
-            android:text="made with &#9825; in Munich"/>
-=======
+            android:text="made with &#9825; in Munich"
             android:orientation="horizontal"
             android:layout_centerHorizontal="true">
             <TextView
@@ -123,7 +121,5 @@
                 android:textColor="#303030"
                 android:text=" in Munich"/>
         </LinearLayout>
-
->>>>>>> 3987a4ddaff282218744d60be941d7155fb3b726
     </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>
