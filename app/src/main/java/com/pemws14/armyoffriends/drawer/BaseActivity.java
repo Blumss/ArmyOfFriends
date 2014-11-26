@@ -3,6 +3,7 @@ package com.pemws14.armyoffriends.drawer;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -100,6 +101,7 @@ public class BaseActivity extends ActionBarActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position,
                                 long id) {
+
             // display view for selected nav drawer item
             displayView(position);
         }
