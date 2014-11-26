@@ -1,10 +1,5 @@
 package com.pemws14.armyoffriends;
 
-
-
-/**
- * Created by Aquila on 26.11.2014.
- */
 public class GameMechanics {
 
 
@@ -111,23 +106,22 @@ public class GameMechanics {
     .
      */
     public int getStrengthByLevel(int level){
-        double soldierStrength = 1 + (level-1)*levelUpBonus;
+        double soldierStrength = 1+(level-1)*levelUpBonus;
         int rank = getRankByLevel(level);
-        soldierStrength *= Math.pow(rankUpFactor,rank);
+        soldierStrength *= Math.pow(rankUpFactor,rank-1) * 10;
         return (int) soldierStrength;
     }
+
     /*
     Iterates over Array of Levels of each soldier in the army
     Sums up all respective strengths
      */
     public int getArmyStrength(int[] soldiersLevels){
         int armyStrength = 0;
-        for(int i = 0; i < soldiersLevels.length; i++){
-            armyStrength += getStrengthByLevel(soldiersLevels[i]);
+        for(int var : soldiersLevels){
+            armyStrength += getStrengthByLevel(soldiersLevels[var]);
         }
         return armyStrength;
     }
-
-
 
 }
