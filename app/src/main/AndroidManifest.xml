@@ -26,20 +26,12 @@
         <activity
             android:name=".drawer.BaseActivity"
             android:label="@string/title_activity_base"
-            android:parentActivityName="com.pemws14.armyoffriends.MainActivity"
             android:theme="@style/OurDrawerTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pemws14.armyoffriends.MainActivity" />
         </activity>
         <activity
             android:name="com.pemws14.armyoffriends.FightActivity"
             android:label="@string/title_activity_fight"
-            android:parentActivityName="com.pemws14.armyoffriends.MainActivity"
             android:theme="@style/OurDrawerTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pemws14.armyoffriends.MainActivity" />
         </activity>
 
         <service
