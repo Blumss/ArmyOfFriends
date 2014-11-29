@@ -16,7 +16,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="get Location"
+            android:text="start Location Service"
             android:id="@+id/LocationButton"/>
 
         <TextView
