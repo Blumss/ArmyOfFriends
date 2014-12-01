@@ -25,7 +25,6 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationRequest;
-import com.parse.Parse;
 
 
 public class MainActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener  {
@@ -34,6 +33,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     TextView LocTextView;
     TextView longitudeText;
     TextView latitudeText;
+    TextView userNumberText;
     LocationListener locationListener;
     LocationManager locationManager;
     String provider;
@@ -58,8 +58,10 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     double longi;
     double lati;
+    int numberUsers;
 
 
+    // Breite = latitude (steht vorne), Länge = Longitude (steht hinten)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +69,9 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Parse initialisieren (auf Ben's Account)
-        Parse.initialize(this, "kzHM5DllHK2rzcAXShk0nXxpYCSWSil0B8SiWvJs", "KGS6HUZLE4oWBigpefoJiHr4GzmGO8WYmL3qYf69");
+
+
+        //
 
         // findViewbyIDs
         LocButton = (Button)findViewById(R.id.LocationButton);
@@ -76,6 +79,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         LocTextView = (TextView)findViewById(R.id.LocationText);
         longitudeText = (TextView)findViewById(R.id.LongitudeText);
         latitudeText = (TextView)findViewById(R.id.LatiuteText);
+        userNumberText = (TextView)findViewById(R.id.CountNearUsersText);
 
         backgroundReceiver = new BackgroundReceiver();
 
@@ -134,9 +138,11 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             if (bundle != null) {
                 longi = bundle.getDouble(BackgroundService.LATITUDE);
                 lati = bundle.getDouble(BackgroundService.LONGITUDE);
+                numberUsers = bundle.getInt(BackgroundService.USER_COUNT) - 1;
                 // String string = bundle.getString(BackgroundService.LOCATION);
                 latitudeText.setText(String.valueOf(lati));
                 longitudeText.setText(String.valueOf(longi));
+                userNumberText.setText(String.valueOf(numberUsers));
 
             }
 
@@ -295,6 +301,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         latitudeText.setText(String.valueOf(lat));
         longitudeText.setText(String.valueOf(lng));
     }
+
+
 }
 
 /*

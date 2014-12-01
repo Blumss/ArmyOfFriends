@@ -37,6 +37,18 @@
             android:text="Longitude"
             android:id="@+id/LongitudeText"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="other Users in a radius of 50 meters:"
+            android:id="@+id/NearUsersText"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/CountNearUsersText"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
