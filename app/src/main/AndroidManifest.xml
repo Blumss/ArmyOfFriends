@@ -47,7 +47,7 @@
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name=".YourProfileActivity"
+            android:name="com.pemws14.armyoffriends.YourProfileActivity"
             android:label="@string/title_activity_your_profile"
             android:theme="@style/OurDrawerTheme" >
         </activity>
