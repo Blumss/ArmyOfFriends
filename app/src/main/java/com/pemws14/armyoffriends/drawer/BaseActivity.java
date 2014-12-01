@@ -16,7 +16,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.pemws14.armyoffriends.FightActivity;
+import com.pemws14.armyoffriends.ImpressumActivity;
+import com.pemws14.armyoffriends.LatestActionsActivity;
 import com.pemws14.armyoffriends.R;
+import com.pemws14.armyoffriends.YourArmyActivity;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,7 @@ public class BaseActivity extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private RelativeLayout mDrawerLeft;
     private ListView mDrawerList;
+    private RelativeLayout mDrawerFooter;
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList<NavDrawerItem> navDrawerItems;
     private NavDrawerListAdapter adapter;
@@ -56,6 +60,7 @@ public class BaseActivity extends ActionBarActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLeft = (RelativeLayout) findViewById(R.id.left_drawer);
         mDrawerList = (ListView) findViewById(R.id.left_drawer_activities_list);
+        mDrawerFooter = (RelativeLayout) findViewById(R.id.left_drawer_footer);
         navDrawerItems = new ArrayList<NavDrawerItem>();
 
         //adding nav drawer items
@@ -74,6 +79,15 @@ public class BaseActivity extends ActionBarActivity {
         // setting the nav drawer list adapter
         adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
         mDrawerList.setAdapter(adapter);
+
+        mDrawerFooter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ImpressumActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         //enabling action bar app icon and behaving it as toggle button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -156,35 +170,29 @@ public class BaseActivity extends ActionBarActivity {
 // update the main content by replacing fragments
         switch (position) {
             case 0:
-                Intent intent = new Intent(this, FightActivity.class);
+                // Your Army
+                Intent intent = new Intent(this, YourArmyActivity.class);
                 startActivity(intent);
                 finish();
                 break;
-//            case 1:
-////                Intent intent1 = new Intent(this, Second.class);
-////                startActivity(intent1);
-////                finish();
-//                break;
-//            case 2:
-////                Intent intent2 = new Intent(this, third.class);
-////                startActivity(intent2);
-////                finish();
-//                break;
-//            case 3:
-////                Intent intent3 = new Intent(this, fourth.class);
-////                startActivity(intent3);
-////                finish();
-//                break;
-//            case 4:
-////                Intent intent4 = new Intent(this, fifth.class);
-////                startActivity(intent4);
-////                finish();
-//                break;
-//            case 5:
-////                Intent intent5 = new Intent(this, sixth.class);
-////                startActivity(intent5);
-////                finish();
-//                break;
+            case 1:
+                // Fight
+                Intent intent1 = new Intent(this, FightActivity.class);
+                startActivity(intent1);
+                finish();
+                break;
+            case 2:
+                // Latest Actions
+                Intent intent2 = new Intent(this, LatestActionsActivity.class);
+                startActivity(intent2);
+                finish();
+                break;
+            case 3:
+                // Your Profile
+                Intent intent3 = new Intent(this, YourProfile.class);
+                startActivity(intent3);
+                finish();
+                break;
             default:
                 break;
         }
