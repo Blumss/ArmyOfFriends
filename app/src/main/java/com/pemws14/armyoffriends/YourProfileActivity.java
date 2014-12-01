@@ -1,16 +1,13 @@
-package com.pemws14.armyoffriends.drawer;
+package com.pemws14.armyoffriends;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.pemws14.armyoffriends.R;
+import com.pemws14.armyoffriends.drawer.BaseActivity;
 
-public class YourProfile extends BaseActivity {
+public class YourProfileActivity extends BaseActivity {
     private View view;
 
     @Override

@@ -3,7 +3,6 @@ package com.pemws14.armyoffriends.drawer;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +19,7 @@ import com.pemws14.armyoffriends.ImpressumActivity;
 import com.pemws14.armyoffriends.LatestActionsActivity;
 import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.YourArmyActivity;
+import com.pemws14.armyoffriends.YourProfileActivity;
 
 import java.util.ArrayList;
 
@@ -189,7 +189,7 @@ public class BaseActivity extends ActionBarActivity {
                 break;
             case 3:
                 // Your Profile
-                Intent intent3 = new Intent(this, YourProfile.class);
+                Intent intent3 = new Intent(this, YourProfileActivity.class);
                 startActivity(intent3);
                 finish();
                 break;
