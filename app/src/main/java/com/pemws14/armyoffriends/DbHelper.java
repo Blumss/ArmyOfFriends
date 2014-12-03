@@ -62,10 +62,21 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // closing database
+    public void closeDB() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        if (db != null && db.isOpen())
+            db.close();
+    }
+
+    public void removeDb(SQLiteDatabase db){
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SOLDIER);
+    }
+
     /*
- * Creating a soldier
- */
-    public long createToDo(DbSoldier soldier) {
+    * Creating a soldier
+    */
+    public long createSoldier(DbSoldier soldier) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -83,7 +94,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /*
     * SELECT * FROM soldier WHERE id = 1;
     */
-    public DbSoldier getTodo(long soldier_id) {
+    public DbSoldier getSoldier(long soldier_id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " WHERE "
@@ -107,9 +118,9 @@ public class DbHelper extends SQLiteOpenHelper {
     /*
     * SELECT * FROM soldier;
     * */
-    public List<DbSoldier> getAllToDos() {
+    public List<DbSoldier> getAllSoldiers() {
         List<DbSoldier> soldiers = new ArrayList<DbSoldier>();
-        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER;
+        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " ORDER BY " + KEY_LEVEL + " DESC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -135,7 +146,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /*
     * Updating a soldier
     */
-    public int updateToDo(DbSoldier soldier) {
+    public int updateSoldier(DbSoldier soldier) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -147,6 +158,15 @@ public class DbHelper extends SQLiteOpenHelper {
         // updating row
         return db.update(TABLE_SOLDIER, values, KEY_ID + " = ?",
                 new String[] { String.valueOf(soldier.getId()) });
+    }
+
+    /*
+    * Deleting a soldier
+    */
+    public void deleteSoldier(long soldier_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SOLDIER, KEY_ID + " = ?",
+                new String[] { String.valueOf(soldier_id) });
     }
 
     private String getDateTime() {
