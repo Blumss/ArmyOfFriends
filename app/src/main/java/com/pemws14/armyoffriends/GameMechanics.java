@@ -1,5 +1,7 @@
 package com.pemws14.armyoffriends;
 
+import java.util.List;
+
 public class GameMechanics {
 
     private final static int pow = 3;
@@ -115,10 +117,10 @@ public class GameMechanics {
     Iterates over Array of Levels of each soldier in the army
     Sums up all respective strengths
      */
-    protected int getArmyStrength(int[] soldiersLevels) {
+    protected int getArmyStrength(List<DbSoldier> soldiers) {
         int armyStrength = 0;
-        for (int var : soldiersLevels) {
-            armyStrength += getStrengthByLevel(var);
+        for (DbSoldier var : soldiers) {
+            armyStrength += getStrengthByLevel(var.getLevel());
         }
         return armyStrength;
     }
