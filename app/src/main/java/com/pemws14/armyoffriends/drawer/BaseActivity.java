@@ -84,6 +84,7 @@ public class BaseActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ImpressumActivity.class);
+                mDrawerLayout.closeDrawer(mDrawerLeft);
                 startActivity(intent);
                 finish();
             }
