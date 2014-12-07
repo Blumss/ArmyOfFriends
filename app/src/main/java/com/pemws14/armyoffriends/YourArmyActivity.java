@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pemws14.armyoffriends.drawer.BaseActivity;
+import com.pemws14.armyoffriends.yourarmy.ExpandableList;
 
 
 public class YourArmyActivity extends BaseActivity {
