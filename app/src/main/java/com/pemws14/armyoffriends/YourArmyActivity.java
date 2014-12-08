@@ -163,7 +163,7 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
             if(i==1){
                 parent.setName("" + i);
                 parent.setText1("Parent 0");
-                parent.setText2("Disable App On \nBattery Low");
+                //parent.setText2("Disable App On \nBattery Low");
                 parent.setChildren(new ArrayList<ChildRow>());
 
                 // Create ChildRow class object
@@ -173,11 +173,12 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
 
                 //Add Child class object to parent class object
                 parent.getChildren().add(child);
+                parent.setText2("" + parent.getChildren().size());
             }
             else if(i==2){
                 parent.setName("" + i);
                 parent.setText1("Parent 1");
-                parent.setText2("Auto disable/enable App \n at specified time");
+                //parent.setText2("Auto disable/enable App \n at specified time");
                 parent.setChildren(new ArrayList<ChildRow>());
 
                 final ChildRow child = new ChildRow();
@@ -188,11 +189,13 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
                 child1.setName("" + i);
                 child1.setText1("Child 1");
                 parent.getChildren().add(child1);
+                parent.setText2("" + parent.getChildren().size());
+
             }
             else if(i==3){
                 parent.setName("" + i);
-                parent.setText1("Parent 1");
-                parent.setText2("Show App Icon on \nnotification bar");
+                parent.setText1("Parent 2");
+                //parent.setText2("Show App Icon on \nnotification bar");
                 parent.setChildren(new ArrayList<ChildRow>());
 
                 final ChildRow child = new ChildRow();
@@ -211,6 +214,7 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
                 child3.setName("" + i);
                 child3.setText1("Child 3");
                 parent.getChildren().add(child3);
+                parent.setText2("" + parent.getChildren().size());
             }
 
             //Adding Parent class object to ArrayList
