@@ -24,6 +24,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // Table Names
     private static final String TABLE_SOLDIER = "soldier";
     private static final String TABLE_FIGHT = "fight";
+    private static final String TABLE_HISTORY = "history";
 
     // Common column names
     private static final String KEY_ID = "id";
@@ -37,6 +38,14 @@ public class DbHelper extends SQLiteOpenHelper {
     // fight Table - column names
     private static final String KEY_STRENGTH = "strength";
     private static final String KEY_MAX_LEVEL = "maxLevel";
+
+    //history Table - column names
+    private static final String KEY_OWN_STRENGTH = "own strength";
+    private static final String KEY_OWN_MAX_LEVEL = "own max level";
+    private static final String KEY_ENEMY_NAME = "enemy name";
+    private static final String KEY_ENEMY_STRENGTH = "enemy strength";
+    private static final String KEY_ENEMY_MAX_LEVEL = "enemy max level";
+    private static final String KEY_RESULT = "result";
 
 
     // Table Create Statements
@@ -52,6 +61,13 @@ public class DbHelper extends SQLiteOpenHelper {
             + " TEXT," + KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
             + " DATETIME" + ")";
 
+    //history table create statement
+    private static final String CREATE_TABLE_HISTORY = "CREATE TABLE "
+            + TABLE_HISTORY + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_OWN_STRENGTH + " INTEGER,"
+            + KEY_OWN_MAX_LEVEL + " INTEGER,"  + KEY_ENEMY_NAME + " TEXT,"
+            + KEY_ENEMY_STRENGTH + " INTEGER," + KEY_ENEMY_MAX_LEVEL + " INTEGER,"
+            + KEY_RESULT + " BOOLEAN " + KEY_CREATED_AT + " DATETIME" + ")";
+
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -63,6 +79,7 @@ public class DbHelper extends SQLiteOpenHelper {
         // creating required tables
         db.execSQL(CREATE_TABLE_SOLDIER);
         db.execSQL(CREATE_TABLE_FIGHT);
+        db.execSQL(CREATE_TABLE_HISTORY);
     }
 
     @Override
@@ -70,6 +87,7 @@ public class DbHelper extends SQLiteOpenHelper {
         // on upgrade drop older tables
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SOLDIER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FIGHT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORY);
         // create new tables
         onCreate(db);
     }
@@ -84,6 +102,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public void removeDb(SQLiteDatabase db){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SOLDIER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FIGHT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORY);
     }
 
     /*
@@ -206,8 +225,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, fight.getName());
-        values.put(KEY_LEVEL,fight.getStrength());
-        values.put(KEY_RANK, fight.getMaxLevel());
+        values.put(KEY_STRENGTH,fight.getStrength());
+        values.put(KEY_MAX_LEVEL, fight.getMaxLevel());
         values.put(KEY_CREATED_AT, getDateTime());
 
         // insert row
@@ -277,8 +296,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, fight.getName());
-        values.put(KEY_LEVEL,fight.getStrength());
-        values.put(KEY_RANK, fight.getMaxLevel());
+        values.put(KEY_STRENGTH,fight.getStrength());
+        values.put(KEY_MAX_LEVEL, fight.getMaxLevel());
         values.put(KEY_CREATED_AT, getDateTime());
 
         // updating row
@@ -293,6 +312,115 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_FIGHT, KEY_ID + " = ?",
                 new String[] { String.valueOf(fight_id) });
+    }
+
+    /*
+    * Creating a Fight
+    */
+    public long createHistory(DbHistory history) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_OWN_STRENGTH,history.getOwnStrength());
+        values.put(KEY_OWN_MAX_LEVEL, history.getOwnMaxLevel());
+        values.put(KEY_ENEMY_NAME, history.getEnemyName());
+        values.put(KEY_ENEMY_STRENGTH,history.getOwnStrength());
+        values.put(KEY_ENEMY_MAX_LEVEL, history.getOwnMaxLevel());
+        values.put(KEY_RESULT, history.getResult());
+        values.put(KEY_CREATED_AT, getDateTime());
+
+        // insert row
+        long history_id = db.insert(TABLE_HISTORY, null, values);
+
+        return history_id;
+    }
+
+    /*
+    * SELECT * FROM history WHERE id = i;
+    */
+    public DbHistory getHistory(long history_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_HISTORY + " WHERE "
+                + KEY_ID + " = " + history_id;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        DbHistory history = new DbHistory();
+        history.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+        history.setOwnStrength((c.getInt(c.getColumnIndex(KEY_OWN_STRENGTH))));
+        history.setOwnMaxLevel((c.getInt(c.getColumnIndex(KEY_OWN_MAX_LEVEL))));
+        history.setEnemyName((c.getString(c.getColumnIndex(KEY_ENEMY_NAME))));
+        history.setEnemyStrength(c.getInt(c.getColumnIndex(KEY_ENEMY_STRENGTH)));
+        history.setEnemyMaxLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_MAX_LEVEL)));
+        history.setResult(c.getInt(c.getColumnIndex(KEY_RESULT)) > 0);
+        history.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+
+        return history;
+    }
+
+    /*
+    * SELECT * FROM history;
+    */
+    public List<DbHistory> getAllHistory() {
+        List<DbHistory> historyEntries = new ArrayList<DbHistory>();
+        String selectQuery = "SELECT  * FROM " + TABLE_HISTORY;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                DbHistory history = new DbHistory();
+                history.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                history.setOwnStrength((c.getInt(c.getColumnIndex(KEY_OWN_STRENGTH))));
+                history.setOwnMaxLevel((c.getInt(c.getColumnIndex(KEY_OWN_MAX_LEVEL))));
+                history.setEnemyName((c.getString(c.getColumnIndex(KEY_ENEMY_NAME))));
+                history.setEnemyStrength(c.getInt(c.getColumnIndex(KEY_ENEMY_STRENGTH)));
+                history.setEnemyMaxLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_MAX_LEVEL)));
+                history.setResult(c.getInt(c.getColumnIndex(KEY_RESULT)) > 0);
+                history.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+
+                // adding to fight list
+                historyEntries.add(history);
+            } while (c.moveToNext());
+        }
+
+        return historyEntries;
+    }
+
+
+    /*
+    * Updating a history
+    */
+    public int updateHistory(DbHistory history) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_OWN_STRENGTH,history.getOwnStrength());
+        values.put(KEY_OWN_MAX_LEVEL, history.getOwnMaxLevel());
+        values.put(KEY_ENEMY_NAME, history.getEnemyName());
+        values.put(KEY_ENEMY_STRENGTH,history.getOwnStrength());
+        values.put(KEY_ENEMY_MAX_LEVEL, history.getOwnMaxLevel());
+        values.put(KEY_RESULT, history.getResult());
+        values.put(KEY_CREATED_AT, getDateTime());
+
+        // updating row
+        return db.update(TABLE_HISTORY, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(history.getId()) });
+    }
+
+    /*
+    * Deleting a fight
+    */
+    public void deleteHistory(long history_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_HISTORY, KEY_ID + " = ?",
+                new String[] { String.valueOf(history_id) });
     }
 
     private String getDateTime() {

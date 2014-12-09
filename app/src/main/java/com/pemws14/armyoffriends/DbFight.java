@@ -1,6 +1,5 @@
 package com.pemws14.armyoffriends;
 
-
 public class DbFight {
     int id;
     String name;
