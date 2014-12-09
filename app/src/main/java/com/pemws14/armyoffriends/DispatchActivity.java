@@ -9,6 +9,11 @@ public class DispatchActivity extends ParseLoginDispatchActivity {
 
     @Override
     protected Class<?> getTargetClass() {
-        return MainActivity.class;
+
+        // zu testzwecken:
+        return Test.class;
+
+        // wenn die Mainactivity geschützt wird:
+        //return MainActivity.class;
     }
 }

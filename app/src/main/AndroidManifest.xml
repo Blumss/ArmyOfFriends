@@ -20,79 +20,83 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="com.pemws14.armyoffriends.DispatchActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".MainActivity"
+            android:name=".CheckLoginStatus"
+            android:label="@string/title_activity_check_login_status"
+            android:launchMode="singleTop"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity
+            android:name=".DispatchActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop"/>
-
+            android:launchMode="singleTop" />
         <activity
-            android:name="com.pemws14.armyoffriends.drawer.BaseActivity"
+            android:name=".drawer.BaseActivity"
             android:label="@string/title_activity_base"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name="com.pemws14.armyoffriends.YourArmyActivity"
+            android:name=".YourArmyActivity"
             android:label="@string/title_activity_your_army"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name="com.pemws14.armyoffriends.FightActivity"
+            android:name=".FightActivity"
             android:label="@string/title_activity_fight"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name="com.pemws14.armyoffriends.LatestActionsActivity"
+            android:name=".LatestActionsActivity"
             android:label="@string/title_activity_latest_actions"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name="com.pemws14.armyoffriends.YourProfileActivity"
+            android:name=".YourProfileActivity"
             android:label="@string/title_activity_your_profile"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name="com.pemws14.armyoffriends.ImpressumActivity"
+            android:name=".ImpressumActivity"
             android:label="@string/title_activity_impressum"
             android:theme="@style/OurDrawerTheme" >
         </activity>
-
         <activity
-            android:name="com.pemws14.armyoffriends.Login.ParseLoginActivity"
+            android:name=".Login.ParseLoginActivity"
             android:label="Login"
-            android:launchMode="singleTop">
-
+            android:launchMode="singleTop"
+            android:theme="@style/ParseLoginUI" >
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
-                android:value="true"/>
+                android:value="true" />
         </activity>
 
         <service
-            android:name="com.pemws14.armyoffriends.BackgroundService"
+            android:name=".BackgroundService"
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/ic_launcher"
             android:label="Army of Friends - Backgroundservice"
             android:process=":background_process" />
 
-        <receiver android:name="com.pemws14.armyoffriends.BackgroundReceiver" >
+        <receiver android:name=".BackgroundReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-
-
-
+        <activity
+            android:name=".Test"
+            android:label="@string/title_activity_test"
+            android:theme="@style/Base.Theme.AppCompat">
+        </activity>
     </application>
 
 </manifest>

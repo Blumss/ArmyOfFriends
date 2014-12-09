@@ -25,13 +25,13 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationRequest;
-import com.parse.ParseUser;
-import com.pemws14.armyoffriends.Login.ParseLoginBuilder;
 
 
 public class MainActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener  {
     Button LocButton;
     Button fightButton;
+    Button loginButton;
+  //  Button logoutButton;
     TextView LocTextView;
     TextView longitudeText;
     TextView latitudeText;
@@ -62,7 +62,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     double lati;
     int numberUsers;
 
-    private ParseUser currentUser;
+  //  private ParseUser currentUser;
 
     // Breite = latitude (steht vorne), Länge = Longitude (steht hinten)
 
@@ -81,6 +81,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         // findViewbyIDs
         LocButton = (Button)findViewById(R.id.LocationButton);
         fightButton = (Button)findViewById(R.id.main_fight_button);
+        loginButton = (Button)findViewById(R.id.start_login_button);
+      //  logoutButton = (Button)findViewById(R.id.Button_LogoutUsername);
         LocTextView = (TextView)findViewById(R.id.LocationText);
         longitudeText = (TextView)findViewById(R.id.LongitudeText);
         latitudeText = (TextView)findViewById(R.id.LatiuteText);
@@ -132,8 +134,28 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             }
         });
 
-    }
+        loginButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                //Intent intent = new Intent(getApplicationContext(), DispatchActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Test.class);
+                startActivity(intent);
+            }
+        });
 
+        /*
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                UserLogout();
+                System.out.println("User wurde ausgeloggt: ");
+                System.out.println("User ist: "+currentUser);
+            }
+        });
+        */
+    }
+    /*
     @Override
     protected void onStart() {
         super.onStart();
@@ -141,7 +163,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
             //showProfileLoggedIn();
-            System.out.println("User ist eingeloggt: "+currentUser.getUsername());
+            System.out.println("User ist eingeloggt, Username: "+currentUser.getUsername());
         } else {
             //showProfileLoggedOut();
             loginProcess();
@@ -149,7 +171,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         }
     }
-
+    */
     public BroadcastReceiver broadcastReceiver = new BroadcastReceiver(){
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -321,7 +343,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         latitudeText.setText(String.valueOf(lat));
         longitudeText.setText(String.valueOf(lng));
     }
-
+    /*
     public void loginProcess(){
 
         ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
@@ -346,5 +368,11 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     }
 
+    public void UserLogout(){
+        currentUser = ParseUser.getCurrentUser();
+        Parse
+        User.logOut();
+    }
+    */
 }
 

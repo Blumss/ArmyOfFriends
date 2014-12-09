@@ -12,6 +12,7 @@
         <item>Latest Actions</item>
         <item>Your Profile</item>
     </string-array>
+
     <array name="left_drawer_list_icons">
         <item>@drawable/ic_menu_army</item>
         <item>@drawable/ic_menu_fight</item>
@@ -40,6 +41,7 @@
         <item>Corporal</item>
         <item>Private</item>
     </string-array>
+
     <array name="army_ranks_icons">
         <item>@drawable/userpic_placeholder</item>
         <item>@drawable/userpic_placeholder</item>
@@ -52,9 +54,6 @@
         <item>@drawable/userpic_placeholder</item>
         <item>@drawable/userpic_placeholder</item>
     </array>
-
-
-
 
     <string name="com_parse_ui_logo_content_description">Logo</string>
     <string name="com_parse_ui_progress_dialog_text">Loading...</string>
@@ -95,7 +94,6 @@
     <string name="com_parse_ui_login_help_login_again_button_label">Back to Login</string>
     <string name="com_parse_ui_login_help_submit_failed_unknown">Failed to request password reset, please try again</string>
     <string name="com_parse_ui_login_help_email_sent">Please check your email for instructions on how to access your account</string>
-
     <string name="com_parse_ui_login_warning_layout_missing_username_field">Layout missing username field</string>
     <string name="com_parse_ui_login_warning_layout_missing_password_field">Layout missing password field</string>
     <string name="com_parse_ui_login_warning_layout_missing_login_button">Layout missing login button</string>
@@ -111,11 +109,11 @@
     <string name="com_parse_ui_login_warning_twitter_login_user_update_failed">"Updating user object after Twitter login failed, exception: "</string>
     <string name="com_parse_ui_login_warning_parse_signup_failed">"Parse signup failed, exception: "</string>
     <string name="com_parse_ui_login_warning_password_reset_failed">"Parse password reset failed, exception: "</string>
-
     <string name="com_parse_ui_login_dispatch_user_logged_in">"User logged in, starting: "</string>
     <string name="com_parse_ui_login_dispatch_user_not_logged_in">User not logged in, starting ParseLoginActivity</string>
-
     <string name="parse_app_id">kzHM5DllHK2rzcAXShk0nXxpYCSWSil0B8SiWvJs</string>
     <string name="parse_client_key">KGS6HUZLE4oWBigpefoJiHr4GzmGO8WYmL3qYf69</string>
+    <string name="title_activity_check_login_status">CheckLoginStatus</string>
+    <string name="title_activity_test">Test</string>
 
 </resources>
