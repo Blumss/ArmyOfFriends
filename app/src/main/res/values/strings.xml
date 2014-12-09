@@ -5,7 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-
+    <!-- activity-Strings und -Icons -->
     <string-array name="left_drawer_list_items">
         <item>Your Army</item>
         <item>Fight</item>
@@ -19,6 +19,15 @@
         <item>@drawable/ic_menu_profile</item>
     </array>
 
+    <!-- Activity-Titles -->
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_fight">Fight</string>
+    <string name="title_activity_your_army">Your Army</string>
+    <string name="title_activity_latest_actions">Latest Actions</string>
+    <string name="title_activity_your_profile">Your Profile</string>
+    <string name="title_activity_impressum">Impressum</string>
+
+    <!-- rank-Strings und -Icons -->
     <string-array name="army_ranks">
         <item>General</item>
         <item>Lieutenant General</item>
@@ -31,13 +40,20 @@
         <item>Corporal</item>
         <item>Private</item>
     </string-array>
+    <array name="army_ranks_icons">
+        <item>@drawable/userpic_placeholder</item>
+        <item>@drawable/userpic_placeholder</item>
+        <item>@drawable/userpic_placeholder</item>
+        <item>@drawable/userpic_placeholder</item>
+        <item>@drawable/userpic_placeholder</item>
+        <item>@drawable/userpic_placeholder</item>
+        <item>@drawable/userpic_placeholder</item>
+        <item>@drawable/userpic_placeholder</item>
+        <item>@drawable/userpic_placeholder</item>
+        <item>@drawable/userpic_placeholder</item>
+    </array>
 
-    <string name="title_activity_base">BaseActivity</string>
-    <string name="title_activity_fight">Fight</string>
-    <string name="title_activity_your_army">Your Army</string>
-    <string name="title_activity_latest_actions">Latest Actions</string>
-    <string name="title_activity_your_profile">Your Profile</string>
-    <string name="title_activity_impressum">Impressum</string>
+
 
 
     <string name="com_parse_ui_logo_content_description">Logo</string>
