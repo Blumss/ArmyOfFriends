@@ -62,20 +62,20 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
                 mActivity.getResources().getIdentifier(
                         "com.androidexample.customexpandablelist:drawable/setting"+parent.getName(),null,null));
 
-        ImageView rightcheck=(ImageView)convertView.findViewById(R.id.rightcheck);
+        //ImageView rightcheck=(ImageView)convertView.findViewById(R.id.rightcheck);
 
         //Log.i("onCheckedChanged", "isChecked: "+parent.isChecked());
 
         // Change right check image on parent at runtime
         if(parent.isChecked()==true){
-            rightcheck.setImageResource(
-                    mActivity.getResources().getIdentifier(
-                            "com.androidexample.customexpandablelist:drawable/rightcheck",null,null));
+//            rightcheck.setImageResource(
+//                    mActivity.getResources().getIdentifier(
+//                            "com.androidexample.customexpandablelist:drawable/rightcheck",null,null));
         }
         else{
-            rightcheck.setImageResource(
-                    mActivity.getResources().getIdentifier(
-                            "com.androidexample.customexpandablelist:drawable/button_check",null,null));
+//            rightcheck.setImageResource(
+//                    mActivity.getResources().getIdentifier(
+//                            "com.androidexample.customexpandablelist:drawable/button_check",null,null));
         }
         return convertView;
     }
