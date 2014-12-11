@@ -1,4 +1,4 @@
-package com.pemws14.armyoffriends;
+package com.pemws14.armyoffriends.database;
 
 public class DbSoldier {
 

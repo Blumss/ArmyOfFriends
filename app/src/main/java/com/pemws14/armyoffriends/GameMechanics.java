@@ -1,5 +1,7 @@
 package com.pemws14.armyoffriends;
 
+import com.pemws14.armyoffriends.database.DbSoldier;
+
 import java.util.List;
 
 public class GameMechanics {

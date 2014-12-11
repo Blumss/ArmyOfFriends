@@ -1,4 +1,4 @@
-package com.pemws14.armyoffriends;
+package com.pemws14.armyoffriends.database;
 
 /**
  * Created by Aquila on 03.12.2014.
