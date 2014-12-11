@@ -58,7 +58,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
         ((TextView) convertView.findViewById(R.id.text2)).setText(parent.getText2());
         ImageView image = (ImageView)convertView.findViewById(R.id.rank_image);
 
-        String imageName = "ranks_" + parent.getText1().toLowerCase().replaceAll("\\s","_");
+        String imageName = "ranks_red_" + parent.getText1().toLowerCase().replaceAll("\\s","_");
         image.setImageResource(mActivity.getResources().getIdentifier(imageName, "drawable", mActivity.getPackageName()));
 
         //ImageView rightcheck=(ImageView)convertView.findViewById(R.id.rightcheck);
