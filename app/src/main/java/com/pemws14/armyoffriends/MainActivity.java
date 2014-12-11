@@ -129,7 +129,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         fightButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FightActivity.class);
+                Intent intent = new Intent(getApplicationContext(), YourArmyActivity.class);
                 startActivity(intent);
             }
         });
