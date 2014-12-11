@@ -54,6 +54,8 @@ public class ParentRow
         this.checkedtype = checkedtype;
     }
 
+    public void setImage(){}
+    public void getImage(){}
 
     public boolean isChecked()
     {

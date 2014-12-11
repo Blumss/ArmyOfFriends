@@ -55,12 +55,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
 
         // Get grouprow.xml file elements and set values
         ((TextView) convertView.findViewById(R.id.text1)).setText(parent.getText1());
-        ((TextView) convertView.findViewById(R.id.text)).setText(parent.getText2());
-        ImageView image=(ImageView)convertView.findViewById(R.id.image);
+        ((TextView) convertView.findViewById(R.id.text2)).setText(parent.getText2());
+        ImageView image = (ImageView)convertView.findViewById(R.id.rank_image);
 
-        image.setImageResource(
-                mActivity.getResources().getIdentifier(
-                        "com.androidexample.customexpandablelist:drawable/setting"+parent.getName(),null,null));
+        String imageName = "ranks_" + parent.getText1().toLowerCase().replaceAll("\\s","_");
+        image.setImageResource(mActivity.getResources().getIdentifier(imageName, "drawable", mActivity.getPackageName()));
 
         //ImageView rightcheck=(ImageView)convertView.findViewById(R.id.rightcheck);
 
@@ -120,9 +119,6 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
         if( ChildClickStatus!=childPosition)
         {
             ChildClickStatus = childPosition;
-
-            Toast.makeText(mActivity.getApplicationContext(), "Parent :" + groupPosition + " Child :" + childPosition,
-                    Toast.LENGTH_LONG).show();
         }
 
         return childPosition;
@@ -141,7 +137,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public Object getGroup(int groupPosition)
     {
-        Log.i("Parent", groupPosition + "=  getGroup ");
+       // Log.i("Parent", groupPosition + "=  getGroup ");
 
         return parents.get(groupPosition);
     }
@@ -156,13 +152,10 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public long getGroupId(int groupPosition)
     {
-        Log.i("Parent", groupPosition+"=  getGroupId "+ParentClickStatus);
+        // Log.i("Parent", groupPosition+"=  getGroupId "+ParentClickStatus);
 
         if(groupPosition==2 && ParentClickStatus!=groupPosition){
 
-            //Alert to user
-            Toast.makeText(mActivity.getApplicationContext(), "Parent :"+groupPosition ,
-                    Toast.LENGTH_LONG).show();
         }
 
         ParentClickStatus=groupPosition;

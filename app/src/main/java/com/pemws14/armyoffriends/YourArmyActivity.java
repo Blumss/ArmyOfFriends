@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 
 import com.pemws14.armyoffriends.drawer.BaseActivity;
 import com.pemws14.armyoffriends.yourarmy.ChildRow;
 import com.pemws14.armyoffriends.yourarmy.ExpandableList;
+import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.yourarmy.MyExpandableListAdapter;
 import com.pemws14.armyoffriends.yourarmy.ParentRow;
 
@@ -149,23 +151,28 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
         mList.setSelectedGroup(groupPosition);
     }
 
+    private void createRanks(ParentRow parent, String rank){
+        parent.setName(rank);
+        parent.setText1(rank);
+        //parent.setText2("Disable App On \nBattery Low");
+        parent.setChildren(new ArrayList<ChildRow>());
+    };
 
     private ArrayList<ParentRow> buildDummyData()
     {
         // Creating ArrayList of type parent class to store parent class objects
         final ArrayList<ParentRow> list = new ArrayList<ParentRow>();
-        for (int i = 1; i < 4; i++)
+        for (int i = 0; i < 10; i++)
         {
             //Create parent class object
             final ParentRow parent = new ParentRow();
+            String[] ranks = getResources().getStringArray(R.array.army_ranks);
 
             // Set values in parent class object
-            if(i==1){
-                parent.setName("" + i);
-                parent.setText1("Parent 0");
-                //parent.setText2("Disable App On \nBattery Low");
-                parent.setChildren(new ArrayList<ChildRow>());
+            createRanks(parent, ranks[i]);
+            parent.setText2("" + parent.getChildren().size());
 
+            if(i==1){
                 // Create ChildRow class object
                 final ChildRow child = new ChildRow();
                 child.setName("" + i);
@@ -176,11 +183,6 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
                 parent.setText2("" + parent.getChildren().size());
             }
             else if(i==2){
-                parent.setName("" + i);
-                parent.setText1("Parent 1");
-                //parent.setText2("Auto disable/enable App \n at specified time");
-                parent.setChildren(new ArrayList<ChildRow>());
-
                 final ChildRow child = new ChildRow();
                 child.setName("" + i);
                 child.setText1("Child 0");
@@ -193,11 +195,6 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
 
             }
             else if(i==3){
-                parent.setName("" + i);
-                parent.setText1("Parent 2");
-                //parent.setText2("Show App Icon on \nnotification bar");
-                parent.setChildren(new ArrayList<ChildRow>());
-
                 final ChildRow child = new ChildRow();
                 child.setName("" + i);
                 child.setText1("Child 0");

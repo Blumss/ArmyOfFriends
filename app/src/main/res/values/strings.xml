@@ -43,16 +43,29 @@
     </string-array>
 
     <array name="army_ranks_icons">
-        <item>@drawable/userpic_placeholder</item>
-        <item>@drawable/userpic_placeholder</item>
-        <item>@drawable/userpic_placeholder</item>
-        <item>@drawable/userpic_placeholder</item>
-        <item>@drawable/userpic_placeholder</item>
-        <item>@drawable/userpic_placeholder</item>
-        <item>@drawable/userpic_placeholder</item>
-        <item>@drawable/userpic_placeholder</item>
-        <item>@drawable/userpic_placeholder</item>
-        <item>@drawable/userpic_placeholder</item>
+        <item>@drawable/ranks_general</item>
+        <item>@drawable/ranks_lieutenant_general</item>
+        <item>@drawable/ranks_colonel</item>
+        <item>@drawable/ranks_major</item>
+        <item>@drawable/ranks_captain</item>
+        <item>@drawable/ranks_lieutenant</item>
+        <item>@drawable/ranks_sergeant_major</item>
+        <item>@drawable/ranks_sergeant</item>
+        <item>@drawable/ranks_corporal</item>
+        <item>@drawable/ranks_private</item>
+    </array>
+
+    <array name="army_ranks_icons_red">
+        <item>@drawable/ranks_red_general</item>
+        <item>@drawable/ranks_red_lieutenant_general</item>
+        <item>@drawable/ranks_red_colonel</item>
+        <item>@drawable/ranks_red_major</item>
+        <item>@drawable/ranks_red_captain</item>
+        <item>@drawable/ranks_red_lieutenant</item>
+        <item>@drawable/ranks_red_sergeant_major</item>
+        <item>@drawable/ranks_red_sergeant</item>
+        <item>@drawable/ranks_red_corporal</item>
+        <item>@drawable/ranks_red_private</item>
     </array>
 
     <string name="com_parse_ui_logo_content_description">Logo</string>
