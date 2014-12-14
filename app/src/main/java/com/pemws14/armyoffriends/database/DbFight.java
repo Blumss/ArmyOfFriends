@@ -10,11 +10,15 @@ public class DbFight {
     public DbFight() {
     }
 
-    public DbFight(int id, String name, int strength, int maxLevel, String created_at) {
-        this.id = id;
+    public DbFight(String name, int strength, int maxLevel) {
         this.name = name;
         this.strength = strength;
         this.maxLevel = maxLevel;
+    }
+
+    public DbFight(int id, String name, int strength, int maxLevel, String created_at) {
+        this(name,strength,maxLevel);
+        this.id = id;
         this.created_at = created_at;
     }
 

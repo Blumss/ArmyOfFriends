@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,9 +26,17 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationRequest;
+import com.pemws14.armyoffriends.database.DbHelper;
+import com.pemws14.armyoffriends.database.DbSoldier;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener  {
+
+    DbHelper db;
+
     Button LocButton;
     Button fightButton;
     Button loginButton;
@@ -106,6 +115,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         }
 
+
+
       //  ParseObject testObject = new ParseObject("TestObject");
       //  testObject.put("foo", "bar");
       //  testObject.saveInBackground();
@@ -154,6 +165,19 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             }
         });
         */
+        createSoldiers();
+    }
+    private void createSoldiers(){
+        db = new DbHelper(getApplicationContext());
+
+//        for(int i=0; i<200;i++) {
+//            db.createSoldier(new DbSoldier("soldier"+i, i));
+//        }
+        List<DbSoldier> solis = db.getAllSoldiers();
+        for(DbSoldier s : solis ){
+            Log.i("Soldiers", ""+s.getId()+", "+s.getName()+", " +s.getLevel()+", "+s.getRank()+", "+s.getCreated_at());
+        }
+
     }
     /*
     @Override

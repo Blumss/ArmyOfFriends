@@ -1,5 +1,7 @@
 package com.pemws14.armyoffriends.database;
 
+import com.pemws14.armyoffriends.GameMechanics;
+
 public class DbSoldier {
 
     int id;
@@ -11,11 +13,15 @@ public class DbSoldier {
     public DbSoldier() {
     }
 
-    public DbSoldier(int id, String name, int level, int rank, String created_at) {
-        this.id = id;
+    public DbSoldier(String name, int level) {
         this.name = name;
         this.level = level;
-        this.rank = rank;
+        this.rank = GameMechanics.getRankByLevel(level);
+    }
+
+    public DbSoldier(int id, String name, int level, int rank, String created_at) {
+        this(name, level);
+        this.id = id;
         this.created_at = created_at;
     }
 

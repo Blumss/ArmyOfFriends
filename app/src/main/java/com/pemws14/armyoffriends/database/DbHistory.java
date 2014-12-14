@@ -14,14 +14,18 @@ public class DbHistory {
     public DbHistory() {
     }
 
-    public DbHistory(int id, String enemyName, int ownStrength, int ownMaxLevel, int enemyStrength, int enemyMaxLevel, boolean result, String created_at) {
-        this.id = id;
+    public DbHistory(boolean result, String enemyName, int ownStrength, int ownMaxLevel, int enemyStrength, int enemyMaxLevel) {
+        this.result = result;
+        this.enemyName = enemyName;
         this.ownStrength = ownStrength;
         this.ownMaxLevel = ownMaxLevel;
-        this.enemyName = enemyName;
         this.enemyStrength = enemyStrength;
         this.enemyMaxLevel = enemyMaxLevel;
-        this.result = result;
+    }
+
+    public DbHistory(int id, String enemyName, int ownStrength, int ownMaxLevel, int enemyStrength, int enemyMaxLevel, boolean result, String created_at) {
+        this(result,enemyName,ownStrength,ownMaxLevel,enemyStrength,enemyMaxLevel);
+        this.id = id;
         this.created_at = created_at;
     }
 

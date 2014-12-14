@@ -10,6 +10,8 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
+import com.pemws14.armyoffriends.database.DbHelper;
+import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.drawer.BaseActivity;
 import com.pemws14.armyoffriends.yourarmy.ChildRow;
 import com.pemws14.armyoffriends.yourarmy.ExpandableList;
@@ -18,6 +20,7 @@ import com.pemws14.armyoffriends.yourarmy.MyExpandableListAdapter;
 import com.pemws14.armyoffriends.yourarmy.ParentRow;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class YourArmyActivity extends BaseActivity implements View.OnCreateContextMenuListener, ExpandableListView.OnChildClickListener {
@@ -25,6 +28,7 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
     ExpandableListAdapter mAdapter;
     boolean mFinishedStart = false;
     private ArrayList<ParentRow> parents;
+    private DbHelper db;
 
     private View view;
     @Override
@@ -151,59 +155,30 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
 
     private ArrayList<ParentRow> buildDummyData()
     {
+        db = new DbHelper(getApplicationContext());
+
         // Creating ArrayList of type parent class to store parent class objects
         final ArrayList<ParentRow> list = new ArrayList<ParentRow>();
-        for (int i = 0; i < 10; i++)
+        for (int i = 10; i > 0; i--)
         {
             //Create parent class object
             final ParentRow parent = new ParentRow();
             String[] ranks = getResources().getStringArray(R.array.army_ranks);
 
             // Set values in parent class object
-            createRanks(parent, ranks[i]);
+            createRanks(parent, ranks[i-1]);
             parent.setText2("" + parent.getChildren().size());
 
-            if(i==1){
-                // Create ChildRow class object
-                final ChildRow child = new ChildRow();
-                child.setName("" + i);
-                child.setText1("Child 0");
-
-                //Add Child class object to parent class object
+            // Create ChildRow class object
+            List<DbSoldier> soldiers = db.getSoldiersWithRank(i);
+            for(DbSoldier s:soldiers){
+                ChildRow child = new ChildRow();
+                child.setName(s.getName());
+                child.setText1(s.getName());
                 parent.getChildren().add(child);
-                parent.setText2("" + parent.getChildren().size());
             }
-            else if(i==2){
-                final ChildRow child = new ChildRow();
-                child.setName("" + i);
-                child.setText1("Child 0");
-                parent.getChildren().add(child);
-                final ChildRow child1 = new ChildRow();
-                child1.setName("" + i);
-                child1.setText1("Child 1");
-                parent.getChildren().add(child1);
-                parent.setText2("" + parent.getChildren().size());
-
-            }
-            else if(i==3){
-                final ChildRow child = new ChildRow();
-                child.setName("" + i);
-                child.setText1("Child 0");
-                parent.getChildren().add(child);
-                final ChildRow child1 = new ChildRow();
-                child1.setName("" + i);
-                child1.setText1("Child 1");
-                parent.getChildren().add(child1);
-                final ChildRow child2 = new ChildRow();
-                child2.setName("" + i);
-                child2.setText1("Child 2");
-                parent.getChildren().add(child2);
-                final ChildRow child3 = new ChildRow();
-                child3.setName("" + i);
-                child3.setText1("Child 3");
-                parent.getChildren().add(child3);
-                parent.setText2("" + parent.getChildren().size());
-            }
+            //Add Child class object to parent class object
+            parent.setText2("" + parent.getChildren().size());
 
             //Adding Parent class object to ArrayList
             list.add(parent);
