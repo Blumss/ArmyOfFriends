@@ -17,7 +17,7 @@ public class GameMechanics {
     Threshold = enemy^pow/(enemy^pow + self^pow)
     converges to 0 for self->inf, to 1 for enemy->inf
      */
-    protected boolean getFightResult(int ownArmyStrength, int enemyArmyStrength){
+    public static boolean getFightResult(int ownArmyStrength, int enemyArmyStrength){
         double r = Math.random();
         double threshold = Math.pow(enemyArmyStrength,pow)/(Math.pow(ownArmyStrength,pow)+Math.pow(enemyArmyStrength,pow));
         return r >= threshold;
@@ -26,7 +26,7 @@ public class GameMechanics {
     /*
     return n!
      */
-    protected int factorial(int n){
+    public static int factorial(int n){
         if(n < 2)
             return 1;
         else
@@ -36,7 +36,7 @@ public class GameMechanics {
     /*
     return n!/(k! * (n-k)!), binomial coefficient
      */
-    protected int binomial(int n, int k){
+    public static int binomial(int n, int k){
         if(n >= k && k >= 0)
             return factorial(n)/(factorial(k)*factorial(n-k));
         else
@@ -67,7 +67,7 @@ public class GameMechanics {
                           +55
     getLevelForRank(10) = 143 (9->10)
      */
-    protected int getLevelForRank(int rank){
+    public static int getLevelForRank(int rank){
         int fib = 0;
         for (int k = 0; k <= Math.floor((rank + 1) / 2); k++) {
             fib += binomial(rank + 1 - k, k);
@@ -78,7 +78,7 @@ public class GameMechanics {
     /*
     Should be substituted by SQL Database Rank Lookup
      */
-    protected int getRankByLevel(int level){
+    public static int getRankByLevel(int level){
         if(level >= 143)
             return 10;
         if(level >= 88)
@@ -108,7 +108,7 @@ public class GameMechanics {
     .
     .
      */
-    protected int getStrengthByLevel(int level){
+    public static int getStrengthByLevel(int level){
         double soldierStrength = 1+(level-1)*levelUpBonus;
         int rank = getRankByLevel(level);
         soldierStrength *= Math.pow(rankUpFactor,rank-1) * 10;
@@ -119,7 +119,7 @@ public class GameMechanics {
     Iterates over Array of Levels of each soldier in the army
     Sums up all respective strengths
      */
-    protected int getArmyStrength(List<DbSoldier> soldiers) {
+    public static int getArmyStrength(List<DbSoldier> soldiers) {
         int armyStrength = 0;
         for (DbSoldier var : soldiers) {
             armyStrength += getStrengthByLevel(var.getLevel());

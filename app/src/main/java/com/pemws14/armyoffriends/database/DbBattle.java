@@ -14,12 +14,16 @@ public class DbBattle {
     public DbBattle() {
     }
 
-    public DbBattle(int id, String enemyName, int enemyStrength, int ownStrength, Boolean result, String created_at) {
-        this.id = id;
+    public DbBattle(String enemyName, int enemyStrength, int ownStrength, Boolean result) {
         this.enemyName = enemyName;
         this.enemyStrength = enemyStrength;
         this.ownStrength = ownStrength;
         this.result = result;
+    }
+
+    public DbBattle(int id, String enemyName, int enemyStrength, int ownStrength, Boolean result, String created_at) {
+        this(enemyName, enemyStrength, ownStrength, result);
+        this.id = id;
         this.created_at = created_at;
     }
 
