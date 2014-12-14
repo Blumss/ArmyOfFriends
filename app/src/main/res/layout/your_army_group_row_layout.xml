@@ -41,6 +41,5 @@
             android:layout_height="24dip"
             android:layout_gravity="left|center_vertical"
             android:scaleType="centerCrop"
-            android:background="@drawable/list_closed"
             />
 </LinearLayout>

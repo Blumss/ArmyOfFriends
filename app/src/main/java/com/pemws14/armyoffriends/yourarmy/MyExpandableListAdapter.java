@@ -61,24 +61,33 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
         String imageName = "ranks_red_" + parent.getText1().toLowerCase().replaceAll("\\s","_");
         image.setImageResource(mActivity.getResources().getIdentifier(imageName, "drawable", mActivity.getPackageName()));
 
-        //ImageView rightcheck=(ImageView)convertView.findViewById(R.id.rightcheck);
+        ImageView rightcheck=(ImageView)convertView.findViewById(R.id.parent_open);
 
         //Log.i("onCheckedChanged", "isChecked: "+parent.isChecked());
 
         // Change right check image on parent at runtime
-        if(parent.isChecked()==true){
-//            rightcheck.setImageResource(
-//                    mActivity.getResources().getIdentifier(
-//                            "com.androidexample.customexpandablelist:drawable/rightcheck",null,null));
+        if(parent.isChecked()){
+            rightcheck.setImageResource(
+                    mActivity.getResources().getIdentifier(
+                            "list_open","drawable",mActivity.getPackageName()));
         }
-        else{
-//            rightcheck.setImageResource(
-//                    mActivity.getResources().getIdentifier(
-//                            "com.androidexample.customexpandablelist:drawable/button_check",null,null));
+        else if(!parent.isChecked()){
+            rightcheck.setImageResource(
+                    mActivity.getResources().getIdentifier(
+                            "list_closed","drawable",mActivity.getPackageName()));
         }
         return convertView;
     }
 
+    @Override
+    public void onGroupCollapsed(int groupPosition){
+        parents.get(groupPosition).setChecked(!parents.get(groupPosition).isChecked());
+    }
+
+    @Override
+    public void onGroupExpanded(int groupPosition){
+        parents.get(groupPosition).setChecked(!parents.get(groupPosition).isChecked());
+    }
 
     // This Function used to inflate child rows view
     @Override
@@ -153,6 +162,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
     public long getGroupId(int groupPosition)
     {
         // Log.i("Parent", groupPosition+"=  getGroupId "+ParentClickStatus);
+
 
         if(groupPosition==2 && ParentClickStatus!=groupPosition){
 

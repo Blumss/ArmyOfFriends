@@ -20,7 +20,7 @@ import com.pemws14.armyoffriends.yourarmy.ParentRow;
 import java.util.ArrayList;
 
 
-public class YourArmyActivity extends BaseActivity implements View.OnCreateContextMenuListener, ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener, ExpandableListView.OnGroupExpandListener {
+public class YourArmyActivity extends BaseActivity implements View.OnCreateContextMenuListener, ExpandableListView.OnChildClickListener {
     ExpandableListView mList;
     ExpandableListAdapter mAdapter;
     boolean mFinishedStart = false;
@@ -61,15 +61,6 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
         return false;
     }
 
-    @Override
-    public void onGroupCollapse(int groupPosition) {
-
-    }
-
-    @Override
-    public void onGroupExpand(int groupPosition) {
-
-    }
 
     @Override
     protected void onRestoreInstanceState(Bundle state){
