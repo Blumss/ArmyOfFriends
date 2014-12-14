@@ -83,10 +83,14 @@ public class BaseActivity extends ActionBarActivity {
         mDrawerFooter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ImpressumActivity.class);
+                String title = (String) getSupportActionBar().getTitle();
+                if (!title.equals("Impressum")) {
+                    Intent intent = new Intent(getApplicationContext(), ImpressumActivity.class);
+                    mDrawerLayout.closeDrawer(mDrawerLeft);
+                    startActivity(intent);
+                    finish();
+                }
                 mDrawerLayout.closeDrawer(mDrawerLeft);
-                startActivity(intent);
-                finish();
             }
         });
 
@@ -169,30 +173,35 @@ public class BaseActivity extends ActionBarActivity {
      */
     private void displayView(int position) {
 // update the main content by replacing fragments
+        String title = (String) getSupportActionBar().getTitle();
         switch (position) {
             case 0:
-                // Your Army
-                Intent intent = new Intent(this, YourArmyActivity.class);
-                startActivity(intent);
-                finish();
+                if (!title.equals("Your Army")) {
+                    Intent intent = new Intent(this, YourArmyActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
                 break;
             case 1:
-                // Fight
-                Intent intent1 = new Intent(this, FightActivity.class);
-                startActivity(intent1);
-                finish();
+                if (!title.equals("Fight")) {
+                    Intent intent1 = new Intent(this, FightActivity.class);
+                    startActivity(intent1);
+                    finish();
+                }
                 break;
             case 2:
-                // Latest Actions
-                Intent intent2 = new Intent(this, LatestActionsActivity.class);
-                startActivity(intent2);
-                finish();
+                if (!title.equals("Latest Actions")) {
+                    Intent intent2 = new Intent(this, LatestActionsActivity.class);
+                    startActivity(intent2);
+                    finish();
+                }
                 break;
             case 3:
-                // Your Profile
-                Intent intent3 = new Intent(this, YourProfileActivity.class);
-                startActivity(intent3);
-                finish();
+                if (!title.equals("Your Profile")) {
+                    Intent intent3 = new Intent(this, YourProfileActivity.class);
+                    startActivity(intent3);
+                    finish();
+                }
                 break;
             default:
                 break;
