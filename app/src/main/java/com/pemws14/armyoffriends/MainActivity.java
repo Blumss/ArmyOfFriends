@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationRequest;
+import com.parse.ParseUser;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbSoldier;
 
@@ -38,8 +41,11 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     DbHelper db;
 
     Button LocButton;
-    Button fightButton;
-    Button loginButton;
+    ImageView armyButton;
+    ImageView fightButton;
+    ImageView latestButton;
+    ImageView profileButton;
+  //  Button loginButton;
   //  Button logoutButton;
     TextView LocTextView;
     TextView longitudeText;
@@ -50,6 +56,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     String provider;
     Criteria criteria;
     Location location;
+
+    private ParseUser currentUser;
 
     public static PendingIntent pintent;
     public static AlarmManager alarm;
@@ -71,8 +79,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     double lati;
     int numberUsers;
 
-  //  private ParseUser currentUser;
-
     // Breite = latitude (steht vorne), Länge = Longitude (steht hinten)
 
     @Override
@@ -81,16 +87,13 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-
-
-        //
-
         // findViewbyIDs
         LocButton = (Button)findViewById(R.id.LocationButton);
-        fightButton = (Button)findViewById(R.id.main_fight_button);
-        loginButton = (Button)findViewById(R.id.start_login_button);
+        armyButton = (ImageView)findViewById(R.id.main_army);
+        fightButton = (ImageView)findViewById(R.id.main_fight);
+        latestButton = (ImageView)findViewById(R.id.main_latest);
+        profileButton = (ImageView)findViewById(R.id.main_profile);
+      //  loginButton = (Button)findViewById(R.id.start_login_button);
       //  logoutButton = (Button)findViewById(R.id.Button_LogoutUsername);
         LocTextView = (TextView)findViewById(R.id.LocationText);
         longitudeText = (TextView)findViewById(R.id.LongitudeText);
@@ -115,8 +118,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         }
 
-
-
       //  ParseObject testObject = new ParseObject("TestObject");
       //  testObject.put("foo", "bar");
       //  testObject.saveInBackground();
@@ -137,7 +138,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             }
         });
 
-        fightButton.setOnClickListener(new View.OnClickListener(){
+        armyButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), YourArmyActivity.class);
@@ -145,14 +146,42 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             }
         });
 
+
+        fightButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FightActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        latestButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LatestActionsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        profileButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), YourProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /*
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(getApplicationContext(), DispatchActivity.class);
                 Intent intent = new Intent(getApplicationContext(), Test.class);
                 startActivity(intent);
             }
         });
+        */
 
         /*
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -227,6 +256,14 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        currentUser = ParseUser.getCurrentUser();
+        MenuItem actionBarUser = menu.findItem(R.id.action_login);
+        if (currentUser != null) {
+            actionBarUser.setTitle("Logout");
+        }else{
+            actionBarUser.setTitle("Login");
+        }
+
         return true;
     }
 
@@ -239,7 +276,13 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            //TODO: Start Settings-Intent
             return true;
+        }
+
+        if (id == R.id.action_login) {
+            Intent intent = new Intent(getApplicationContext(), Test.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -255,6 +298,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     @Override
     public void onResume(){
         super.onResume();
+        invalidateOptionsMenu();
         registerReceiver(broadcastReceiver, new IntentFilter(BackgroundService.BROADCAST_ACTION));
     }
 
@@ -322,7 +366,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             System.out.println("MainActivity - getTheLastLocation - Loc: "+loc);
             System.out.println("MainActivity - getTheLastLocation - Latitude: "+loc.getLatitude());
             System.out.println("MainActivity - getTheLastLocation - Longitude: "+loc.getLongitude());
-             setLocText(loc);
+            setLocText(loc);
         }
     }
 

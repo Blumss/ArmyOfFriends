@@ -4,6 +4,7 @@
     <string name="app_name">ArmyOfFriends</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_login">Login/Logout</string>
 
     <!-- activity-Strings und -Icons -->
     <string-array name="left_drawer_list_items">

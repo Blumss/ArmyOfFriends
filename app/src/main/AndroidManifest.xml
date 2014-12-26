@@ -22,6 +22,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,39 +34,47 @@
             android:name=".CheckLoginStatus"
             android:label="@string/title_activity_check_login_status"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
             android:name=".DispatchActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
         <activity
             android:name=".drawer.BaseActivity"
             android:label="@string/title_activity_base"
+            android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
             android:name=".YourArmyActivity"
             android:label="@string/title_activity_your_army"
+            android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
             android:name=".FightActivity"
             android:label="@string/title_activity_fight"
+            android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
             android:name=".LatestActionsActivity"
             android:label="@string/title_activity_latest_actions"
+            android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
             android:name=".YourProfileActivity"
             android:label="@string/title_activity_your_profile"
+            android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
             android:name=".ImpressumActivity"
             android:label="@string/title_activity_impressum"
+            android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
