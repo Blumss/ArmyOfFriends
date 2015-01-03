@@ -38,25 +38,25 @@ import java.util.Set;
  * Configurations for the ParseLoginActivity.
  */
 public class ParseLoginConfig {
-  public static final String APP_LOGO = "com.pemws14.armyoffriends.Login.ParseLoginActivity.APP_LOGO";
-  public static final String PARSE_LOGIN_ENABLED = "com.pemws14.armyoffriends.Login.ParseLoginActivity.PARSE_LOGIN_ENABLED";
-  public static final String PARSE_LOGIN_BUTTON_TEXT = "com.pemws14.armyoffriends.Login.ParseLoginActivity.PARSE_LOGIN_BUTTON_TEXT";
-  public static final String PARSE_SIGNUP_BUTTON_TEXT = "com.pemws14.armyoffriends.Login.ParseLoginActivity.PARSE_SIGNUP_BUTTON_TEXT";
-  public static final String PARSE_LOGIN_HELP_TEXT = "com.pemws14.armyoffriends.Login.ParseLoginActivity.PARSE_LOGIN_HELP_TEXT";
-  public static final String PARSE_LOGIN_INVALID_CREDENTIALS_TOAST_TEXT = "com.pemws14.armyoffriends.Login.ParseLoginActivity.PARSE_LOGIN_INVALID_CREDENTIALS_TEXT";
-  public static final String PARSE_LOGIN_EMAIL_AS_USERNAME = "com.pemws14.armyoffriends.Login.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME";
-  public static final String PARSE_SIGNUP_MIN_PASSWORD_LENGTH = "com.pemws14.armyoffriends.Login.ParseLoginActivity.PARSE_SIGNUP_MIN_PASSWORD_LENGTH";
-  public static final String PARSE_SIGNUP_SUBMIT_BUTTON_TEXT = "com.pemws14.armyoffriends.Login.ParseLoginActivity.PARSE_SIGNUP_SUBMIT_BUTTON_TEXT";
-  public static final String FACEBOOK_LOGIN_ENABLED = "com.pemws14.armyoffriends.Login.ParseLoginActivity.FACEBOOK_LOGIN_ENABLED";
-  public static final String FACEBOOK_LOGIN_BUTTON_TEXT = "com.pemws14.armyoffriends.Login.ParseLoginActivity.FACEBOOK_LOGIN_BUTTON_TEXT";
-  public static final String FACEBOOK_LOGIN_PERMISSIONS = "com.pemws14.armyoffriends.Login.ParseLoginActivity.FACEBOOK_LOGIN_PERMISSIONS";
-  public static final String TWITTER_LOGIN_ENABLED = "com.pemws14.armyoffriends.Login.ParseLoginActivity.TWITTER_LOGIN_ENABLED";
-  public static final String TWITTER_LOGIN_BUTTON_TEXT = "com.pemws14.armyoffriends.Login.ParseLoginActivity.TWITTER_LOGIN_BUTTON_TEXT";
+  public static final String APP_LOGO = "com.pemws14.armyoffriends.login.ParseLoginActivity.APP_LOGO";
+  public static final String PARSE_LOGIN_ENABLED = "com.pemws14.armyoffriends.login.ParseLoginActivity.PARSE_LOGIN_ENABLED";
+  public static final String PARSE_LOGIN_BUTTON_TEXT = "com.pemws14.armyoffriends.login.ParseLoginActivity.PARSE_LOGIN_BUTTON_TEXT";
+  public static final String PARSE_SIGNUP_BUTTON_TEXT = "com.pemws14.armyoffriends.login.ParseLoginActivity.PARSE_SIGNUP_BUTTON_TEXT";
+  public static final String PARSE_LOGIN_HELP_TEXT = "com.pemws14.armyoffriends.login.ParseLoginActivity.PARSE_LOGIN_HELP_TEXT";
+  public static final String PARSE_LOGIN_INVALID_CREDENTIALS_TOAST_TEXT = "com.pemws14.armyoffriends.login.ParseLoginActivity.PARSE_LOGIN_INVALID_CREDENTIALS_TEXT";
+  public static final String PARSE_LOGIN_EMAIL_AS_USERNAME = "com.pemws14.armyoffriends.login.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME";
+  public static final String PARSE_SIGNUP_MIN_PASSWORD_LENGTH = "com.pemws14.armyoffriends.login.ParseLoginActivity.PARSE_SIGNUP_MIN_PASSWORD_LENGTH";
+  public static final String PARSE_SIGNUP_SUBMIT_BUTTON_TEXT = "com.pemws14.armyoffriends.login.ParseLoginActivity.PARSE_SIGNUP_SUBMIT_BUTTON_TEXT";
+  public static final String FACEBOOK_LOGIN_ENABLED = "com.pemws14.armyoffriends.login.ParseLoginActivity.FACEBOOK_LOGIN_ENABLED";
+  public static final String FACEBOOK_LOGIN_BUTTON_TEXT = "com.pemws14.armyoffriends.login.ParseLoginActivity.FACEBOOK_LOGIN_BUTTON_TEXT";
+  public static final String FACEBOOK_LOGIN_PERMISSIONS = "com.pemws14.armyoffriends.login.ParseLoginActivity.FACEBOOK_LOGIN_PERMISSIONS";
+  public static final String TWITTER_LOGIN_ENABLED = "com.pemws14.armyoffriends.login.ParseLoginActivity.TWITTER_LOGIN_ENABLED";
+  public static final String TWITTER_LOGIN_BUTTON_TEXT = "com.pemws14.armyoffriends.login.ParseLoginActivity.TWITTER_LOGIN_BUTTON_TEXT";
 
   // For internally serializing to/from string array (the public analog above is for resource from activity meta-data).
-  private static final String FACEBOOK_LOGIN_PERMISSIONS_STRING_ARRAY = "com.pemws14.armyoffriends.Login.ParseLoginActivity.FACEBOOK_LOGIN_PERMISSIONS_STRING_ARRAY";
+  private static final String FACEBOOK_LOGIN_PERMISSIONS_STRING_ARRAY = "com.pemws14.armyoffriends.login.ParseLoginActivity.FACEBOOK_LOGIN_PERMISSIONS_STRING_ARRAY";
 
-  private static final String LOG_TAG = "com.pemws14.armyoffriends.Login.ParseLoginConfig";
+  private static final String LOG_TAG = "com.pemws14.armyoffriends.login.ParseLoginConfig";
 
   // Use boxed types so that we can differentiate between a setting not set,
   // versus its default value.  This is useful for merging options set from code
