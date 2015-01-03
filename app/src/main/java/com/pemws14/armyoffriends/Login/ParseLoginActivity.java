@@ -19,7 +19,7 @@
  *
  */
 
-package com.pemws14.armyoffriends.Login;
+package com.pemws14.armyoffriends.login;
 // com_pemws14_armyoffriends_Login_
 
 import android.annotation.TargetApi;
@@ -71,9 +71,9 @@ import com.pemws14.armyoffriends.R;
  * </ul>
  */
 public class ParseLoginActivity extends FragmentActivity implements
-        com.pemws14.armyoffriends.Login.ParseLoginFragment.ParseLoginFragmentListener,
-        com.pemws14.armyoffriends.Login.ParseLoginHelpFragment.ParseOnLoginHelpSuccessListener,
-        com.pemws14.armyoffriends.Login.ParseOnLoginSuccessListener, com.pemws14.armyoffriends.Login.ParseOnLoadingListener {
+        com.pemws14.armyoffriends.login.ParseLoginFragment.ParseLoginFragmentListener,
+        com.pemws14.armyoffriends.login.ParseLoginHelpFragment.ParseOnLoginHelpSuccessListener,
+        com.pemws14.armyoffriends.login.ParseOnLoginSuccessListener, com.pemws14.armyoffriends.login.ParseOnLoadingListener {
 
   public static final String LOG_TAG = "ParseLoginActivity";
 
@@ -99,7 +99,7 @@ public class ParseLoginActivity extends FragmentActivity implements
     // Show the login form
     if (savedInstanceState == null) {
       getSupportFragmentManager().beginTransaction().add(fragmentContainer,
-              com.pemws14.armyoffriends.Login.ParseLoginFragment.newInstance(configOptions)).commit();
+              com.pemws14.armyoffriends.login.ParseLoginFragment.newInstance(configOptions)).commit();
     }
   }
 
@@ -130,7 +130,7 @@ public class ParseLoginActivity extends FragmentActivity implements
     // to the login form.
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     transaction.replace(fragmentContainer,
-            com.pemws14.armyoffriends.Login.ParseSignupFragment.newInstance(configOptions, username, password));
+            com.pemws14.armyoffriends.login.ParseSignupFragment.newInstance(configOptions, username, password));
     transaction.addToBackStack(null);
     transaction.commit();
   }
@@ -144,7 +144,7 @@ public class ParseLoginActivity extends FragmentActivity implements
     // Keep the transaction on the back stack so that if the user clicks
     // the back button, they are brought back to the login form.
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    transaction.replace(fragmentContainer, com.pemws14.armyoffriends.Login.ParseLoginHelpFragment.newInstance(configOptions));
+    transaction.replace(fragmentContainer, com.pemws14.armyoffriends.login.ParseLoginHelpFragment.newInstance(configOptions));
     transaction.addToBackStack(null);
     transaction.commit();
   }

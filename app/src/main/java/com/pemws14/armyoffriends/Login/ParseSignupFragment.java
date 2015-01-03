@@ -19,7 +19,7 @@
  *
  */
 
-package com.pemws14.armyoffriends.Login;
+package com.pemws14.armyoffriends.login;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -40,7 +40,7 @@ import com.pemws14.armyoffriends.R;
 /**
  * Fragment for the user signup screen.
  */
-public class ParseSignupFragment extends com.pemws14.armyoffriends.Login.ParseLoginFragmentBase implements OnClickListener {
+public class ParseSignupFragment extends com.pemws14.armyoffriends.login.ParseLoginFragmentBase implements OnClickListener {
   public static final String USERNAME = "com.parse.ui.ParseSignupFragment.USERNAME";
   public static final String PASSWORD = "com.parse.ui.ParseSignupFragment.PASSWORD";
 
@@ -50,9 +50,9 @@ public class ParseSignupFragment extends com.pemws14.armyoffriends.Login.ParseLo
   private EditText emailField;
   private EditText nameField;
   private Button createAccountButton;
-  private com.pemws14.armyoffriends.Login.ParseOnLoginSuccessListener onLoginSuccessListener;
+  private com.pemws14.armyoffriends.login.ParseOnLoginSuccessListener onLoginSuccessListener;
 
-  private com.pemws14.armyoffriends.Login.ParseLoginConfig config;
+  private com.pemws14.armyoffriends.login.ParseLoginConfig config;
   private int minPasswordLength;
 
   private static final String LOG_TAG = "ParseSignupFragment";
@@ -73,7 +73,7 @@ public class ParseSignupFragment extends com.pemws14.armyoffriends.Login.ParseLo
                            Bundle savedInstanceState) {
 
     Bundle args = getArguments();
-    config = com.pemws14.armyoffriends.Login.ParseLoginConfig.fromBundle(args, getActivity());
+    config = com.pemws14.armyoffriends.login.ParseLoginConfig.fromBundle(args, getActivity());
 
     minPasswordLength = DEFAULT_MIN_PASSWORD_LENGTH;
     if (config.getParseSignupMinPasswordLength() != null) {
@@ -119,15 +119,15 @@ public class ParseSignupFragment extends com.pemws14.armyoffriends.Login.ParseLo
   @Override
   public void onAttach(Activity activity) {
     super.onAttach(activity);
-    if (activity instanceof com.pemws14.armyoffriends.Login.ParseOnLoginSuccessListener) {
-      onLoginSuccessListener = (com.pemws14.armyoffriends.Login.ParseOnLoginSuccessListener) activity;
+    if (activity instanceof com.pemws14.armyoffriends.login.ParseOnLoginSuccessListener) {
+      onLoginSuccessListener = (com.pemws14.armyoffriends.login.ParseOnLoginSuccessListener) activity;
     } else {
       throw new IllegalArgumentException(
           "Activity must implemement ParseOnLoginSuccessListener");
     }
 
-    if (activity instanceof com.pemws14.armyoffriends.Login.ParseOnLoadingListener) {
-      onLoadingListener = (com.pemws14.armyoffriends.Login.ParseOnLoadingListener) activity;
+    if (activity instanceof com.pemws14.armyoffriends.login.ParseOnLoadingListener) {
+      onLoadingListener = (com.pemws14.armyoffriends.login.ParseOnLoadingListener) activity;
     } else {
       throw new IllegalArgumentException(
           "Activity must implemement ParseOnLoadingListener");

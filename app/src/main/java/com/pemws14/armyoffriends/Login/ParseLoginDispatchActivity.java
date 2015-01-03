@@ -19,7 +19,7 @@
  *
  */
 
-package com.pemws14.armyoffriends.Login;
+package com.pemws14.armyoffriends.login;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -82,7 +82,7 @@ public abstract class ParseLoginDispatchActivity extends Activity {
    * @return Intent that can be used to start ParseLoginActivity
    */
   protected Intent getParseLoginIntent() {
-      com.pemws14.armyoffriends.Login.ParseLoginBuilder builder = new com.pemws14.armyoffriends.Login.ParseLoginBuilder(this);
+      com.pemws14.armyoffriends.login.ParseLoginBuilder builder = new com.pemws14.armyoffriends.login.ParseLoginBuilder(this);
     return builder.build();
   }
 

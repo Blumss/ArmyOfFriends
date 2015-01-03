@@ -1,6 +1,6 @@
 package com.pemws14.armyoffriends;
 
-import com.pemws14.armyoffriends.Login.ParseLoginDispatchActivity;
+import com.pemws14.armyoffriends.login.ParseLoginDispatchActivity;
 
 /**
  * Created by Ben on 08.12.2014.

@@ -57,14 +57,15 @@ public class FightActivity extends BaseActivity {
         List<DbFight> fights;
         List<String[]> enemies = new ArrayList<String[]>();
         db = new DbHelper(getApplicationContext());
-        /*DbFight fight1 = new DbFight("abc",1,3);
+        /*
+        DbFight fight1 = new DbFight("abc",1,3);
         DbFight fight2 = new DbFight("def",2,4);
         DbFight fight3 = new DbFight("ghi",3,5);
 
         db.createFight(fight1);
         db.createFight(fight2);
-        db.createFight(fight3);*/
-
+        db.createFight(fight3);
+        */
         fights = db.getAllFights();
         for(DbFight fight:fights){
             String[] enemy = new String[5];

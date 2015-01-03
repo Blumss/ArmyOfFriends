@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -32,7 +31,6 @@ import com.parse.ParseUser;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbSoldier;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -40,14 +38,14 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     DbHelper db;
 
-    Button LocButton;
+    Button locButton;
     ImageView armyButton;
     ImageView fightButton;
     ImageView latestButton;
     ImageView profileButton;
   //  Button loginButton;
   //  Button logoutButton;
-    TextView LocTextView;
+    TextView locTextView;
     TextView longitudeText;
     TextView latitudeText;
     TextView userNumberText;
@@ -88,14 +86,14 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         setContentView(R.layout.activity_main);
 
         // findViewbyIDs
-        LocButton = (Button)findViewById(R.id.LocationButton);
+        locButton = (Button)findViewById(R.id.LocationButton);
         armyButton = (ImageView)findViewById(R.id.main_army);
         fightButton = (ImageView)findViewById(R.id.main_fight);
         latestButton = (ImageView)findViewById(R.id.main_latest);
         profileButton = (ImageView)findViewById(R.id.main_profile);
       //  loginButton = (Button)findViewById(R.id.start_login_button);
       //  logoutButton = (Button)findViewById(R.id.Button_LogoutUsername);
-        LocTextView = (TextView)findViewById(R.id.LocationText);
+        locTextView = (TextView)findViewById(R.id.LocationText);
         longitudeText = (TextView)findViewById(R.id.LongitudeText);
         latitudeText = (TextView)findViewById(R.id.LatiuteText);
         userNumberText = (TextView)findViewById(R.id.CountNearUsersText);
@@ -122,16 +120,16 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
       //  testObject.put("foo", "bar");
       //  testObject.saveInBackground();
 
-        LocButton.setOnClickListener(new View.OnClickListener() {
+        locButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  getTheLastLocation();
-                if(LocButton.getText().equals("start Location Service")){
+                //  getTheLastLocation();
+                if (locButton.getText().equals("start Location Service")) {
                     startLocationIntent();
-                    LocButton.setText("stop Location Service");
+                    locButton.setText("stop Location Service");
                 } else {
                     stopLocationIntent();
-                    LocButton.setText("start Location Service");
+                    locButton.setText("start Location Service");
                 }
 
 
@@ -361,7 +359,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         if(locationclient!=null && locationclient.isConnected()){
             System.out.println("MainActivity - getTheLastLocation - Last Known Location available");
             Location loc = locationclient.getLastLocation();
-            LocTextView.setText("Last Known Location: ");
+            locTextView.setText("Last Known Location: ");
 
             System.out.println("MainActivity - getTheLastLocation - Loc: "+loc);
             System.out.println("MainActivity - getTheLastLocation - Latitude: "+loc.getLatitude());

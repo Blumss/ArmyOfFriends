@@ -19,7 +19,7 @@
  *
  */
 
-package com.pemws14.armyoffriends.Login;
+package com.pemws14.armyoffriends.login;
 
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;

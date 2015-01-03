@@ -19,7 +19,7 @@
  *
  */
 
-package com.pemws14.armyoffriends.Login;
+package com.pemws14.armyoffriends.login;
 
 public interface ParseOnLoginSuccessListener {
   public void onLoginSuccess();

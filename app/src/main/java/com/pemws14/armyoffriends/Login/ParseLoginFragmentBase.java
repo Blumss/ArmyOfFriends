@@ -19,7 +19,7 @@
  *
  */
 
-package com.pemws14.armyoffriends.Login;
+package com.pemws14.armyoffriends.login;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -33,7 +33,7 @@ import com.parse.Parse;
  * Base class with helper methods for fragments in ParseLoginUI.
  */
 public class ParseLoginFragmentBase extends Fragment {
-  protected com.pemws14.armyoffriends.Login.ParseOnLoadingListener onLoadingListener;
+  protected com.pemws14.armyoffriends.login.ParseOnLoadingListener onLoadingListener;
 
   protected String getLogTag() {
     return null;

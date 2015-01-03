@@ -78,7 +78,7 @@
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name=".Login.ParseLoginActivity"
+            android:name=".login.ParseLoginActivity"
             android:label="Login"
             android:launchMode="singleTop"
             android:theme="@style/ParseLoginUI" >

@@ -19,7 +19,7 @@
  *
  */
 
-package com.pemws14.armyoffriends.Login;
+package com.pemws14.armyoffriends.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +29,7 @@ import java.util.Collection;
 public class ParseLoginBuilder {
 
   private Context context;
-  private com.pemws14.armyoffriends.Login.ParseLoginConfig config = new com.pemws14.armyoffriends.Login.ParseLoginConfig();
+  private com.pemws14.armyoffriends.login.ParseLoginConfig config = new com.pemws14.armyoffriends.login.ParseLoginConfig();
 
   public ParseLoginBuilder(Context context) {
     this.context = context;
@@ -306,7 +306,7 @@ public class ParseLoginBuilder {
    * @return The intent for starting ParseLoginActivity
    */
   public Intent build() {
-    Intent intent = new Intent(context, com.pemws14.armyoffriends.Login.ParseLoginActivity.class);
+    Intent intent = new Intent(context, com.pemws14.armyoffriends.login.ParseLoginActivity.class);
     intent.putExtras(config.toBundle());
     return intent;
   }

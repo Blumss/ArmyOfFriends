@@ -19,7 +19,7 @@
  *
  */
 
-package com.pemws14.armyoffriends.Login;
+package com.pemws14.armyoffriends.login;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -48,7 +48,7 @@ import com.pemws14.armyoffriends.R;
 /**
  * Fragment for the user login screen.
  */
-public class ParseLoginFragment extends com.pemws14.armyoffriends.Login.ParseLoginFragmentBase {
+public class ParseLoginFragment extends com.pemws14.armyoffriends.login.ParseLoginFragmentBase {
 
   public interface ParseLoginFragmentListener {
     public void onSignUpClicked(String username, String password);
@@ -70,9 +70,9 @@ public class ParseLoginFragment extends com.pemws14.armyoffriends.Login.ParseLog
   private Button facebookLoginButton;
   private Button twitterLoginButton;
   private ParseLoginFragmentListener loginFragmentListener;
-  private com.pemws14.armyoffriends.Login.ParseOnLoginSuccessListener onLoginSuccessListener;
+  private com.pemws14.armyoffriends.login.ParseOnLoginSuccessListener onLoginSuccessListener;
 
-  private com.pemws14.armyoffriends.Login.ParseLoginConfig config;
+  private com.pemws14.armyoffriends.login.ParseLoginConfig config;
 
   public static ParseLoginFragment newInstance(Bundle configOptions) {
     ParseLoginFragment loginFragment = new ParseLoginFragment();
@@ -128,15 +128,15 @@ public class ParseLoginFragment extends com.pemws14.armyoffriends.Login.ParseLog
           "Activity must implemement ParseLoginFragmentListener");
     }
 
-    if (activity instanceof com.pemws14.armyoffriends.Login.ParseOnLoginSuccessListener) {
-      onLoginSuccessListener = (com.pemws14.armyoffriends.Login.ParseOnLoginSuccessListener) activity;
+    if (activity instanceof com.pemws14.armyoffriends.login.ParseOnLoginSuccessListener) {
+      onLoginSuccessListener = (com.pemws14.armyoffriends.login.ParseOnLoginSuccessListener) activity;
     } else {
       throw new IllegalArgumentException(
           "Activity must implemement ParseOnLoginSuccessListener");
     }
 
-    if (activity instanceof com.pemws14.armyoffriends.Login.ParseOnLoadingListener) {
-      onLoadingListener = (com.pemws14.armyoffriends.Login.ParseOnLoadingListener) activity;
+    if (activity instanceof com.pemws14.armyoffriends.login.ParseOnLoadingListener) {
+      onLoadingListener = (com.pemws14.armyoffriends.login.ParseOnLoadingListener) activity;
     } else {
       throw new IllegalArgumentException(
           "Activity must implemement ParseOnLoadingListener");

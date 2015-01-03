@@ -19,7 +19,7 @@
  *
  */
 
-package com.pemws14.armyoffriends.Login;
+package com.pemws14.armyoffriends.login;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -40,7 +40,7 @@ import com.pemws14.armyoffriends.R;
 /**
  * Fragment for the login help screen for resetting the user's password.
  */
-public class ParseLoginHelpFragment extends com.pemws14.armyoffriends.Login.ParseLoginFragmentBase implements OnClickListener {
+public class ParseLoginHelpFragment extends com.pemws14.armyoffriends.login.ParseLoginFragmentBase implements OnClickListener {
 
   public interface ParseOnLoginHelpSuccessListener {
     public void onLoginHelpSuccess();
@@ -52,7 +52,7 @@ public class ParseLoginHelpFragment extends com.pemws14.armyoffriends.Login.Pars
   private boolean emailSent = false;
   private ParseOnLoginHelpSuccessListener onLoginHelpSuccessListener;
 
-  private com.pemws14.armyoffriends.Login.ParseLoginConfig config;
+  private com.pemws14.armyoffriends.login.ParseLoginConfig config;
 
   private static final String LOG_TAG = "ParseLoginHelpFragment";
 
@@ -87,8 +87,8 @@ public class ParseLoginHelpFragment extends com.pemws14.armyoffriends.Login.Pars
   public void onAttach(Activity activity) {
     super.onAttach(activity);
 
-    if (activity instanceof com.pemws14.armyoffriends.Login.ParseOnLoadingListener) {
-      onLoadingListener = (com.pemws14.armyoffriends.Login.ParseOnLoadingListener) activity;
+    if (activity instanceof com.pemws14.armyoffriends.login.ParseOnLoadingListener) {
+      onLoadingListener = (com.pemws14.armyoffriends.login.ParseOnLoadingListener) activity;
     } else {
       throw new IllegalArgumentException(
           "Activity must implemement ParseOnLoadingListener");

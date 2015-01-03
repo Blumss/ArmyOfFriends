@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.parse.ParseUser;
-import com.pemws14.armyoffriends.Login.ParseLoginBuilder;
+import com.pemws14.armyoffriends.login.ParseLoginBuilder;
 
 
 public class CheckLoginStatus extends ActionBarActivity {
