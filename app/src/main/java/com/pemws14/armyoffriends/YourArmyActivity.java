@@ -8,14 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
+import android.text.Html;
 
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.drawer.BaseActivity;
 import com.pemws14.armyoffriends.yourarmy.ChildRow;
-import com.pemws14.armyoffriends.yourarmy.ExpandableList;
-import com.pemws14.armyoffriends.R;
+
+
 import com.pemws14.armyoffriends.yourarmy.MyExpandableListAdapter;
 import com.pemws14.armyoffriends.yourarmy.ParentRow;
 
@@ -149,7 +149,7 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
     private void createRanks(ParentRow parent, String rank){
         parent.setName(rank);
         parent.setText1(rank);
-        //parent.setText2("Disable App On \nBattery Low");
+        //parent.setLevelNextRank("Disable App On \nBattery Low");
         parent.setChildren(new ArrayList<ChildRow>());
     };
 
@@ -174,7 +174,9 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
             for(DbSoldier s:soldiers){
                 ChildRow child = new ChildRow();
                 child.setName(s.getName());
-                child.setText1(s.getName());
+                child.setLevel("Level " + s.getLevel());
+                int levelForRankUp = GameMechanics.getLevelForRankUp(s.getLevel());
+                child.setLevelNextRank(levelForRankUp > 0 ? String.valueOf(levelForRankUp) + " " + Html.fromHtml("&#8593;") : "");
                 parent.getChildren().add(child);
             }
             //Add Child class object to parent class object
@@ -200,7 +202,7 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
             //Create ExpandableListAdapter Object
             final MyExpandableListAdapter mAdapter = new MyExpandableListAdapter(YourArmyActivity.this, parents);
 
-            // Set Adapter to ExpandableList Adapter
+            // Set Adapter to MyExpandableList Adapter
             this.setListAdapter(mAdapter);
         }
         else

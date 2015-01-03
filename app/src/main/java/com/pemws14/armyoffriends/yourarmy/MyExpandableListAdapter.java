@@ -101,7 +101,10 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
         convertView = inflater.inflate(R.layout.your_army_child_row_layout, parentView, false);
 
         // Get childrow.xml file elements and set values
-        ((TextView) convertView.findViewById(R.id.text1)).setText(child.getText1());
+        ((TextView) convertView.findViewById(R.id.soldier_name)).setText(child.getName());
+        ((TextView) convertView.findViewById(R.id.level)).setText(child.getLevel());
+        ((TextView) convertView.findViewById(R.id.level_next_rank)).setText(child.getLevelNextRank());
+
         ImageView image=(ImageView)convertView.findViewById(R.id.image);
         image.setImageResource(
                 mActivity.getResources().getIdentifier(

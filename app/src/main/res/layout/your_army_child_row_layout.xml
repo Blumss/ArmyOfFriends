@@ -12,7 +12,7 @@
             android:id="@+id/image"
             android:layout_width="30dip"
             android:layout_height="30dip"
-            android:layout_marginLeft="30dip"/>
+            android:layout_marginLeft="10dip"/>
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,12 +20,13 @@
             >
             <TableRow>
                 <TextView
-                    android:id="@+id/text1"
+                    android:id="@+id/soldier_name"
                     android:textColor="#000"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_weight="1" android:layout_gravity="left|center_vertical"
-                    android:textSize="12dip" android:layout_marginLeft="30dip"
+                    android:textSize="17sp" android:layout_marginLeft="30dip"
+                    android:textStyle="italic"
                     />
                 <!-- old
                 <TextView
@@ -38,21 +39,25 @@
                     /> -->
             </TableRow>
             <TableRow >
-                <TextView
-                    android:id="@+id/text"
-                    android:textColor="#000"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1" android:layout_gravity="left|center_vertical"
-                    android:textSize="12dip" android:layout_marginLeft="30dip"/>
-                <!-- old
-                <TextView
-                    android:id="@+id/text"
-                    style="@style/SettingCodeFont"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_weight="1" android:layout_gravity="left|center_vertical"
-                    android:textSize="12dip" android:layout_marginLeft="30dip"/> -->
+                <LinearLayout>
+                    <TextView
+                        android:id="@+id/level"
+                        android:textColor="#666"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1" android:layout_gravity="left|center_vertical"
+                        android:textSize="14sp" android:layout_marginLeft="30dip"
+                        android:textStyle="italic"/>
+
+                    <TextView
+                        android:id="@+id/level_next_rank"
+                        android:textColor="#666"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1" android:layout_gravity="left|center_vertical"
+                        android:textSize="14sp" android:layout_marginLeft="90dip"
+                        android:textStyle="italic"/>
+                </LinearLayout>
             </TableRow>
         </TableLayout>
 

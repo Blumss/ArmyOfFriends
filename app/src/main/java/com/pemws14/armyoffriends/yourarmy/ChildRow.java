@@ -6,8 +6,8 @@ package com.pemws14.armyoffriends.yourarmy;
 public class ChildRow
 {
     private String name;
-    private String text1;
-    private String text2;
+    private String level;
+    private String levelNextRank;
 
     public String getName()
     {
@@ -19,23 +19,23 @@ public class ChildRow
         this.name = name;
     }
 
-    public String getText1()
+    public String getLevel()
     {
-        return text1;
+        return level;
     }
 
-    public void setText1(String text1)
+    public void setLevel(String level)
     {
-        this.text1 = text1;
+        this.level = level;
     }
 
-    public String getText2()
+    public String getLevelNextRank()
     {
-        return text2;
+        return levelNextRank;
     }
 
-    public void setText2(String text2)
+    public void setLevelNextRank(String levelNextRank)
     {
-        this.text2 = text2;
+        this.levelNextRank = levelNextRank;
     }
 }
