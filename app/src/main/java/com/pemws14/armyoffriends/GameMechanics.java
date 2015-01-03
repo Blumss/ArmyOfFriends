@@ -6,20 +6,21 @@ import java.util.List;
 
 public class GameMechanics {
 
-    private final static int pow = 3;
-    private final static double rankUpFactor = 1.1;
-    private final static double levelUpBonus = 0.1;
+    private final static int POW = 3;
+    private final static double RANK_UP_FACTOR = 1.1;
+    private final static double LEVEL_UP_BONUS = 0.1;
+    private final static int MAX_RANK = 10;
 
     /*
     Victory = True = Random >= Threshold (equals difficulty)
     Defeat = False = Random < Threshold (roll doesn't suffice)
 
-    Threshold = enemy^pow/(enemy^pow + self^pow)
+    Threshold = enemy^POW/(enemy^POW + self^POW)
     converges to 0 for self->inf, to 1 for enemy->inf
      */
     public static boolean getFightResult(int ownArmyStrength, int enemyArmyStrength){
         double r = Math.random();
-        double threshold = Math.pow(enemyArmyStrength,pow)/(Math.pow(ownArmyStrength,pow)+Math.pow(enemyArmyStrength,pow));
+        double threshold = Math.pow(enemyArmyStrength, POW)/(Math.pow(ownArmyStrength, POW)+Math.pow(enemyArmyStrength, POW));
         return r >= threshold;
     }
 
@@ -101,6 +102,13 @@ public class GameMechanics {
     }
 
     /*
+    Returns amount of level ups necessary for next rank up
+     */
+    public static int getLevelForRankUp(int level){
+        return getLevelForRank(Math.min(getRankByLevel(level) + 1, MAX_RANK)) - level;
+    }
+
+    /*
     Calculates Strength for given Level
     Level 1 = first Meet, freshly added
     Level 2 = second Meet, first Level up
@@ -109,9 +117,9 @@ public class GameMechanics {
     .
      */
     public static int getStrengthByLevel(int level){
-        double soldierStrength = 1+(level-1)*levelUpBonus;
+        double soldierStrength = 1+(level-1)* LEVEL_UP_BONUS;
         int rank = getRankByLevel(level);
-        soldierStrength *= Math.pow(rankUpFactor,rank-1) * 10;
+        soldierStrength *= Math.pow(RANK_UP_FACTOR,rank-1) * 10;
         return (int) soldierStrength;
     }
 
