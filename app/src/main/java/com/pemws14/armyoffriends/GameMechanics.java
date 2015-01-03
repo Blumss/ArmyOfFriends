@@ -103,6 +103,7 @@ public class GameMechanics {
 
     /*
     Returns amount of level ups necessary for next rank up
+    result <= 0  ==>  rank = MAX_RANK
      */
     public static int getLevelForRankUp(int level){
         return getLevelForRank(Math.min(getRankByLevel(level) + 1, MAX_RANK)) - level;
