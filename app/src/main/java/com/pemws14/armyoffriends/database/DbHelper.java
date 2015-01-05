@@ -177,7 +177,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /*
     * SELECT MAX(level) FROM soldier;
     */
-    public int getMaxLevel(int level) {
+    public int getMaxLevel() {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT MAX(" + KEY_LEVEL + ") AS maxLevel FROM " + TABLE_SOLDIER ;

@@ -95,7 +95,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
       //  logoutButton = (Button)findViewById(R.id.Button_LogoutUsername);
         locTextView = (TextView)findViewById(R.id.LocationText);
         longitudeText = (TextView)findViewById(R.id.LongitudeText);
-        latitudeText = (TextView)findViewById(R.id.LatiuteText);
+        latitudeText = (TextView)findViewById(R.id.LatitudeText);
         userNumberText = (TextView)findViewById(R.id.CountNearUsersText);
 
         backgroundReceiver = new BackgroundReceiver();
@@ -229,8 +229,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
-                longi = bundle.getDouble(BackgroundService.LATITUDE);
-                lati = bundle.getDouble(BackgroundService.LONGITUDE);
+                lati = bundle.getDouble(BackgroundService.LATITUDE);
+                longi = bundle.getDouble(BackgroundService.LONGITUDE);
                 numberUsers = bundle.getInt(BackgroundService.USER_COUNT) - 1;
                 // String string = bundle.getString(BackgroundService.LOCATION);
                 latitudeText.setText(String.valueOf(lati));
