@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.LocationClient;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -27,7 +28,7 @@ public class BackgroundService extends Service {
 
     DbHelper dbHelper;
     GameMechanics gameMechanics;
-    DbSoldier dbSoldier;
+    UserProfile userProfile;
     List<DbSoldier> dbSoldiers;
 
     Calendar cur_cal = Calendar.getInstance();
@@ -45,9 +46,11 @@ public class BackgroundService extends Service {
     public int numberUsers;
     public  ParseUser currentUser;
 
-    // save armyStuff
-    public ParseObject ArmyStrength;
+    public ParseQuery<ParseObject> armyStrengthQuery;
 
+    // save armyStuff
+    public ParseObject ArmyStrength ;
+    int armyStrength;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -83,7 +86,7 @@ public class BackgroundService extends Service {
 
     public void onCreate() {
 
-
+        userProfile = new UserProfile();
         dbHelper = new DbHelper(getApplicationContext());
         gameMechanics = new GameMechanics();
         // Parse Test
@@ -218,18 +221,43 @@ public class BackgroundService extends Service {
 
         dbSoldiers = dbHelper.getAllSoldiers();
         System.out.println("dbSoldiers: "+dbSoldiers);
-        int armyStrength = gameMechanics.getArmyStrength(dbSoldiers);
+        armyStrength = gameMechanics.getArmyStrength(dbSoldiers);
         System.out.println("armyStrength: "+armyStrength);
 
-
-        ArmyStrength.put("UserID",currentUser); // UserID
-        ArmyStrength.put("refkey_ID",currentUser); // refkey_ID
-        ArmyStrength.put("ref_username",currentUser.getUsername()); // ref_username
-        ArmyStrength.put("army_strength",armyStrength); // army_strength
-        ArmyStrength.put("maxLevel",dbHelper.getMaxLevel()); // maxLevel
-        ArmyStrength.saveInBackground();
-    }
+       armyStrengthQuery = ParseQuery.getQuery("ArmyyStrength");
+       // armyStrengthQuery.whereContains("UserID",currentUser.getObjectId());
 
 
-}
+
+
+        armyStrengthQuery.getInBackground(currentUser.getUsername(), new GetCallback<ParseObject>() {
+
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (e == null) {
+                    System.out.println("e == null");
+                    // ArmyStrength.put("UserID",currentUser); // UserID
+                    //  ArmyStrength.put("refkey_ID",currentUser); // refkey_ID
+                    //  ArmyStrength.put("ref_username",currentUser.getUsername()); // ref_username
+                    ArmyStrength.put("army_strength", armyStrength); // army_strength
+                    ArmyStrength.put("maxLevel", dbHelper.getMaxLevel()); // maxLevel
+                  //  ArmyStrength.saveInBackground();
+                } else {
+                    System.out.println("e != null");
+                    ArmyStrength.put("UserID", currentUser); // UserID
+                    ArmyStrength.put("refkey_ID", currentUser); // refkey_ID
+                    ArmyStrength.put("ref_username", currentUser.getUsername()); // ref_username
+                    ArmyStrength.put("army_strength", armyStrength); // army_strength
+                    ArmyStrength.put("maxLevel", dbHelper.getMaxLevel()); // maxLevel
+                 //   ArmyStrength.saveInBackground();
+               }
+                ArmyStrength.saveInBackground();
+            }
+        });
+
+
+                }
+
+
+            }
 
