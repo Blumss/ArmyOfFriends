@@ -25,8 +25,8 @@ public class BackgroundReceiver extends BroadcastReceiver{
 
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            longi = bundle.getDouble(BackgroundService.LATITUDE);
-            lati = bundle.getDouble(BackgroundService.LONGITUDE);
+            lati = bundle.getDouble(BackgroundService.LATITUDE);
+            longi = bundle.getDouble(BackgroundService.LONGITUDE);
            // String string = bundle.getString(BackgroundService.LOCATION);
 
         }
