@@ -13,6 +13,8 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.pemws14.armyoffriends.database.DbHelper;
+import com.pemws14.armyoffriends.database.DbSoldier;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,6 +24,12 @@ import java.util.List;
  * Created by Ben on 25.11.2014.
  */
 public class BackgroundService extends Service {
+
+    DbHelper dbHelper;
+    GameMechanics gameMechanics;
+    DbSoldier dbSoldier;
+    List<DbSoldier> dbSoldiers;
+
     Calendar cur_cal = Calendar.getInstance();
     public static int counter = 0; // zählt wie oft der Service schon gestartet wurde
     public static final String LOCATION = "location";
@@ -36,6 +44,10 @@ public class BackgroundService extends Service {
     public ArrayList<ParseGeoPoint> UserLocList;
     public int numberUsers;
     public  ParseUser currentUser;
+
+    // save armyStuff
+    public ParseObject ArmyStrength;
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -54,6 +66,7 @@ public class BackgroundService extends Service {
             System.out.println("BackgroundService - onHandleIntent - Location available - Longitude: "+location.getLongitude());
             Toast.makeText(this, "new Location!", Toast.LENGTH_SHORT).show();
             saveUserLocParse(location);
+            saveArmyStuff();
            // sendLocResult(location);
         }
 
@@ -71,10 +84,12 @@ public class BackgroundService extends Service {
     public void onCreate() {
 
 
-
+        dbHelper = new DbHelper(getApplicationContext());
+        gameMechanics = new GameMechanics();
         // Parse Test
       //  User = new ParseObject("TestObject");
         currentUser = ParseUser.getCurrentUser();
+        ArmyStrength = new ParseObject("ArmyyStrength");
    //     currentUser.put("location",TestUserLocation);
 
       //  TestUser = new ParseObject("TestObject");
@@ -198,6 +213,21 @@ public class BackgroundService extends Service {
         });
         */
         sendLocResult(location, numberUsers);
+    }
+    public void saveArmyStuff(){
+
+        dbSoldiers = dbHelper.getAllSoldiers();
+        System.out.println("dbSoldiers: "+dbSoldiers);
+        int armyStrength = gameMechanics.getArmyStrength(dbSoldiers);
+        System.out.println("armyStrength: "+armyStrength);
+
+
+        ArmyStrength.put("UserID",currentUser); // UserID
+        ArmyStrength.put("refkey_ID",currentUser); // refkey_ID
+        ArmyStrength.put("ref_username",currentUser.getUsername()); // ref_username
+        ArmyStrength.put("army_strength",armyStrength); // army_strength
+        ArmyStrength.put("maxLevel",dbHelper.getMaxLevel()); // maxLevel
+        ArmyStrength.saveInBackground();
     }
 
 
