@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +28,8 @@ import java.util.List;
 public class FightActivity extends BaseActivity {
     private View view;
     private DbHelper db;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter fightAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +43,23 @@ public class FightActivity extends BaseActivity {
         parent.addView(view);
         //--> IN EVERY ACTIVITY WITH DRAWER
 
-        ListView listview = (ListView) findViewById(R.id.fightListView);
+        recyclerView = (RecyclerView)findViewById(R.id.fightListView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        List<String[]> list = buildDummyData();
+
+        fightAdapter = new FightListAdapter(list, getApplicationContext());
+        recyclerView.setAdapter(fightAdapter);
+
+        /*ListView listview = (ListView) findViewById(R.id.fightListView);
         Resources res = this.getResources();
         Drawable divider = res.getDrawable(R.drawable.list_divider);
         listview.setDivider(divider);
         listview.setDividerHeight(1);
         List<String[]> list = buildDummyData();
-
-        /*ListAdapter adapter = new ArrayAdapter(this, R.layout.fight_list_layout, R.id.fight_list_content, list);
-        listview.setAdapter(adapter);*/
-
         final FightListAdapter fightAdapter = new FightListAdapter(this, list);
-        listview.setAdapter(fightAdapter);
+        listview.setAdapter(fightAdapter);*/
     }
 
     private List<String[]> buildDummyData() {
