@@ -66,7 +66,7 @@ public class DbHelper extends SQLiteOpenHelper {
             + TABLE_HISTORY + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_OWN_STRENGTH + " INTEGER,"
             + KEY_OWN_MAX_LEVEL + " INTEGER,"  + KEY_ENEMY_NAME + " TEXT,"
             + KEY_ENEMY_STRENGTH + " INTEGER," + KEY_ENEMY_MAX_LEVEL + " INTEGER,"
-            + KEY_RESULT + " BOOLEAN " + KEY_CREATED_AT + " DATETIME" + ")";
+            + KEY_RESULT + " BOOLEAN," + KEY_CREATED_AT + " DATETIME" + ")";
 
 
     public DbHelper(Context context) {
@@ -351,8 +351,8 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_OWN_STRENGTH,history.getOwnStrength());
         values.put(KEY_OWN_MAX_LEVEL, history.getOwnMaxLevel());
         values.put(KEY_ENEMY_NAME, history.getEnemyName());
-        values.put(KEY_ENEMY_STRENGTH,history.getOwnStrength());
-        values.put(KEY_ENEMY_MAX_LEVEL, history.getOwnMaxLevel());
+        values.put(KEY_ENEMY_STRENGTH,history.getEnemyStrength());
+        values.put(KEY_ENEMY_MAX_LEVEL, history.getEnemyMaxLevel());
         values.put(KEY_RESULT, history.getResult());
         values.put(KEY_CREATED_AT, getDateTime());
 
@@ -378,9 +378,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
         DbHistory history = new DbHistory();
         history.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-        history.setOwnStrength((c.getInt(c.getColumnIndex(KEY_OWN_STRENGTH))));
-        history.setOwnMaxLevel((c.getInt(c.getColumnIndex(KEY_OWN_MAX_LEVEL))));
-        history.setEnemyName((c.getString(c.getColumnIndex(KEY_ENEMY_NAME))));
+        history.setOwnStrength(c.getInt(c.getColumnIndex(KEY_OWN_STRENGTH)));
+        history.setOwnMaxLevel(c.getInt(c.getColumnIndex(KEY_OWN_MAX_LEVEL)));
+        history.setEnemyName(c.getString(c.getColumnIndex(KEY_ENEMY_NAME)));
         history.setEnemyStrength(c.getInt(c.getColumnIndex(KEY_ENEMY_STRENGTH)));
         history.setEnemyMaxLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_MAX_LEVEL)));
         history.setResult(c.getInt(c.getColumnIndex(KEY_RESULT)) > 0);

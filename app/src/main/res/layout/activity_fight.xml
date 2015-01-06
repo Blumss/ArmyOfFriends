@@ -4,11 +4,65 @@
     android:layout_height="match_parent"
     tools:context="com.pemws14.armyoffriends.FightActivity">
 
+    <LinearLayout
+        android:id="@+id/fight_info"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#86272D"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_weight="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="Your Army Strength: "
+                android:textColor="#ffffff"/>
+
+            <TextView
+                android:id="@+id/fight_info_strength"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="200"
+                android:singleLine="true"
+                android:textColor="#ffffff"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="Your Level: "
+                android:textColor="#ffffff"/>
+
+            <TextView
+                android:id="@+id/fight_info_level"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="1"
+                android:singleLine="true"
+                android:textColor="#ffffff"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fightListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".FightActivity"
-        />
+        android:layout_below="@+id/fight_info"
+        tools:context=".FightActivity" />
 
 </RelativeLayout>
