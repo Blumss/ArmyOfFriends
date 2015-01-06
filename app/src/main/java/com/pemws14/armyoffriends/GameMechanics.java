@@ -12,16 +12,18 @@ public class GameMechanics {
     private final static int MAX_RANK = 10;
 
     /*
-    Victory = True = Random >= Threshold (equals difficulty)
-    Defeat = False = Random < Threshold (roll doesn't suffice)
+    Victory equals result > 0 = Random >= Threshold (equals difficulty)
+    Defeat equals result == 0 = Random < Threshold (roll doesn't suffice)
+
+    Result is also reward (EP) factor
 
     Threshold = enemy^POW/(enemy^POW + self^POW)
     converges to 0 for self->inf, to 1 for enemy->inf
      */
-    public static boolean getFightResult(int ownArmyStrength, int enemyArmyStrength){
+    public static double getFightResult(int ownArmyStrength, int enemyArmyStrength){
         double r = Math.random();
         double threshold = Math.pow(enemyArmyStrength, POW)/(Math.pow(ownArmyStrength, POW)+Math.pow(enemyArmyStrength, POW));
-        return r >= threshold;
+        return r >= threshold ? threshold/0.5 : 0;
     }
 
     /*
