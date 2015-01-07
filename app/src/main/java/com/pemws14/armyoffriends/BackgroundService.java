@@ -51,6 +51,7 @@ public class BackgroundService extends Service {
     // save armyStuff
     public ParseObject ArmyStrength ;
     int armyStrength;
+    int defaultPlayerLevel = 1;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -219,6 +220,8 @@ public class BackgroundService extends Service {
     }
     public void saveArmyStuff(){
 
+
+
         dbSoldiers = dbHelper.getAllSoldiers();
         System.out.println("dbSoldiers: "+dbSoldiers);
         armyStrength = gameMechanics.getArmyStrength(dbSoldiers);
@@ -226,9 +229,6 @@ public class BackgroundService extends Service {
 
        armyStrengthQuery = ParseQuery.getQuery("ArmyyStrength");
        // armyStrengthQuery.whereContains("UserID",currentUser.getObjectId());
-
-
-
 
         armyStrengthQuery.getInBackground(currentUser.getUsername(), new GetCallback<ParseObject>() {
 
@@ -241,6 +241,7 @@ public class BackgroundService extends Service {
                     //  ArmyStrength.put("ref_username",currentUser.getUsername()); // ref_username
                     ArmyStrength.put("army_strength", armyStrength); // army_strength
                     ArmyStrength.put("maxLevel", dbHelper.getMaxLevel()); // maxLevel
+                    ArmyStrength.put("player_level", defaultPlayerLevel); //  Player Level
                   //  ArmyStrength.saveInBackground();
                 } else {
                     System.out.println("e != null");
@@ -249,6 +250,7 @@ public class BackgroundService extends Service {
                     ArmyStrength.put("ref_username", currentUser.getUsername()); // ref_username
                     ArmyStrength.put("army_strength", armyStrength); // army_strength
                     ArmyStrength.put("maxLevel", dbHelper.getMaxLevel()); // maxLevel
+                    ArmyStrength.put("player_level", defaultPlayerLevel); //  Player Level
                  //   ArmyStrength.saveInBackground();
                }
                 ArmyStrength.saveInBackground();

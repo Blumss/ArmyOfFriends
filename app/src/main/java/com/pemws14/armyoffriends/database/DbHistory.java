@@ -3,28 +3,33 @@ package com.pemws14.armyoffriends.database;
 
 public class DbHistory {
     int id;
-    String enemyName;
+    int ownPlayerLevel;
     int ownStrength;
     int ownMaxLevel;
+    String enemyName;
+    int enemyPlayerLevel;
     int enemyStrength;
     int enemyMaxLevel;
     boolean result;
     String created_at;
 
+
     public DbHistory() {
     }
 
-    public DbHistory(boolean result, String enemyName, int ownStrength, int ownMaxLevel, int enemyStrength, int enemyMaxLevel) {
-        this.result = result;
-        this.enemyName = enemyName;
+    public DbHistory(int ownPlayerLevel, int ownStrength, int ownMaxLevel, String enemyName, int enemyPlayerLevel, int enemyStrength, int enemyMaxLevel, boolean result) {
+        this.ownPlayerLevel = ownPlayerLevel;
         this.ownStrength = ownStrength;
         this.ownMaxLevel = ownMaxLevel;
+        this.enemyName = enemyName;
+        this.enemyPlayerLevel = enemyPlayerLevel;
         this.enemyStrength = enemyStrength;
         this.enemyMaxLevel = enemyMaxLevel;
+        this.result = result;
     }
 
-    public DbHistory(int id, String enemyName, int ownStrength, int ownMaxLevel, int enemyStrength, int enemyMaxLevel, boolean result, String created_at) {
-        this(result,enemyName,ownStrength,ownMaxLevel,enemyStrength,enemyMaxLevel);
+    public DbHistory(int id, int ownPlayerLevel, int ownStrength, int ownMaxLevel, String enemyName, int enemyPlayerLevel, int enemyStrength, int enemyMaxLevel, boolean result, String created_at) {
+        this(ownPlayerLevel, ownStrength, ownMaxLevel, enemyName, enemyPlayerLevel, enemyStrength, enemyMaxLevel, result);
         this.id = id;
         this.created_at = created_at;
     }
@@ -37,12 +42,12 @@ public class DbHistory {
         this.id = id;
     }
 
-    public String getEnemyName() {
-        return enemyName;
+    public int getOwnPlayerLevel() {
+        return ownPlayerLevel;
     }
 
-    public void setEnemyName(String enemyName) {
-        this.enemyName = enemyName;
+    public void setOwnPlayerLevel(int ownPlayerLevel) {
+        this.ownPlayerLevel = ownPlayerLevel;
     }
 
     public int getOwnStrength() {
@@ -59,6 +64,22 @@ public class DbHistory {
 
     public void setOwnMaxLevel(int ownMaxLevel) {
         this.ownMaxLevel = ownMaxLevel;
+    }
+
+    public String getEnemyName() {
+        return enemyName;
+    }
+
+    public void setEnemyName(String enemyName) {
+        this.enemyName = enemyName;
+    }
+
+    public int getEnemyPlayerLevel() {
+        return enemyPlayerLevel;
+    }
+
+    public void setEnemyPlayerLevel(int enemyPlayerLevel) {
+        this.enemyPlayerLevel = enemyPlayerLevel;
     }
 
     public int getEnemyStrength() {

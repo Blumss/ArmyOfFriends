@@ -12,8 +12,11 @@ import java.util.List;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 
+import com.pemws14.armyoffriends.GameMechanics;
+
 public class DbHelper extends SQLiteOpenHelper {
 
+    private static final int maxArmySize = GameMechanics.getMaxArmySize(4); //TODO: get real current MaxArmySize
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -36,13 +39,16 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_RANK = "rank";
 
     // fight Table - column names
+    private static final String KEY_PLAYER_LEVEL = "player_level";
     private static final String KEY_STRENGTH = "strength";
     private static final String KEY_MAX_LEVEL = "maxLevel";
 
     //history Table - column names
+    private static final String KEY_OWN_PLAYER_LEVEL = "own_player_level";
     private static final String KEY_OWN_STRENGTH = "own_strength";
     private static final String KEY_OWN_MAX_LEVEL = "own_max_level";
     private static final String KEY_ENEMY_NAME = "enemy_name";
+    private static final String KEY_ENEMY_PLAYER_LEVEL = "enemy_player_level";
     private static final String KEY_ENEMY_STRENGTH = "enemy_strength";
     private static final String KEY_ENEMY_MAX_LEVEL = "enemy_max_level";
     private static final String KEY_RESULT = "result";
@@ -58,14 +64,14 @@ public class DbHelper extends SQLiteOpenHelper {
     // fight table create statement
     private static final String CREATE_TABLE_FIGHT = "CREATE TABLE "
             + TABLE_FIGHT + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME
-            + " TEXT," + KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
+            + " TEXT," + KEY_PLAYER_LEVEL + " INTEGER," + KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
             + " DATETIME" + ")";
 
     //history table create statement
     private static final String CREATE_TABLE_HISTORY = "CREATE TABLE "
-            + TABLE_HISTORY + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_OWN_STRENGTH + " INTEGER,"
-            + KEY_OWN_MAX_LEVEL + " INTEGER,"  + KEY_ENEMY_NAME + " TEXT,"
-            + KEY_ENEMY_STRENGTH + " INTEGER," + KEY_ENEMY_MAX_LEVEL + " INTEGER,"
+            + TABLE_HISTORY + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_OWN_PLAYER_LEVEL + " INTEGER,"
+            + KEY_OWN_STRENGTH + " INTEGER," + KEY_OWN_MAX_LEVEL + " INTEGER,"  + KEY_ENEMY_NAME + " TEXT,"
+            + KEY_ENEMY_PLAYER_LEVEL + " INTEGER,"+ KEY_ENEMY_STRENGTH + " INTEGER," + KEY_ENEMY_MAX_LEVEL + " INTEGER,"
             + KEY_RESULT + " BOOLEAN," + KEY_CREATED_AT + " DATETIME" + ")";
 
 
@@ -148,11 +154,11 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     /*
-* SELECT * FROM soldier WHERE rank = r;
-*/
+    * SELECT * FROM soldier WHERE rank = r;
+    */
     public List<DbSoldier> getSoldiersWithRank(int soldier_rank) {
         List<DbSoldier> soldiers = new ArrayList<DbSoldier>();
-        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " WHERE " + KEY_RANK + " = " + soldier_rank + " ORDER BY " + KEY_LEVEL + " DESC";
+        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " WHERE " + KEY_RANK + " = " + soldier_rank + " ORDER BY " + KEY_LEVEL + " DESC ";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -188,6 +194,34 @@ public class DbHelper extends SQLiteOpenHelper {
             c.moveToFirst();
 
         return c.getInt(c.getColumnIndex("maxLevel"));
+    }
+
+    /*
+* SELECT * FROM soldier ORDER BY level DESC;
+* */
+    public List<DbSoldier> getLimitedSoldiers() {
+        List<DbSoldier> soldiers = new ArrayList<DbSoldier>();
+        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " ORDER BY " + KEY_LEVEL + " DESC " + " LIMIT " + maxArmySize;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                DbSoldier soldier = new DbSoldier();
+                soldier.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                soldier.setName((c.getString(c.getColumnIndex(KEY_NAME))));
+                soldier.setLevel(c.getInt(c.getColumnIndex(KEY_LEVEL)));
+                soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
+                soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+
+                // adding to soldier list
+                soldiers.add(soldier);
+            } while (c.moveToNext());
+        }
+
+        return soldiers;
     }
 
     /*
@@ -252,6 +286,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, fight.getName());
+        values.put(KEY_PLAYER_LEVEL,fight.getPlayerLevel());
         values.put(KEY_STRENGTH,fight.getStrength());
         values.put(KEY_MAX_LEVEL, fight.getMaxLevel());
         values.put(KEY_CREATED_AT, getDateTime());
@@ -279,6 +314,7 @@ public class DbHelper extends SQLiteOpenHelper {
         DbFight fight = new DbFight();
         fight.setId(c.getInt(c.getColumnIndex(KEY_ID)));
         fight.setName((c.getString(c.getColumnIndex(KEY_NAME))));
+        fight.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
         fight.setStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
         fight.setMaxLevel(c.getInt(c.getColumnIndex(KEY_MAX_LEVEL)));
         fight.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
@@ -303,6 +339,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbFight fight = new DbFight();
                 fight.setId(c.getInt(c.getColumnIndex(KEY_ID)));
                 fight.setName((c.getString(c.getColumnIndex(KEY_NAME))));
+                fight.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
                 fight.setStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
                 fight.setMaxLevel(c.getInt(c.getColumnIndex(KEY_MAX_LEVEL)));
                 fight.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
@@ -323,6 +360,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, fight.getName());
+        values.put(KEY_PLAYER_LEVEL,fight.getPlayerLevel());
         values.put(KEY_STRENGTH,fight.getStrength());
         values.put(KEY_MAX_LEVEL, fight.getMaxLevel());
         values.put(KEY_CREATED_AT, getDateTime());
@@ -342,16 +380,18 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     /*
-    * Creating a Fight
+    * Creating a History Entry
     */
     public long createHistory(DbHistory history) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_OWN_STRENGTH,history.getOwnStrength());
+        values.put(KEY_OWN_PLAYER_LEVEL, history.getOwnPlayerLevel());
+        values.put(KEY_OWN_STRENGTH, history.getOwnStrength());
         values.put(KEY_OWN_MAX_LEVEL, history.getOwnMaxLevel());
         values.put(KEY_ENEMY_NAME, history.getEnemyName());
-        values.put(KEY_ENEMY_STRENGTH,history.getEnemyStrength());
+        values.put(KEY_ENEMY_PLAYER_LEVEL, history.getEnemyPlayerLevel());
+        values.put(KEY_ENEMY_STRENGTH, history.getEnemyStrength());
         values.put(KEY_ENEMY_MAX_LEVEL, history.getEnemyMaxLevel());
         values.put(KEY_RESULT, history.getResult());
         values.put(KEY_CREATED_AT, getDateTime());
@@ -378,9 +418,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
         DbHistory history = new DbHistory();
         history.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+        history.setOwnPlayerLevel(c.getInt(c.getColumnIndex(KEY_OWN_PLAYER_LEVEL)));
         history.setOwnStrength(c.getInt(c.getColumnIndex(KEY_OWN_STRENGTH)));
         history.setOwnMaxLevel(c.getInt(c.getColumnIndex(KEY_OWN_MAX_LEVEL)));
         history.setEnemyName(c.getString(c.getColumnIndex(KEY_ENEMY_NAME)));
+        history.setEnemyPlayerLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_PLAYER_LEVEL)));
         history.setEnemyStrength(c.getInt(c.getColumnIndex(KEY_ENEMY_STRENGTH)));
         history.setEnemyMaxLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_MAX_LEVEL)));
         history.setResult(c.getInt(c.getColumnIndex(KEY_RESULT)) > 0);
@@ -404,9 +446,11 @@ public class DbHelper extends SQLiteOpenHelper {
             do {
                 DbHistory history = new DbHistory();
                 history.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-                history.setOwnStrength((c.getInt(c.getColumnIndex(KEY_OWN_STRENGTH))));
-                history.setOwnMaxLevel((c.getInt(c.getColumnIndex(KEY_OWN_MAX_LEVEL))));
-                history.setEnemyName((c.getString(c.getColumnIndex(KEY_ENEMY_NAME))));
+                history.setOwnPlayerLevel(c.getInt(c.getColumnIndex(KEY_OWN_PLAYER_LEVEL)));
+                history.setOwnStrength(c.getInt(c.getColumnIndex(KEY_OWN_STRENGTH)));
+                history.setOwnMaxLevel(c.getInt(c.getColumnIndex(KEY_OWN_MAX_LEVEL)));
+                history.setEnemyName(c.getString(c.getColumnIndex(KEY_ENEMY_NAME)));
+                history.setEnemyPlayerLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_PLAYER_LEVEL)));
                 history.setEnemyStrength(c.getInt(c.getColumnIndex(KEY_ENEMY_STRENGTH)));
                 history.setEnemyMaxLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_MAX_LEVEL)));
                 history.setResult(c.getInt(c.getColumnIndex(KEY_RESULT)) > 0);
@@ -428,11 +472,13 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_OWN_STRENGTH,history.getOwnStrength());
+        values.put(KEY_OWN_PLAYER_LEVEL, history.getOwnPlayerLevel());
+        values.put(KEY_OWN_STRENGTH, history.getOwnStrength());
         values.put(KEY_OWN_MAX_LEVEL, history.getOwnMaxLevel());
         values.put(KEY_ENEMY_NAME, history.getEnemyName());
-        values.put(KEY_ENEMY_STRENGTH,history.getOwnStrength());
-        values.put(KEY_ENEMY_MAX_LEVEL, history.getOwnMaxLevel());
+        values.put(KEY_ENEMY_PLAYER_LEVEL, history.getEnemyPlayerLevel());
+        values.put(KEY_ENEMY_STRENGTH, history.getEnemyStrength());
+        values.put(KEY_ENEMY_MAX_LEVEL, history.getEnemyMaxLevel());
         values.put(KEY_RESULT, history.getResult());
         values.put(KEY_CREATED_AT, getDateTime());
 

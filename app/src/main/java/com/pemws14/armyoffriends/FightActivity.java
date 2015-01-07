@@ -2,26 +2,33 @@ package com.pemws14.armyoffriends;
 
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.pemws14.armyoffriends.database.DbBattle;
 import com.pemws14.armyoffriends.database.DbFight;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbHistory;
 import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.drawer.BaseActivity;
 
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 public class FightActivity extends BaseActivity implements FightResultDialogFragment.NoticeDialogListener{
@@ -30,7 +37,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     private DbHelper dbHelper;
     private DbHistory dbHistory;
 
-    private List<DbFight> fights;
+    private List<String[]> list;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter fightAdapter;
 
@@ -49,16 +56,16 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         parent.addView(view);
         //--> IN EVERY ACTIVITY WITH DRAWER
 
+        dbHelper = new DbHelper(getApplicationContext());
+
         //Set up View
         recyclerView = (RecyclerView)findViewById(R.id.fightListView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        //get data from Fight-DB
-        dbHelper = new DbHelper(getApplicationContext());
-        fights = dbHelper.getAllFights();
-        //fights = buildDummyData();
-        fightAdapter = new FightListAdapter(fights, getApplicationContext(), getFragmentManager());
+        // TODO: replace with real data
+        list = buildDummyData();
+        fightAdapter = new FightListAdapter(list, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(fightAdapter);
 
         //get and set own level and army strength
@@ -72,9 +79,11 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         // ownLevel.setText(level.toString());
     }
 
-    private List<DbFight> buildDummyData() {
+    private List<String[]> buildDummyData() {
+        String[] ranks = getResources().getStringArray(R.array.army_ranks);
         List<DbFight> fights;
-
+        List<String[]> enemies = new ArrayList<String[]>();
+        /*
         DbFight fight1 = new DbFight("abc",1,3);
         DbFight fight2 = new DbFight("def",2,4);
         DbFight fight3 = new DbFight("ghi",3,5);
@@ -94,23 +103,27 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         dbHelper.createFight(fight7);
         dbHelper.createFight(fight8);
         dbHelper.createFight(fight9);
-
+        */
         fights = dbHelper.getAllFights();
-        return fights;
+        for(DbFight fight:fights){
+            String[] enemy = new String[5];
+            enemy[0] = String.valueOf(fight.getId());
+            enemy[1] = fight.getName();
+            enemy[2] = String.valueOf(fight.getStrength());
+            enemy[3] = ranks[fight.getMaxLevel()];
+            enemy[4] = fight.getCreated_at();
+            enemies.add(enemy);
+        }
+        return enemies;
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, int fightId, int position) throws InterruptedException {
         dialog.dismiss();
         DbFight dbFight = dbHelper.getFight(fightId);
-
         // FIGHT INCL DELAY -
         // TODO: PROGRESS BAR OR DIE!
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(1000);
         result = GameMechanics.getFightResult(ownStrength, dbFight.getStrength());
 
         // SAVE RESULT IN HISTORY-DB
@@ -118,8 +131,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         dbHelper.createHistory(dbHistory);
 
         // REMOVE FIGTH FROM FIGHT-DB UPDATE ACTIVITY
-        System.out.println(position);
-        fights.remove(position);
+        list.remove(position);
         fightAdapter.notifyItemRemoved(position);
         fightAdapter.notifyDataSetChanged();
         dbHelper.deleteFight(fightId);
