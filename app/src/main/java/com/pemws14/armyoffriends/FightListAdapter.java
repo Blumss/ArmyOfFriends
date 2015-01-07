@@ -31,6 +31,7 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
         // each data item is just a string in this case
         public ImageView profilePic;
         public TextView name;
+        public TextView level;
         public TextView strength;
         public TextView bestFighter;
         public Button fightButton;
@@ -40,6 +41,7 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
 
             profilePic = (ImageView) v.findViewById(R.id.fight_list_picture);
             name = (TextView) v.findViewById(R.id.fight_list_name);
+            level = (TextView) v.findViewById(R.id.fight_list_level);
             strength = (TextView) v.findViewById(R.id.fight_list_strength);
             bestFighter = (TextView) v.findViewById(R.id.fight_list_bestFighter);
             fightButton = (Button) v.findViewById(R.id.fight_list_button);
@@ -69,6 +71,7 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
         // - replace the contents of the view with that element
         final String fightId = mDataset.get(position)[0];
         final String enemyName =  mDataset.get(position)[1];
+        final String enemyLevel = mDataset.get(position)[2];
         final String enemyStrength =  mDataset.get(position)[3];
         String enemyBest =  mDataset.get(position)[4];
         String fightCreated =  mDataset.get(position)[5];
