@@ -41,7 +41,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     Button locButton;
     ImageView armyButton;
     ImageView fightButton;
-    ImageView latestButton;
+    ImageView historyButton;
     ImageView profileButton;
   //  Button loginButton;
   //  Button logoutButton;
@@ -89,7 +89,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         locButton = (Button)findViewById(R.id.LocationButton);
         armyButton = (ImageView)findViewById(R.id.main_army);
         fightButton = (ImageView)findViewById(R.id.main_fight);
-        latestButton = (ImageView)findViewById(R.id.main_latest);
+        historyButton = (ImageView)findViewById(R.id.main_latest);
         profileButton = (ImageView)findViewById(R.id.main_profile);
       //  loginButton = (Button)findViewById(R.id.start_login_button);
       //  logoutButton = (Button)findViewById(R.id.Button_LogoutUsername);
@@ -154,10 +154,10 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         });
 
 
-        latestButton.setOnClickListener(new View.OnClickListener(){
+        historyButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LatestActionsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
                 startActivity(intent);
             }
         });

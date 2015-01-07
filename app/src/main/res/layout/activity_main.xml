@@ -47,7 +47,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:id="@+id/main_latest"
-            android:src="@drawable/ic_menu_recent"/>
+            android:src="@drawable/ic_menu_history"/>
 
         <ImageView
             android:layout_width="50dp"

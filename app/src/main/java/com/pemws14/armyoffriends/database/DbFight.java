@@ -1,27 +1,27 @@
 package com.pemws14.armyoffriends.database;
 
 public class DbFight {
-    int id;
-    String name;
-    int playerLevel;
-    int strength;
-    int maxLevel;
-    String created_at;
+    private int id;
+    private String name;
+    private int playerLevel;
+    private int strength;
+    private int maxLevel;
+    private String created_at;
 
     public DbFight() {
     }
 
     public DbFight(String name, int playerLevel, int strength, int maxLevel) {
-        this.name = name;
-        this.playerLevel = playerLevel;
-        this.strength = strength;
-        this.maxLevel = maxLevel;
+        this.setName(name);
+        this.setPlayerLevel(playerLevel);
+        this.setStrength(strength);
+        this.setMaxLevel(maxLevel);
     }
 
     public DbFight(int id, String name, int playerLevel, int strength, int maxLevel, String created_at) {
         this(name, playerLevel, strength,maxLevel);
-        this.id = id;
-        this.created_at = created_at;
+        this.setId(id);
+        this.setCreated_at(created_at);
     }
 
     public int getId() {
@@ -39,7 +39,6 @@ public class DbFight {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public int getPlayerLevel() {
         return playerLevel;

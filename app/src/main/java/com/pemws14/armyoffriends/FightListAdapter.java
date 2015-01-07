@@ -16,19 +16,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pemws14.armyoffriends.database.DbFight;
+
 import java.util.List;
 
 /**
  * Created by Martin on 27.12.2014.
  */
 public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.ViewHolder> {
-    private LayoutInflater layoutInflater;
-    private List<String[]> mDataset;
+    private List<DbFight> mDataset;
     public Context mContext;
     public FragmentManager mFragmentManager;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
         public ImageView profilePic;
         public TextView name;
         public TextView level;
@@ -48,45 +48,34 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public FightListAdapter(List<String[]> myDataset, Context context, FragmentManager fragmentManager) {
+    public FightListAdapter(List<DbFight> myDataset, Context context, FragmentManager fragmentManager) {
         mDataset = myDataset;
         mContext = context;
         mFragmentManager = fragmentManager;
     }
 
-    // Create new views (invoked by the layout manager)
     @Override
     public FightListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        // create a new view
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fight_list_layout, parent, false);
-        // set the view's size, margins, paddings and layout parameters
         return new ViewHolder(v);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        final String fightId = mDataset.get(position)[0];
-        final String enemyName =  mDataset.get(position)[1];
-        final String enemyLevel = mDataset.get(position)[2];
-        final String enemyStrength =  mDataset.get(position)[3];
-        String enemyBest =  mDataset.get(position)[4];
-        String fightCreated =  mDataset.get(position)[5];
+        String[] ranks = mContext.getResources().getStringArray(R.array.army_ranks);
+        final DbFight fight = mDataset.get(position);
 
-        holder.name.setText(enemyName);
-        holder.level.setText("Level: " + enemyLevel);
-        holder.strength.setText("Army strength: " + enemyStrength);
-        holder.bestFighter.setText("Best fighter: " + enemyBest);
+        holder.name.setText(fight.getName());
+        holder.strength.setText("Army strength: " + fight.getStrength());
+        holder.level.setText("Level: " + fight.getPlayerLevel());
+        holder.bestFighter.setText("Best fighter: " + ranks[fight.getMaxLevel()]);
 
         holder.fightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //Show dailog to confirm or cancel fight-action
-                FightResultDialogFragment dialog = FightResultDialogFragment.newInstance(enemyName, new Integer(fightId), position, "");
+                FightResultDialogFragment dialog = FightResultDialogFragment.newInstance(fight.getName(), fight.getId(), position, "");
                 FragmentTransaction ft = mFragmentManager.beginTransaction();
-                dialog.show(ft, enemyName);
+                dialog.show(ft, fight.getName());
             }
         });
 
