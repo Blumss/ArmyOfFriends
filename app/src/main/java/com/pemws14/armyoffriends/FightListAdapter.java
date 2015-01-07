@@ -77,6 +77,7 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
         String fightCreated =  mDataset.get(position)[5];
 
         holder.name.setText(enemyName);
+        holder.level.setText("Level: " + enemyLevel);
         holder.strength.setText("Army strength: " + enemyStrength);
         holder.bestFighter.setText("Best fighter: " + enemyBest);
 
