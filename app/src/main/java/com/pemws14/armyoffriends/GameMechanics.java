@@ -155,7 +155,7 @@ public class GameMechanics {
     returns absolute amount of EP necessary for next player level
      */
     public static int getEpForPlayerLevelUp(int playerLevel){
-        return (int) (EP_BLOW_UP*Math.pow(playerLevel+1,2.0));
+        return (int) (EP_BLOW_UP*Math.pow(playerLevel,2.0));
     }
 
     /*
