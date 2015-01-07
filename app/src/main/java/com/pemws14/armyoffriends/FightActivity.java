@@ -71,7 +71,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         //get and set own level and army strength
         TextView armyStrength = (TextView) view.findViewById(R.id.fight_info_strength);
         TextView ownLevel = (TextView) view.findViewById(R.id.fight_info_level);
-        List<DbSoldier> getSoldiers = dbHelper.getAllSoldiers();
+        List<DbSoldier> getSoldiers = dbHelper.getLimitedSoldiers();
         ownStrength = GameMechanics.getArmyStrength(getSoldiers);
         armyStrength.setText(ownStrength.toString());
         // TODO: show own level (see commentary)
