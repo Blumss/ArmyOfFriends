@@ -4,6 +4,7 @@
     <style name="OurAppTheme" parent="ThemeOverlay.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="android:actionBarStyle">@style/OurActionBar</item>
+        <item name="android:alertDialogStyle">@style/OurAlertDialog</item>
         <item name="colorPrimary">#86272D</item>
         <item name="colorAccent">#515151</item>
     </style>
@@ -11,6 +12,13 @@
     <style name="OurActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">#86272D</item>
         <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="OurAlertDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:background">#86272D</item>
+        <item name="android:textColorPrimary">#fff</item>
+        <item name="colorPrimary">#86272D</item>
+        <item name="colorAccent">#fff</item>
     </style>
 
     <style name="OurDrawerTheme" parent="Theme.AppCompat">

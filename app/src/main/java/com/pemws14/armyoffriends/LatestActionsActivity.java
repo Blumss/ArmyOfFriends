@@ -1,11 +1,16 @@
 package com.pemws14.armyoffriends;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.pemws14.armyoffriends.drawer.BaseActivity;
+
+import java.util.List;
 
 
 public class LatestActionsActivity extends BaseActivity {
@@ -21,6 +26,8 @@ public class LatestActionsActivity extends BaseActivity {
         view = LayoutInflater.from(this).inflate(R.layout.activity_latest_actions, parent, false);
         parent.addView(view);
         //--> IN EVERY ACTIVITY WITH DRAWER
+
+
     }
 
 

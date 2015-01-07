@@ -1,6 +1,9 @@
 package com.pemws14.armyoffriends;
 
 import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +25,7 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
     private LayoutInflater layoutInflater;
     private List<String[]> mDataset;
     public Context mContext;
+    public FragmentManager mFragmentManager;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -43,9 +47,10 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public FightListAdapter(List<String[]> myDataset, Context context) {
+    public FightListAdapter(List<String[]> myDataset, Context context, FragmentManager fragmentManager) {
         mDataset = myDataset;
         mContext = context;
+        mFragmentManager = fragmentManager;
     }
 
     // Create new views (invoked by the layout manager)
@@ -59,29 +64,30 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final String fight_id = mDataset.get(position)[0];
-        String fight_name =  mDataset.get(position)[1];
-        String fight_strength =  mDataset.get(position)[2];
-        String fight_best =  mDataset.get(position)[3];
-        String fight_created =  mDataset.get(position)[4];
+        final String fightId = mDataset.get(position)[0];
+        final String enemyName =  mDataset.get(position)[1];
+        final String enemyStrength =  mDataset.get(position)[2];
+        String enemyBest =  mDataset.get(position)[3];
+        String fightCreated =  mDataset.get(position)[4];
 
-        holder.name.setText(fight_name);
-        holder.strength.setText("Army strength: " + fight_strength);
-        holder.bestFighter.setText("Best fighter: " + fight_best);
+        holder.name.setText(enemyName);
+        holder.strength.setText("Army strength: " + enemyStrength);
+        holder.bestFighter.setText("Best fighter: " + enemyBest);
 
         holder.fightButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext,"You want to fight " + fight_id, Toast.LENGTH_SHORT).show();
+            public void onClick(View v) { //Show dailog to confirm or cancel fight-action
+                FightResultDialogFragment dialog = FightResultDialogFragment.newInstance(enemyName, new Integer(fightId), position, "");
+                FragmentTransaction ft = mFragmentManager.beginTransaction();
+                dialog.show(ft, enemyName);
             }
         });
 
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mDataset.size();
