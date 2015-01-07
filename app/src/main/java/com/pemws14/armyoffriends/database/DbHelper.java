@@ -28,20 +28,19 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String TABLE_SOLDIER = "soldier";
     private static final String TABLE_FIGHT = "fight";
     private static final String TABLE_HISTORY = "history";
+    private static final String TABLE_PROFILE = "profile";
 
     // Common column names
     private static final String KEY_ID = "id";
     private static final String KEY_CREATED_AT = "created_at";
-    private static final String KEY_NAME = "name";
-
-    // soldier Table - column names
-    private static final String KEY_LEVEL = "level";
-    private static final String KEY_RANK = "rank";
-
-    // fight Table - column names
+    private static final String KEY_PLAYER_NAME = "name";
     private static final String KEY_PLAYER_LEVEL = "player_level";
     private static final String KEY_STRENGTH = "strength";
     private static final String KEY_MAX_LEVEL = "maxLevel";
+
+    // soldier Table - column names
+    private static final String KEY_SOLDIER_LEVEL = "level";
+    private static final String KEY_RANK = "rank";
 
     //history Table - column names
     private static final String KEY_OWN_PLAYER_LEVEL = "own_player_level";
@@ -53,17 +52,21 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_ENEMY_MAX_LEVEL = "enemy_max_level";
     private static final String KEY_RESULT = "result";
 
+    //profile Table - column names
+    private static final String KEY_USERID = "userID";
+    private static final String KEY_EP = "ep";
+
 
     // Table Create Statements
     // soldier table create statement
     private static final String CREATE_TABLE_SOLDIER = "CREATE TABLE "
-            + TABLE_SOLDIER + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME
-            + " TEXT," + KEY_LEVEL + " INTEGER," + KEY_RANK + " INTEGER," + KEY_CREATED_AT
+            + TABLE_SOLDIER + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_PLAYER_NAME
+            + " TEXT," + KEY_SOLDIER_LEVEL + " INTEGER," + KEY_RANK + " INTEGER," + KEY_CREATED_AT
             + " DATETIME" + ")";
 
     // fight table create statement
     private static final String CREATE_TABLE_FIGHT = "CREATE TABLE "
-            + TABLE_FIGHT + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME
+            + TABLE_FIGHT + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_PLAYER_NAME
             + " TEXT," + KEY_PLAYER_LEVEL + " INTEGER," + KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
             + " DATETIME" + ")";
 
@@ -73,6 +76,12 @@ public class DbHelper extends SQLiteOpenHelper {
             + KEY_OWN_STRENGTH + " INTEGER," + KEY_OWN_MAX_LEVEL + " INTEGER,"  + KEY_ENEMY_NAME + " TEXT,"
             + KEY_ENEMY_PLAYER_LEVEL + " INTEGER,"+ KEY_ENEMY_STRENGTH + " INTEGER," + KEY_ENEMY_MAX_LEVEL + " INTEGER,"
             + KEY_RESULT + " BOOLEAN," + KEY_CREATED_AT + " DATETIME" + ")";
+
+    //profile table create statement
+    private static final String CREATE_TABLE_PROFILE = "CREATE TABLE "
+            + TABLE_PROFILE + "(" + KEY_USERID + " INTEGER PRIMARY KEY," + KEY_PLAYER_NAME
+            + " TEXT," + KEY_PLAYER_LEVEL + " INTEGER," + KEY_EP + " INTEGER," +  KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
+            + " DATETIME" + ")";
 
 
     public DbHelper(Context context) {
@@ -86,6 +95,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_SOLDIER);
         db.execSQL(CREATE_TABLE_FIGHT);
         db.execSQL(CREATE_TABLE_HISTORY);
+        db.execSQL(CREATE_TABLE_PROFILE);
     }
 
     @Override
@@ -94,6 +104,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SOLDIER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FIGHT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILE);
         // create new tables
         onCreate(db);
     }
@@ -109,6 +120,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SOLDIER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FIGHT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILE);
     }
 
     /*
@@ -118,8 +130,8 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, soldier.getName());
-        values.put(KEY_LEVEL, soldier.getLevel());
+        values.put(KEY_PLAYER_NAME, soldier.getName());
+        values.put(KEY_SOLDIER_LEVEL, soldier.getLevel());
         values.put(KEY_RANK, soldier.getRank());
         values.put(KEY_CREATED_AT, getDateTime());
 
@@ -145,8 +157,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
         DbSoldier soldier = new DbSoldier();
         soldier.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-        soldier.setName((c.getString(c.getColumnIndex(KEY_NAME))));
-        soldier.setLevel(c.getInt(c.getColumnIndex(KEY_LEVEL)));
+        soldier.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+        soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
         soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
         soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
 
@@ -158,7 +170,7 @@ public class DbHelper extends SQLiteOpenHelper {
     */
     public List<DbSoldier> getSoldiersWithRank(int soldier_rank) {
         List<DbSoldier> soldiers = new ArrayList<DbSoldier>();
-        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " WHERE " + KEY_RANK + " = " + soldier_rank + " ORDER BY " + KEY_LEVEL + " DESC ";
+        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " WHERE " + KEY_RANK + " = " + soldier_rank + " ORDER BY " + KEY_SOLDIER_LEVEL + " DESC ";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -167,8 +179,8 @@ public class DbHelper extends SQLiteOpenHelper {
             do {
                 DbSoldier soldier = new DbSoldier();
                 soldier.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-                soldier.setName((c.getString(c.getColumnIndex(KEY_NAME))));
-                soldier.setLevel(c.getInt(c.getColumnIndex(KEY_LEVEL)));
+                soldier.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+                soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
                 soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
                 soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
 
@@ -186,7 +198,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public int getMaxLevel() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String selectQuery = "SELECT MAX(" + KEY_LEVEL + ") AS maxLevel FROM " + TABLE_SOLDIER ;
+        String selectQuery = "SELECT MAX(" + KEY_SOLDIER_LEVEL + ") AS maxLevel FROM " + TABLE_SOLDIER ;
 
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -201,7 +213,7 @@ public class DbHelper extends SQLiteOpenHelper {
 * */
     public List<DbSoldier> getLimitedSoldiers() {
         List<DbSoldier> soldiers = new ArrayList<DbSoldier>();
-        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " ORDER BY " + KEY_LEVEL + " DESC " + " LIMIT " + maxArmySize;
+        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " ORDER BY " + KEY_SOLDIER_LEVEL + " DESC " + " LIMIT " + maxArmySize;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -211,8 +223,8 @@ public class DbHelper extends SQLiteOpenHelper {
             do {
                 DbSoldier soldier = new DbSoldier();
                 soldier.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-                soldier.setName((c.getString(c.getColumnIndex(KEY_NAME))));
-                soldier.setLevel(c.getInt(c.getColumnIndex(KEY_LEVEL)));
+                soldier.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+                soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
                 soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
                 soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
 
@@ -229,7 +241,7 @@ public class DbHelper extends SQLiteOpenHelper {
     * */
     public List<DbSoldier> getAllSoldiers() {
         List<DbSoldier> soldiers = new ArrayList<DbSoldier>();
-        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " ORDER BY " + KEY_LEVEL + " DESC";
+        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " ORDER BY " + KEY_SOLDIER_LEVEL + " DESC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -239,8 +251,8 @@ public class DbHelper extends SQLiteOpenHelper {
             do {
                 DbSoldier soldier = new DbSoldier();
                 soldier.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-                soldier.setName((c.getString(c.getColumnIndex(KEY_NAME))));
-                soldier.setLevel(c.getInt(c.getColumnIndex(KEY_LEVEL)));
+                soldier.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+                soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
                 soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
                 soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
 
@@ -259,8 +271,8 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, soldier.getName());
-        values.put(KEY_LEVEL, soldier.getLevel());
+        values.put(KEY_PLAYER_NAME, soldier.getName());
+        values.put(KEY_SOLDIER_LEVEL, soldier.getLevel());
         values.put(KEY_RANK, soldier.getRank());
         values.put(KEY_CREATED_AT, soldier.getCreated_at());
 
@@ -285,7 +297,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, fight.getName());
+        values.put(KEY_PLAYER_NAME, fight.getName());
         values.put(KEY_PLAYER_LEVEL,fight.getPlayerLevel());
         values.put(KEY_STRENGTH,fight.getStrength());
         values.put(KEY_MAX_LEVEL, fight.getMaxLevel());
@@ -313,7 +325,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         DbFight fight = new DbFight();
         fight.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-        fight.setName((c.getString(c.getColumnIndex(KEY_NAME))));
+        fight.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
         fight.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
         fight.setStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
         fight.setMaxLevel(c.getInt(c.getColumnIndex(KEY_MAX_LEVEL)));
@@ -338,7 +350,7 @@ public class DbHelper extends SQLiteOpenHelper {
             do {
                 DbFight fight = new DbFight();
                 fight.setId(c.getInt(c.getColumnIndex(KEY_ID)));
-                fight.setName((c.getString(c.getColumnIndex(KEY_NAME))));
+                fight.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
                 fight.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
                 fight.setStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
                 fight.setMaxLevel(c.getInt(c.getColumnIndex(KEY_MAX_LEVEL)));
@@ -359,7 +371,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, fight.getName());
+        values.put(KEY_PLAYER_NAME, fight.getName());
         values.put(KEY_PLAYER_LEVEL,fight.getPlayerLevel());
         values.put(KEY_STRENGTH,fight.getStrength());
         values.put(KEY_MAX_LEVEL, fight.getMaxLevel());
@@ -488,12 +500,87 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     /*
-    * Deleting a fight
+    * Deleting a history entry
     */
     public void deleteHistory(long history_id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_HISTORY, KEY_ID + " = ?",
                 new String[] { String.valueOf(history_id) });
+    }
+
+    /*
+     * Create Profile
+     */
+    public long createProfile(DbProfile profile) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_USERID, profile.getUserID());
+        values.put(KEY_PLAYER_NAME, profile.getUserName());
+        values.put(KEY_PLAYER_LEVEL,profile.getPlayerLevel());
+        values.put(KEY_EP,profile.getEp());
+        values.put(KEY_STRENGTH,profile.getArmyStrength());
+        values.put(KEY_MAX_LEVEL, profile.getMaxSoldierLevel());
+        values.put(KEY_CREATED_AT, getDateTime());
+
+        // insert row
+        long profile_id = db.insert(TABLE_PROFILE, null, values);
+
+        return profile_id;
+    }
+
+    /*
+    * Updating a profile
+    */
+    public int updateProfile(DbProfile profile) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_PLAYER_NAME, profile.getUserName());
+        values.put(KEY_PLAYER_LEVEL,profile.getPlayerLevel());
+        values.put(KEY_EP,profile.getEp());
+        values.put(KEY_STRENGTH,profile.getArmyStrength());
+        values.put(KEY_MAX_LEVEL, profile.getMaxSoldierLevel());
+        values.put(KEY_CREATED_AT, getDateTime());
+
+        // updating row
+        return db.update(TABLE_PROFILE, values, KEY_USERID + " = ?",
+                new String[] { String.valueOf(profile.getUserID()) });
+    }
+
+    /*
+    * SELECT * FROM profile LIMIT 1;
+    */
+    public DbProfile getProfile(int userID) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_PROFILE + " WHERE "
+                + KEY_USERID + " = " + userID;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        DbProfile profile = new DbProfile();
+        profile.setUserID((c.getInt(c.getColumnIndex(KEY_USERID))));
+        profile.setUserName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+        profile.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
+        profile.setEp(c.getInt(c.getColumnIndex(KEY_EP)));
+        profile.setArmyStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
+        profile.setMaxSoldierLevel(c.getInt(c.getColumnIndex(KEY_MAX_LEVEL)));
+        profile.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+
+        return profile;
+    }
+
+    /*
+    * Deleting a profile
+    */
+    public void deleteProfile(int userID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_PROFILE, KEY_USERID + " = ?",
+                new String[] { String.valueOf(userID) });
     }
 
     private String getDateTime() {

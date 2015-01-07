@@ -3,26 +3,25 @@ package com.pemws14.armyoffriends.database;
 import com.pemws14.armyoffriends.GameMechanics;
 
 public class DbSoldier {
-
-    int id;
-    String name;
-    int level;
-    int rank;
-    String created_at;
+    private int id;
+    private String name;
+    private int level;
+    private int rank;
+    private String created_at;
 
     public DbSoldier() {
     }
 
     public DbSoldier(String name, int level) {
-        this.name = name;
-        this.level = level;
-        this.rank = GameMechanics.getRankByLevel(level);
+        this.setName(name);
+        this.setLevel(level);
+        this.setRank(GameMechanics.getRankByLevel(level));
     }
 
     public DbSoldier(int id, String name, int level, int rank, String created_at) {
         this(name, level);
-        this.id = id;
-        this.created_at = created_at;
+        this.setId(id);
+        this.setCreated_at(created_at);
     }
 
     public int getId() {
