@@ -176,6 +176,15 @@ public class GameMechanics {
     }
 
     /*
+    returns EP progress of current level in percentage
+    */
+    public static double getPlayerLevelProgress(int ep){
+        int epToReachCurrentLevel = getEpForPlayerLevelUp(getPlayerLevelForEp(ep)-1);
+        int epNextLevel = getEpForPlayerLevelUp(getPlayerLevelForEp(ep));
+        return (ep-epToReachCurrentLevel)/(epNextLevel-epToReachCurrentLevel);
+    }
+
+    /*
     returns level multiplier used in randomEncounterLevel
     if r = 0 then 0.5
     if r = 1 then 1.5

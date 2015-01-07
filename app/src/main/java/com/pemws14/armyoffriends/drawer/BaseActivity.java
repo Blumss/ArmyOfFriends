@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.pemws14.armyoffriends.FightActivity;
 import com.pemws14.armyoffriends.ImpressumActivity;
@@ -25,6 +26,11 @@ import java.util.ArrayList;
 
 
 public class BaseActivity extends ActionBarActivity {
+    private TextView profileUsername;
+    private TextView profileLevel;
+    private TextView profileArmyStrength;
+    private View profileEpBarInner;
+    private View profileEpBarOuter;
 
     private String[] navMenuTitles;
     private TypedArray navMenuIcons;
@@ -41,6 +47,7 @@ public class BaseActivity extends ActionBarActivity {
     //used to store app title
     private CharSequence mTitle;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +56,28 @@ public class BaseActivity extends ActionBarActivity {
 
     //public void set(String[] navMenuTitles, TypedArray navMenuIcons) {
     public void set() {
+        //--------------
+        //set profile data
+        //--------------
+        profileUsername = (TextView) findViewById(R.id.left_drawer_user_profile_username);
+        //TODO an profil anbinden
+        profileUsername.setText("Schnabeltier");
+
+        profileLevel = (TextView) findViewById(R.id.left_drawer_user_profile_lvl_number);
+        //TODO an profil anbinden
+        profileLevel.setText("4");
+
+        profileArmyStrength = (TextView) findViewById(R.id.left_drawer_user_profile_armystrength_number);
+        //TODO an profil anbinden
+        profileArmyStrength.setText("17759");
+
+        profileEpBarOuter = (View) findViewById(R.id.left_drawer_user_profile_ep_outer);
+        profileEpBarInner = (View) findViewById(R.id.left_drawer_user_profile_ep_inner);
+
+
+        //-------------
+        //set menu
+        //-------------
         navMenuTitles = getResources().getStringArray(R.array.left_drawer_list_items);
         //load icons from strings.xml
         navMenuIcons = getResources().obtainTypedArray(R.array.left_drawer_list_icons);
