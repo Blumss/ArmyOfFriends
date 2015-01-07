@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.pemws14.armyoffriends.FightActivity;
 import com.pemws14.armyoffriends.ImpressumActivity;
-import com.pemws14.armyoffriends.LatestActionsActivity;
+import com.pemws14.armyoffriends.HistoryActivity;
 import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.YourArmyActivity;
 import com.pemws14.armyoffriends.YourProfileActivity;
@@ -190,8 +190,8 @@ public class BaseActivity extends ActionBarActivity {
                 }
                 break;
             case 2:
-                if (!title.equals("Latest Actions")) {
-                    Intent intent2 = new Intent(this, LatestActionsActivity.class);
+                if (!title.equals("History")) {
+                    Intent intent2 = new Intent(this, HistoryActivity.class);
                     startActivity(intent2);
                     finish();
                 }

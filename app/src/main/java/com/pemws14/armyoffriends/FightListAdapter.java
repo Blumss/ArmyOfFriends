@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pemws14.armyoffriends.database.DbFight;
+
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ import java.util.List;
  */
 public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.ViewHolder> {
     private LayoutInflater layoutInflater;
-    private List<String[]> mDataset;
+    private List<DbFight> mDataset;
     public Context mContext;
     public FragmentManager mFragmentManager;
 
@@ -47,7 +49,7 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public FightListAdapter(List<String[]> myDataset, Context context, FragmentManager fragmentManager) {
+    public FightListAdapter(List<DbFight> myDataset, Context context, FragmentManager fragmentManager) {
         mDataset = myDataset;
         mContext = context;
         mFragmentManager = fragmentManager;
@@ -67,11 +69,12 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        final String fightId = mDataset.get(position)[0];
-        final String enemyName =  mDataset.get(position)[1];
-        final String enemyStrength =  mDataset.get(position)[2];
-        String enemyBest =  mDataset.get(position)[3];
-        String fightCreated =  mDataset.get(position)[4];
+        String[] ranks = mContext.getResources().getStringArray(R.array.army_ranks);
+        DbFight fight = mDataset.get(position);
+        final int fightId = fight.getId();
+        final String enemyName = fight.getName();
+        int enemyStrength = fight.getStrength();
+        String enemyBest = ranks[fight.getMaxLevel()];
 
         holder.name.setText(enemyName);
         holder.strength.setText("Army strength: " + enemyStrength);
@@ -80,7 +83,7 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
         holder.fightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //Show dailog to confirm or cancel fight-action
-                FightResultDialogFragment dialog = FightResultDialogFragment.newInstance(enemyName, new Integer(fightId), position, "");
+                FightResultDialogFragment dialog = FightResultDialogFragment.newInstance(enemyName, fightId, position, "");
                 FragmentTransaction ft = mFragmentManager.beginTransaction();
                 dialog.show(ft, enemyName);
             }

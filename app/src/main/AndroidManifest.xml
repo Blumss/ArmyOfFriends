@@ -60,8 +60,8 @@
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name=".LatestActionsActivity"
-            android:label="@string/title_activity_latest_actions"
+            android:name=".HistoryActivity"
+            android:label="@string/title_activity_history"
             android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
