@@ -179,8 +179,8 @@ public class GameMechanics {
     returns EP progress of current level in percentage
     */
     public static double getPlayerLevelProgress(int ep){
-        int epToReachCurrentLevel = getEpForPlayerLevelUp(getPlayerLevelForEp(ep)-1);
-        int epNextLevel = getEpForPlayerLevelUp(getPlayerLevelForEp(ep));
+        double epToReachCurrentLevel = getEpForPlayerLevelUp(getPlayerLevelForEp(ep)-1);
+        double epNextLevel = getEpForPlayerLevelUp(getPlayerLevelForEp(ep));
         return (ep-epToReachCurrentLevel)/(epNextLevel-epToReachCurrentLevel);
     }
 
