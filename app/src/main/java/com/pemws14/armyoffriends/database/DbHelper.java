@@ -12,8 +12,11 @@ import java.util.List;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 
+import com.pemws14.armyoffriends.GameMechanics;
+
 public class DbHelper extends SQLiteOpenHelper {
 
+    private static final int maxArmySize = GameMechanics.getMaxArmySize(4); //TODO: get real current MaxArmySize
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -155,7 +158,7 @@ public class DbHelper extends SQLiteOpenHelper {
     */
     public List<DbSoldier> getSoldiersWithRank(int soldier_rank) {
         List<DbSoldier> soldiers = new ArrayList<DbSoldier>();
-        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " WHERE " + KEY_RANK + " = " + soldier_rank + " ORDER BY " + KEY_LEVEL + " DESC";
+        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " WHERE " + KEY_RANK + " = " + soldier_rank + " ORDER BY " + KEY_LEVEL + " DESC ";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
 
@@ -191,6 +194,34 @@ public class DbHelper extends SQLiteOpenHelper {
             c.moveToFirst();
 
         return c.getInt(c.getColumnIndex("maxLevel"));
+    }
+
+    /*
+* SELECT * FROM soldier ORDER BY level DESC;
+* */
+    public List<DbSoldier> getLimitedSoldiers() {
+        List<DbSoldier> soldiers = new ArrayList<DbSoldier>();
+        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " ORDER BY " + KEY_LEVEL + " DESC " + " LIMIT " + maxArmySize;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                DbSoldier soldier = new DbSoldier();
+                soldier.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                soldier.setName((c.getString(c.getColumnIndex(KEY_NAME))));
+                soldier.setLevel(c.getInt(c.getColumnIndex(KEY_LEVEL)));
+                soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
+                soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+
+                // adding to soldier list
+                soldiers.add(soldier);
+            } while (c.moveToNext());
+        }
+
+        return soldiers;
     }
 
     /*
