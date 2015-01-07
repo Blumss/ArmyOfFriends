@@ -69,9 +69,9 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
         // - replace the contents of the view with that element
         final String fightId = mDataset.get(position)[0];
         final String enemyName =  mDataset.get(position)[1];
-        final String enemyStrength =  mDataset.get(position)[2];
-        String enemyBest =  mDataset.get(position)[3];
-        String fightCreated =  mDataset.get(position)[4];
+        final String enemyStrength =  mDataset.get(position)[3];
+        String enemyBest =  mDataset.get(position)[4];
+        String fightCreated =  mDataset.get(position)[5];
 
         holder.name.setText(enemyName);
         holder.strength.setText("Army strength: " + enemyStrength);
