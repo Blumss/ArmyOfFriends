@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pemws14.armyoffriends.database.DbBattle;
 import com.pemws14.armyoffriends.database.DbFight;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbHistory;
@@ -37,10 +36,11 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     private DbHelper dbHelper;
     private DbHistory dbHistory;
 
-    private List<String[]> list;
+    private List<DbFight> fightList;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter fightAdapter;
 
+    private Integer level;
     private Integer ownStrength;
     private Boolean result;
 
@@ -56,16 +56,16 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         parent.addView(view);
         //--> IN EVERY ACTIVITY WITH DRAWER
 
-        dbHelper = new DbHelper(getApplicationContext());
-
         //Set up View
         recyclerView = (RecyclerView)findViewById(R.id.fightListView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // TODO: replace with real data
-        list = buildDummyData();
-        fightAdapter = new FightListAdapter(list, getApplicationContext(), getFragmentManager());
+        dbHelper = new DbHelper(getApplicationContext());
+        // buildDummyData();
+        fightList = dbHelper.getAllFights();
+        fightAdapter = new FightListAdapter(fightList, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(fightAdapter);
 
         //get and set own level and army strength
@@ -74,25 +74,21 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         List<DbSoldier> getSoldiers = dbHelper.getAllSoldiers();
         ownStrength = GameMechanics.getArmyStrength(getSoldiers);
         armyStrength.setText(ownStrength.toString());
-        // TODO: show own level (see commentary)
-        // Integer level = GameMechanics.getLevel();
-        // ownLevel.setText(level.toString());
+
+        level = GameMechanics.getPlayerLevelForEp(1000); //TODO: remove dummy value EP = 1000
+        ownLevel.setText(level.toString());
     }
 
-    private List<String[]> buildDummyData() {
-        String[] ranks = getResources().getStringArray(R.array.army_ranks);
-        List<DbFight> fights;
-        List<String[]> enemies = new ArrayList<String[]>();
-        /*
-        DbFight fight1 = new DbFight("abc",1,3);
-        DbFight fight2 = new DbFight("def",2,4);
-        DbFight fight3 = new DbFight("ghi",3,5);
-        DbFight fight4 = new DbFight("jkl",3,2);
-        DbFight fight5 = new DbFight("mno",4,9);
-        DbFight fight6 = new DbFight("pqr",5,7);
-        DbFight fight7 = new DbFight("stu",6,1);
-        DbFight fight8 = new DbFight("vwx",7,6);
-        DbFight fight9 = new DbFight("yz0",8,0);
+    private void buildDummyData() {
+        DbFight fight1 = new DbFight("abc",1,1,3);
+        DbFight fight2 = new DbFight("def",2,2,4);
+        DbFight fight3 = new DbFight("ghi",3,3,5);
+        DbFight fight4 = new DbFight("jkl",3,3,2);
+        DbFight fight5 = new DbFight("mno",4,4,9);
+        DbFight fight6 = new DbFight("pqr",5,5,7);
+        DbFight fight7 = new DbFight("stu",6,6,1);
+        DbFight fight8 = new DbFight("vwx",7,7,6);
+        DbFight fight9 = new DbFight("yz0",8,8,0);
 
         dbHelper.createFight(fight1);
         dbHelper.createFight(fight2);
@@ -103,18 +99,6 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         dbHelper.createFight(fight7);
         dbHelper.createFight(fight8);
         dbHelper.createFight(fight9);
-        */
-        fights = dbHelper.getAllFights();
-        for(DbFight fight:fights){
-            String[] enemy = new String[5];
-            enemy[0] = String.valueOf(fight.getId());
-            enemy[1] = fight.getName();
-            enemy[2] = String.valueOf(fight.getStrength());
-            enemy[3] = ranks[fight.getMaxLevel()];
-            enemy[4] = fight.getCreated_at();
-            enemies.add(enemy);
-        }
-        return enemies;
     }
 
     @Override
@@ -124,14 +108,14 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         // FIGHT INCL DELAY -
         // TODO: PROGRESS BAR OR DIE!
         Thread.sleep(1000);
-        result = GameMechanics.getFightResult(ownStrength, dbFight.getStrength());
+        result = GameMechanics.getFightResult(ownStrength, dbFight.getStrength()) > 0 ? true : false;
 
         // SAVE RESULT IN HISTORY-DB
-        dbHistory = new DbHistory(result, dbFight.getName(), ownStrength, dbHelper.getMaxLevel(), dbFight.getStrength(), dbFight.getMaxLevel());
+        dbHistory = new DbHistory(level, ownStrength, dbHelper.getMaxLevel(), dbFight.getName(), dbFight.getPlayerLevel(), dbFight.getStrength(), dbFight.getMaxLevel(), result);
         dbHelper.createHistory(dbHistory);
 
         // REMOVE FIGTH FROM FIGHT-DB UPDATE ACTIVITY
-        list.remove(position);
+        fightList.remove(position);
         fightAdapter.notifyItemRemoved(position);
         fightAdapter.notifyDataSetChanged();
         dbHelper.deleteFight(fightId);
