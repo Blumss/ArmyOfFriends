@@ -2,36 +2,36 @@ package com.pemws14.armyoffriends.database;
 
 
 public class DbHistory {
-    int id;
-    int ownPlayerLevel;
-    int ownStrength;
-    int ownMaxLevel;
-    String enemyName;
-    int enemyPlayerLevel;
-    int enemyStrength;
-    int enemyMaxLevel;
-    boolean result;
-    String created_at;
+    private int id;
+    private int ownPlayerLevel;
+    private int ownStrength;
+    private int ownMaxLevel;
+    private String enemyName;
+    private int enemyPlayerLevel;
+    private int enemyStrength;
+    private int enemyMaxLevel;
+    private boolean result;
+    private String created_at;
 
 
     public DbHistory() {
     }
 
     public DbHistory(int ownPlayerLevel, int ownStrength, int ownMaxLevel, String enemyName, int enemyPlayerLevel, int enemyStrength, int enemyMaxLevel, boolean result) {
-        this.ownPlayerLevel = ownPlayerLevel;
-        this.ownStrength = ownStrength;
-        this.ownMaxLevel = ownMaxLevel;
-        this.enemyName = enemyName;
-        this.enemyPlayerLevel = enemyPlayerLevel;
-        this.enemyStrength = enemyStrength;
-        this.enemyMaxLevel = enemyMaxLevel;
-        this.result = result;
+        this.setOwnPlayerLevel(ownPlayerLevel);
+        this.setOwnStrength(ownStrength);
+        this.setOwnMaxLevel(ownMaxLevel);
+        this.setEnemyName(enemyName);
+        this.setEnemyPlayerLevel(enemyPlayerLevel);
+        this.setEnemyStrength(enemyStrength);
+        this.setEnemyMaxLevel(enemyMaxLevel);
+        this.setResult(result);
     }
 
     public DbHistory(int id, int ownPlayerLevel, int ownStrength, int ownMaxLevel, String enemyName, int enemyPlayerLevel, int enemyStrength, int enemyMaxLevel, boolean result, String created_at) {
         this(ownPlayerLevel, ownStrength, ownMaxLevel, enemyName, enemyPlayerLevel, enemyStrength, enemyMaxLevel, result);
-        this.id = id;
-        this.created_at = created_at;
+        this.setId(id);
+        this.setCreated_at(created_at);
     }
 
     public int getId() {
@@ -113,4 +113,5 @@ public class DbHistory {
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
     }
+
 }
