@@ -10,6 +10,9 @@ public class GameMechanics {
     private final static double RANK_UP_FACTOR = 1.1;
     private final static double LEVEL_UP_BONUS = 0.1;
     private final static int MAX_RANK = 10;
+    private final static int SIZE_MULT = 10;
+    private final static int EP_BLOW_UP = 100; //mehr Nullen bei der Belohnung -> mehr Zufriedenheit
+
 
     /*
     Victory equals result > 0 = Random >= Threshold (equals difficulty)
@@ -136,6 +139,54 @@ public class GameMechanics {
             armyStrength += getStrengthByLevel(var.getLevel());
         }
         return armyStrength;
+    }
+
+    /*
+    returns maximum amount of soldiers usable in battle (and battle only) for given level aka Battle Experience
+     */
+    public static int getMaxArmySize(int playerLevel){
+        return SIZE_MULT * playerLevel;
+    }
+
+    /*
+    returns absolute amount of EP necessary for next player level
+     */
+    public static int getEpForPlayerLevelUp(int playerLevel){
+        return (int) (EP_BLOW_UP*Math.pow(playerLevel+1,2.0));
+    }
+
+    /*
+    returns player level for given player EP
+     */
+    public static int getPlayerLevelForEp(int ep){
+        return (int) Math.floor(Math.sqrt(ep/EP_BLOW_UP)) + 1;
+    }
+
+    /*
+    returns Base EP reward to be multiplied with getFightResult
+    scales with enemy player level
+    beating lvl 50 player & army strength 1000 yields more reward than
+    beating lvl 45 player & army strength 1000
+     */
+    public static int getEpBaseReward(int enemyLevel){
+        return EP_BLOW_UP*enemyLevel;
+    }
+
+    /*
+    returns level multiplier used in randomEncounterLevel
+    if r = 0 then 0.5
+    if r = 1 then 1.5
+     */
+    public static double randomMult(){
+        double r = Math.random();
+        return 1.5*Math.asin(2*r-1)/Math.PI + 1.25;
+    }
+
+    /*
+    calculates level of daily challenge/random encounter for given own player Level
+     */
+    public static int randomEncounterLevel(int ownLevel){
+        return Math.round((float) (ownLevel * randomMult()));
     }
 
 }
