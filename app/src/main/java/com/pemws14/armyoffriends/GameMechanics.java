@@ -25,7 +25,10 @@ public class GameMechanics {
      */
     public static double getFightResult(int ownArmyStrength, int enemyArmyStrength){
         double r = Math.random();
-        double threshold = Math.pow(enemyArmyStrength, POW)/(Math.pow(ownArmyStrength, POW)+Math.pow(enemyArmyStrength, POW));
+        double threshold = 0;
+        if(ownArmyStrength != 0 || enemyArmyStrength != 0){
+            threshold = Math.pow(enemyArmyStrength, POW)/(Math.pow(ownArmyStrength, POW)+Math.pow(enemyArmyStrength, POW));
+        }
         return r >= threshold ? threshold/0.5 : 0;
     }
 
