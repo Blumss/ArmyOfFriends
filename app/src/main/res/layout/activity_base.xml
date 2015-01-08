@@ -75,7 +75,7 @@
                         </LinearLayout>
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="20dp"
+                            android:layout_height="5dp"
                             android:layout_marginRight="10dp"
                             android:layout_marginTop="2dp"
                             android:layout_marginBottom="2dp">
@@ -87,6 +87,7 @@
                                 android:indeterminate="false"
                                 android:progressDrawable="@drawable/layout_ep_bar"
  />
+                            <!--
                             <TextView
                                 android:id="@+id/left_drawer_user_profile_ep_number"
                                 android:layout_height="match_parent"
@@ -100,7 +101,7 @@
                                 android:layout_alignTop="@id/left_drawer_user_profile_ep_bar"
                                 android:layout_alignRight="@id/left_drawer_user_profile_ep_bar"
                                 android:layout_alignBottom="@id/left_drawer_user_profile_ep_bar"
-                            />
+                            /> -->
                         </RelativeLayout>
 
                         <LinearLayout

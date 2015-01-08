@@ -79,8 +79,8 @@ public class BaseActivity extends ActionBarActivity {
         int progress = (int)(100*GameMechanics.getPlayerLevelProgress(ep));
         profileEpBar.setProgress(progress);
 
-        profileEpNumber = (TextView) findViewById(R.id.left_drawer_user_profile_ep_number);
-        profileEpNumber.setText(" "+ ep);
+//        profileEpNumber = (TextView) findViewById(R.id.left_drawer_user_profile_ep_number);
+//        profileEpNumber.setText(" "+ ep);
 
 
 
