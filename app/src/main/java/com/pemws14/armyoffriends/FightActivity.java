@@ -68,15 +68,26 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         fightAdapter = new FightListAdapter(fightList, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(fightAdapter);
 
-        //get and set own level and army strength from Profile-DB
+        //get and set own level and army strength
         TextView armyStrength = (TextView) view.findViewById(R.id.fight_info_strength);
         TextView ownLevel = (TextView) view.findViewById(R.id.fight_info_level);
-        //TODO: get real userID
+
+        //TODO: get real userID (only one profile is saved on each device? so 0 might be ok?)
+        /*
         int userId = 0;
-        ownStrength = dbHelper.getProfile(userId).getArmyStrength();
+        ownStrength = new Integer(dbHelper.getProfile(userId).getArmyStrength()).toString();
         armyStrength.setText(ownStrength);
-        level = dbHelper.getProfile(userId).getPlayerLevel();
+        level = new Integer(dbHelper.getProfile(userId).getPlayerLevel()).toString();
+        ownLevel.setText(level);
+        */
+
+        //TODO: remove the part below when proper userID is received
+        List<DbSoldier> getSoldiers = dbHelper.getAllSoldiers();
+        ownStrength = GameMechanics.getArmyStrength(getSoldiers);
+        armyStrength.setText(ownStrength.toString());
+        level = GameMechanics.getPlayerLevelForEp(1000);
         ownLevel.setText(level.toString());
+        //TODO: remove the part above
     }
 
     private void buildDummyData() {
