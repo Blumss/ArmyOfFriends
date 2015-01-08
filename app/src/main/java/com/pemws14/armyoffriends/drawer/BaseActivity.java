@@ -12,10 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pemws14.armyoffriends.FightActivity;
+import com.pemws14.armyoffriends.GameMechanics;
 import com.pemws14.armyoffriends.ImpressumActivity;
 import com.pemws14.armyoffriends.HistoryActivity;
 import com.pemws14.armyoffriends.R;
@@ -29,8 +31,8 @@ public class BaseActivity extends ActionBarActivity {
     private TextView profileUsername;
     private TextView profileLevel;
     private TextView profileArmyStrength;
-    private View profileEpBarInner;
-    private View profileEpBarOuter;
+    private ProgressBar profileEpBar;
+    private TextView profileEpNumber;
 
     private String[] navMenuTitles;
     private TypedArray navMenuIcons;
@@ -71,8 +73,15 @@ public class BaseActivity extends ActionBarActivity {
         //TODO an profil anbinden
         profileArmyStrength.setText("17759");
 
-        profileEpBarOuter = (View) findViewById(R.id.left_drawer_user_profile_ep_outer);
-        profileEpBarInner = (View) findViewById(R.id.left_drawer_user_profile_ep_inner);
+        //TODO get real ep from DB
+        int ep = 33;
+        profileEpBar = (ProgressBar) findViewById(R.id.left_drawer_user_profile_ep_bar);
+        int progress = (int)(100*GameMechanics.getPlayerLevelProgress(ep));
+        profileEpBar.setProgress(progress);
+
+        profileEpNumber = (TextView) findViewById(R.id.left_drawer_user_profile_ep_number);
+        profileEpNumber.setText(" "+ ep);
+
 
 
         //-------------
