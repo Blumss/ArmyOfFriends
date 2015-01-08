@@ -8,10 +8,10 @@
 
     <!-- activity-Strings und -Icons -->
     <string-array name="left_drawer_list_items">
-        <item>Your Army</item>
+        <item>Army</item>
         <item>Fight</item>
         <item>History</item>
-        <item>Your Profile</item>
+        <item>Profile</item>
     </string-array>
 
     <array name="left_drawer_list_icons">
@@ -24,9 +24,9 @@
     <!-- Activity-Titles -->
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_fight">Fight</string>
-    <string name="title_activity_your_army">Your Army</string>
+    <string name="title_activity_your_army">Army</string>
     <string name="title_activity_history">History</string>
-    <string name="title_activity_your_profile">Your Profile</string>
+    <string name="title_activity_your_profile">Profile</string>
     <string name="title_activity_impressum">Impressum</string>
 
     <!-- rank-Strings und -Icons -->
@@ -129,5 +129,9 @@
     <string name="parse_client_key">KGS6HUZLE4oWBigpefoJiHr4GzmGO8WYmL3qYf69</string>
     <string name="title_activity_check_login_status">CheckLoginStatus</string>
     <string name="title_activity_test">Test</string>
+    <string name="level_label">Level: </string>
+    <string name="impressum_label">Impressum</string>
+    <string name="made_with_label">made with </string>
+    <string name="in_munich_label"> in Munich</string>
 
 </resources>

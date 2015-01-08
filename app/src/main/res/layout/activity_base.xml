@@ -62,7 +62,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="#fff"
                                 android:textSize="15sp"
-                                android:text="Level: "
+                                android:text="@string/level_label"
                                 android:textStyle="italic" />
 
                             <TextView
@@ -174,7 +174,7 @@
                     android:textSize="20sp"
                     android:paddingRight="40dp"
                     android:layout_toRightOf="@+id/icon"
-                    android:text="Impressum" />
+                    android:text="@string/impressum_label" />
             </RelativeLayout>
 
             <LinearLayout
@@ -191,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:textColor="#303030"
-                    android:text="made with " />
+                    android:text="@string/made_with_label" />
 
                 <ImageView
                     android:id="@+id/heart"
@@ -207,7 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:textColor="#303030"
-                    android:text=" in Munich" />
+                    android:text="@string/in_munich_label" />
             </LinearLayout>
         </RelativeLayout>
 </android.support.v4.widget.DrawerLayout>
