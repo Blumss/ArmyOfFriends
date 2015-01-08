@@ -61,21 +61,21 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        // TODO: replace with real data
+        //get fights
         dbHelper = new DbHelper(getApplicationContext());
         // buildDummyData();
         fightList = dbHelper.getAllFights();
         fightAdapter = new FightListAdapter(fightList, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(fightAdapter);
 
-        //get and set own level and army strength
+        //get and set own level and army strength from Profile-DB
         TextView armyStrength = (TextView) view.findViewById(R.id.fight_info_strength);
         TextView ownLevel = (TextView) view.findViewById(R.id.fight_info_level);
-        List<DbSoldier> getSoldiers = dbHelper.getAllSoldiers();
-        ownStrength = GameMechanics.getArmyStrength(getSoldiers);
-        armyStrength.setText(ownStrength.toString());
-
-        level = GameMechanics.getPlayerLevelForEp(1000); //TODO: remove dummy value EP = 1000
+        //TODO: get real userID
+        int userId = 0;
+        ownStrength = dbHelper.getProfile(userId).getArmyStrength();
+        armyStrength.setText(ownStrength);
+        level = dbHelper.getProfile(userId).getPlayerLevel();
         ownLevel.setText(level.toString());
     }
 
