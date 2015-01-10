@@ -385,7 +385,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     public void startLocationIntent(){
         System.out.println("MainActivity - startLocationIntent ");
         locationrequest = LocationRequest.create();
-        locationrequest.setInterval(100);
+        locationrequest.setInterval(200); // von 100 auf 200 geändert
         locationclient.requestLocationUpdates(locationrequest, mPendingIntent);
        // getTheLastLocation();
 

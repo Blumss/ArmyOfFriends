@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.LocationClient;
 import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -16,6 +15,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbSoldier;
+import com.pemws14.armyoffriends.database.ParseDb;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,6 +30,7 @@ public class BackgroundService extends Service {
     GameMechanics gameMechanics;
     UserProfile userProfile;
     List<DbSoldier> dbSoldiers;
+    ParseDb parseDb;
 
     Calendar cur_cal = Calendar.getInstance();
     public static int counter = 0; // zählt wie oft der Service schon gestartet wurde
@@ -52,6 +53,7 @@ public class BackgroundService extends Service {
     public ParseObject ArmyStrength ;
     int armyStrength;
     int defaultPlayerLevel = 1;
+    boolean armyExist;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -90,10 +92,13 @@ public class BackgroundService extends Service {
         userProfile = new UserProfile();
         dbHelper = new DbHelper(getApplicationContext());
         gameMechanics = new GameMechanics();
+        parseDb = new ParseDb();
+
         // Parse Test
       //  User = new ParseObject("TestObject");
         currentUser = ParseUser.getCurrentUser();
         ArmyStrength = new ParseObject("ArmyyStrength");
+        armyExist = parseDb.ArmyExists();
    //     currentUser.put("location",TestUserLocation);
 
       //  TestUser = new ParseObject("TestObject");
@@ -220,15 +225,13 @@ public class BackgroundService extends Service {
     }
     public void saveArmyStuff(){
 
-
-
         dbSoldiers = dbHelper.getAllSoldiers();
         System.out.println("dbSoldiers: "+dbSoldiers);
         armyStrength = gameMechanics.getArmyStrength(dbSoldiers);
         System.out.println("armyStrength: "+armyStrength);
-
-       armyStrengthQuery = ParseQuery.getQuery("ArmyyStrength");
-       // armyStrengthQuery.whereContains("UserID",currentUser.getObjectId());
+        /*
+        armyStrengthQuery = ParseQuery.getQuery("ArmyyStrength");
+        // armyStrengthQuery.whereContains("UserID",currentUser.getObjectId());
 
         armyStrengthQuery.getInBackground(currentUser.getUsername(), new GetCallback<ParseObject>() {
 
@@ -257,9 +260,17 @@ public class BackgroundService extends Service {
             }
         });
 
+        */
 
-                }
+        if(armyExist){
+            parseDb.updateArmy(armyStrength,dbHelper.getMaxLevel(),defaultPlayerLevel);
+            armyExist= true;
+        }else{
+            parseDb.createArmy(currentUser,armyStrength,dbHelper.getMaxLevel(),defaultPlayerLevel);
+            armyExist= true;
+        }
 
 
-            }
+    }
+}
 
