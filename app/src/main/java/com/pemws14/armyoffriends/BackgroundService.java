@@ -1,5 +1,8 @@
 package com.pemws14.armyoffriends;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
@@ -26,11 +29,20 @@ import java.util.List;
  */
 public class BackgroundService extends Service {
 
+    String longText = "You met someone!";
+    String shortText = "You met someone!";
+    String notiTitle = "Army of Friends";
+    String fightAction = "Fight!";
+    String armyAction = "Your Army";
+    String yourProfile = "Your Profile";
+
     DbHelper dbHelper;
     GameMechanics gameMechanics;
     UserProfile userProfile;
     List<DbSoldier> dbSoldiers;
     ParseDb parseDb;
+
+
 
     Calendar cur_cal = Calendar.getInstance();
     public static int counter = 0; // zählt wie oft der Service schon gestartet wurde
@@ -98,7 +110,7 @@ public class BackgroundService extends Service {
       //  User = new ParseObject("TestObject");
         currentUser = ParseUser.getCurrentUser();
         ArmyStrength = new ParseObject("ArmyyStrength");
-        armyExist = parseDb.ArmyExists();
+
    //     currentUser.put("location",TestUserLocation);
 
       //  TestUser = new ParseObject("TestObject");
@@ -181,6 +193,12 @@ public class BackgroundService extends Service {
                     if(numberUsers>=2){
                         ParseObject pO = parseUsers.get(1);
                         System.out.println("ID: "+pO.getObjectId());
+                        displayNotification();
+                    }
+                    for(int i=0;i<numberUsers;i++){
+                        ParseUser pu = parseUsers.get(i);
+                        currentUser.add("metPeopleToday", pu);
+                        currentUser.saveInBackground();
                     }
 
                 } else {
@@ -229,47 +247,39 @@ public class BackgroundService extends Service {
         System.out.println("dbSoldiers: "+dbSoldiers);
         armyStrength = gameMechanics.getArmyStrength(dbSoldiers);
         System.out.println("armyStrength: "+armyStrength);
-        /*
-        armyStrengthQuery = ParseQuery.getQuery("ArmyyStrength");
-        // armyStrengthQuery.whereContains("UserID",currentUser.getObjectId());
 
-        armyStrengthQuery.getInBackground(currentUser.getUsername(), new GetCallback<ParseObject>() {
+        parseDb.newArmy(armyStrength,dbHelper.getMaxLevel(),defaultPlayerLevel);
+    }
 
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                if (e == null) {
-                    System.out.println("e == null");
-                    // ArmyStrength.put("UserID",currentUser); // UserID
-                    //  ArmyStrength.put("refkey_ID",currentUser); // refkey_ID
-                    //  ArmyStrength.put("ref_username",currentUser.getUsername()); // ref_username
-                    ArmyStrength.put("army_strength", armyStrength); // army_strength
-                    ArmyStrength.put("maxLevel", dbHelper.getMaxLevel()); // maxLevel
-                    ArmyStrength.put("player_level", defaultPlayerLevel); //  Player Level
-                  //  ArmyStrength.saveInBackground();
-                } else {
-                    System.out.println("e != null");
-                    ArmyStrength.put("UserID", currentUser); // UserID
-                    ArmyStrength.put("refkey_ID", currentUser); // refkey_ID
-                    ArmyStrength.put("ref_username", currentUser.getUsername()); // ref_username
-                    ArmyStrength.put("army_strength", armyStrength); // army_strength
-                    ArmyStrength.put("maxLevel", dbHelper.getMaxLevel()); // maxLevel
-                    ArmyStrength.put("player_level", defaultPlayerLevel); //  Player Level
-                 //   ArmyStrength.saveInBackground();
-               }
-                ArmyStrength.saveInBackground();
-            }
-        });
+    protected void displayNotification() {
 
-        */
+        Intent MainAIntent = new Intent(this, MainActivity.class);
+        Intent FightAIntent = new Intent(this, FightActivity.class);
+        Intent ArmyAIntent = new Intent(this, YourArmyActivity.class);
+        Intent ProfileAIntent = new Intent(this, YourProfileActivity.class);
 
-        if(armyExist){
-            parseDb.updateArmy(armyStrength,dbHelper.getMaxLevel(),defaultPlayerLevel);
-            armyExist= true;
-        }else{
-            parseDb.createArmy(currentUser,armyStrength,dbHelper.getMaxLevel(),defaultPlayerLevel);
-            armyExist= true;
-        }
+        PendingIntent MainApIntent = PendingIntent.getActivity(this, 0, MainAIntent, 0);
+        PendingIntent FightApIntent = PendingIntent.getActivity(this, 0, FightAIntent, 0);
+        PendingIntent ArmyApIntent = PendingIntent.getActivity(this, 0, ArmyAIntent, 0);
+        PendingIntent ProfileApIntent = PendingIntent.getActivity(this, 0, ProfileAIntent, 0);
 
+
+        Notification noti = new Notification.Builder(this)
+                .setContentTitle(notiTitle)
+                .setContentText(shortText)
+                .setStyle(new Notification.BigTextStyle().bigText(longText))
+                .setSmallIcon(R.drawable.com_parse_ui_app_logo)
+                .setContentIntent(MainApIntent)
+                .addAction(R.drawable.ic_menu_fight, fightAction, FightApIntent)
+                .addAction(R.drawable.ic_menu_army, armyAction, ArmyApIntent)
+                .addAction(R.drawable.ic_menu_profile, yourProfile, ProfileApIntent)
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify(0, noti);
 
     }
 }

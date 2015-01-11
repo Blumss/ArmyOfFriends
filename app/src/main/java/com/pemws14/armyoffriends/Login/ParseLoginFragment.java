@@ -44,11 +44,14 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.twitter.Twitter;
 import com.pemws14.armyoffriends.R;
+import com.pemws14.armyoffriends.database.ParseDb;
 
 /**
  * Fragment for the user login screen.
  */
 public class ParseLoginFragment extends com.pemws14.armyoffriends.login.ParseLoginFragmentBase {
+
+
 
   public interface ParseLoginFragmentListener {
     public void onSignUpClicked(String username, String password);
@@ -57,6 +60,8 @@ public class ParseLoginFragment extends com.pemws14.armyoffriends.login.ParseLog
 
     public void onLoginSuccess();
   }
+
+  ParseDb parseDb;
 
   private static final String LOG_TAG = "ParseLoginFragment";
   private static final String USER_OBJECT_NAME_FIELD = "name";
@@ -102,6 +107,8 @@ public class ParseLoginFragment extends com.pemws14.armyoffriends.login.ParseLog
     facebookLoginButton = (Button) v.findViewById(R.id.facebook_login);
     twitterLoginButton = (Button) v.findViewById(R.id.twitter_login);
 
+
+    parseDb = new ParseDb();
     if (appLogo != null && config.getAppLogo() != null) {
       appLogo.setImageResource(config.getAppLogo());
     }
@@ -178,10 +185,12 @@ public class ParseLoginFragment extends com.pemws14.armyoffriends.login.ParseLog
               if (isActivityDestroyed()) {
                 return;
               }
-
+              /** successful login */
               if (user != null) {
+                parseDb.createArmy(user,0,0,1);
                 loadingFinish();
                 loginSuccess();
+
               } else {
                 loadingFinish();
                 if (e != null) {

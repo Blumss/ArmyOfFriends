@@ -36,11 +36,15 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.pemws14.armyoffriends.R;
+import com.pemws14.armyoffriends.database.ParseDb;
 
 /**
  * Fragment for the user signup screen.
  */
 public class ParseSignupFragment extends com.pemws14.armyoffriends.login.ParseLoginFragmentBase implements OnClickListener {
+
+  public ParseDb parseDb;
+  public ParseUser parseUser;
   public static final String USERNAME = "com.parse.ui.ParseSignupFragment.USERNAME";
   public static final String PASSWORD = "com.parse.ui.ParseSignupFragment.PASSWORD";
 
@@ -172,7 +176,7 @@ public class ParseSignupFragment extends com.pemws14.armyoffriends.login.ParseLo
       showToast(R.string.com_parse_ui_no_name_toast);
     } else {
       ParseUser user = new ParseUser();
-
+        parseUser = user;
       // Set standard fields
       user.setUsername(username);
       user.setPassword(password);
@@ -191,10 +195,12 @@ public class ParseSignupFragment extends com.pemws14.armyoffriends.login.ParseLo
           if (isActivityDestroyed()) {
             return;
           }
-
+            /** successful login */
           if (e == null) {
+            parseDb.createArmy(parseUser,0,0,1);
             loadingFinish();
             signupSuccess();
+
           } else {
             loadingFinish();
             if (e != null) {

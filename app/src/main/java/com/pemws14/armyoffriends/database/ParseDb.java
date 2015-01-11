@@ -139,8 +139,11 @@ public class ParseDb {
 
         });
     }
-    public boolean ArmyExists(){
-        System.out.println("ArmyExists()");
+    public void newArmy(int armyStrength, int maxLevel, int playerLevel){
+        System.out.println(" newArmy()");
+        this.ARMY_STRENGTH = armyStrength;
+        this.MAX_LEVEL = maxLevel;
+        this.PLAYER_LEVEL = playerLevel;
         query.whereEqualTo("ref_username",getCurrentParseUser().getUsername());
         System.out.println("User: "+getCurrentParseUser().getUsername());
 
@@ -150,21 +153,17 @@ public class ParseDb {
                 if (e == null) {
                     Log.d("score", "Retrieved " + parseObjects.size() + " scores");
                     listSize = parseObjects.size();
+                    if(listSize ==1){
+                        updateArmy(ARMY_STRENGTH,MAX_LEVEL,PLAYER_LEVEL);
+                    }
+                    if(listSize ==1){
+                        createArmy(CURRENT_USER,ARMY_STRENGTH,MAX_LEVEL,PLAYER_LEVEL);
+                    }
                 } else {
                     Log.d("score", "Error: " + e.getMessage());
                 }
             }
         });
 
-        if(listSize ==1){
-            System.out.println("listSize ==1, ein eintrag");
-            return true;
-        }else if(listSize ==0){
-            System.out.println("listSize ==0, no entry");
-            return false;
-        }else {
-            System.out.println("listSize == ????, mehrere einträge");
-            return false;
-        }
     }
 }

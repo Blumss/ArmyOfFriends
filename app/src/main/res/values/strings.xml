@@ -55,7 +55,6 @@
         <item>@drawable/ranks_lieutenant_general</item>
         <item>@drawable/ranks_general</item>
     </array>
-
     <array name="army_ranks_icons_red">
         <item>@drawable/ranks_red_private</item>
         <item>@drawable/ranks_red_corporal</item>
@@ -133,5 +132,6 @@
     <string name="impressum_label">Impressum</string>
     <string name="made_with_label">made with </string>
     <string name="in_munich_label"> in Munich</string>
+    <string name="title_activity_create_notification">CreateNotificationActivity</string>
 
 </resources>
