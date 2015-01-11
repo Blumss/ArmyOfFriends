@@ -18,7 +18,7 @@ public class ParseDb {
 
     public ParseDb(){}
 
-    ParseObject army = new ParseObject("ArmyyStrength"); // no typo, there are realy two y in the name
+    ParseObject army = new ParseObject("ArmyyStrength"); // no typo, there are really two y in the name
     ParseQuery<ParseObject> query = ParseQuery.getQuery("ArmyyStrength");
 
     ParseUser CURRENT_USER;
