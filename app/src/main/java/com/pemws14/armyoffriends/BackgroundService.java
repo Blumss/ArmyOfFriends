@@ -210,35 +210,7 @@ public class BackgroundService extends Service {
             }
         });
 
-        /*
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, ParseException e) {
-                if (e == null) {
-                    // Hooray! Let them use the app now.
-                    numberUsers = parseObjects.toArray().length;
-                    System.out.println("Background Service - saveUserLocParse - query.findinBackground");
-                    System.out.println("Success! Number Users: "+numberUsers);
-                    System.out.println("Success! Retrieved: "+parseObjects);
-                    if(numberUsers>=2){
-                        ParseObject pO = parseObjects.get(1);
-                        System.out.println("ID: "+pO.getObjectId());
-                    }
 
-
-                   // pO.getParseObject("objectId");
-
-
-
-                } else {
-                    // Sign up didn't succeed. Look at the ParseException
-                    // to figure out what went wrong
-                    System.out.println("Background Service - saveUserLocParse - query.findinBackground");
-                    System.out.println("Error: "+e.getMessage());
-                }
-            }
-        });
-        */
         sendLocResult(location, numberUsers);
     }
     public void saveArmyStuff(){
@@ -268,7 +240,7 @@ public class BackgroundService extends Service {
                 .setContentTitle(notiTitle)
                 .setContentText(shortText)
                 .setStyle(new Notification.BigTextStyle().bigText(longText))
-                .setSmallIcon(R.drawable.com_parse_ui_app_logo)
+                .setSmallIcon(R.drawable.ic_launcher)
                 .setContentIntent(MainApIntent)
                 .addAction(R.drawable.ic_menu_fight, fightAction, FightApIntent)
                 .addAction(R.drawable.ic_menu_army, armyAction, ArmyApIntent)
