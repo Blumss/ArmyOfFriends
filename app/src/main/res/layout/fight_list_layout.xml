@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/fight_list_picture"
-            android:layout_width="75dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="center"
@@ -45,35 +45,38 @@
 
             <TextView
                 android:id="@+id/fight_list_level"
-                android:textColor="#000000"
+                android:textColor="#888"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/fight_list_name"
                 android:layout_marginLeft="10dp"
-                android:layout_marginBottom="3dp"
                 android:singleLine="true"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif"
                 android:ellipsize="marquee"/>
 
             <TextView
                 android:id="@+id/fight_list_strength"
-                android:textColor="#000000"
+                android:textColor="#888"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/fight_list_level"
                 android:layout_marginLeft="10dp"
-                android:layout_marginBottom="3dp"
                 android:singleLine="true"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif"
                 android:ellipsize="marquee"/>
 
             <TextView
                 android:id="@+id/fight_list_bestFighter"
-                android:textColor="#000000"
+                android:textColor="#888"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/fight_list_strength"
                 android:layout_marginLeft="10dp"
-                android:layout_marginBottom="3dp"
                 android:singleLine="true"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif"
                 android:ellipsize="marquee"/>
 
             <Button
@@ -82,9 +85,9 @@
                 android:layout_height="30dp"
                 android:text="FIGHT!"
                 android:textSize="15sp"
+                android:fontFamily="sans-serif"
                 android:textColor="#ffffff"
                 android:background="#86272D"
-                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="5dp"/>
 

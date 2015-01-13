@@ -63,6 +63,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
 
         //get fights
         dbHelper = new DbHelper(getApplicationContext());
+        dailyChallenge(/*DbProfile profile*/);
         // buildDummyData();
         fightList = dbHelper.getAllFights();
         fightAdapter = new FightListAdapter(fightList, getApplicationContext(), getFragmentManager());
@@ -140,5 +141,24 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
         dialog.dismiss();
+    }
+
+    public void dailyChallenge(/*DbProfile profile*/){
+        //TODO: integrate DbProfile
+        /*int armyStrength = profile.getArmyStrength();
+        int maxLevel = profile.getMaxSoldierLevel();
+        int level = profile.getPlayerLevel();*/
+        //TODO: Calculate Challenge's strength, level and some badass frightening name
+        String challengeName = "Oger";
+        Integer challengeLevel = 1;
+        Integer challengeStrength = 1;
+
+        TextView chName = (TextView) view.findViewById(R.id.challenge_name);
+        TextView chLevel = (TextView) view.findViewById(R.id.challenge_level);
+        TextView chStrength = (TextView) view.findViewById(R.id.challenge_strength);
+
+        chName.setText(challengeName);
+        chLevel.setText(challengeName + "'s Level: " + challengeLevel.toString());
+        chStrength.setText(challengeName + "'s Strength: " + challengeStrength.toString());
     }
 }
