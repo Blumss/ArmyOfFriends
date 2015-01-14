@@ -33,6 +33,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // Common column names
     private static final String KEY_ID = "id";
     private static final String KEY_CREATED_AT = "created_at";
+    private static final String KEY_CREATED_AT_UNIX = "created_at_unix";
     private static final String KEY_PLAYER_NAME = "name";
     private static final String KEY_PLAYER_LEVEL = "player_level";
     private static final String KEY_STRENGTH = "strength";
@@ -62,7 +63,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_SOLDIER = "CREATE TABLE "
             + TABLE_SOLDIER + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_PLAYER_NAME
             + " TEXT," + KEY_SOLDIER_LEVEL + " INTEGER," + KEY_RANK + " INTEGER," + KEY_CREATED_AT
-            + " DATETIME" + ")";
+            + " DATETIME," + KEY_CREATED_AT_UNIX + " LONG" + ")";
 
     // fight table create statement
     private static final String CREATE_TABLE_FIGHT = "CREATE TABLE "
@@ -134,6 +135,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_SOLDIER_LEVEL, soldier.getLevel());
         values.put(KEY_RANK, soldier.getRank());
         values.put(KEY_CREATED_AT, getDateTime());
+        values.put(KEY_CREATED_AT_UNIX, getUnix());
 
         // insert row
         long soldier_id = db.insert(TABLE_SOLDIER, null, values);
@@ -161,6 +163,7 @@ public class DbHelper extends SQLiteOpenHelper {
         soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
         soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
         soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+        soldier.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
 
         return soldier;
     }
@@ -183,6 +186,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
                 soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
                 soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+                soldier.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
 
                 // adding to soldier list
                 soldiers.add(soldier);
@@ -588,5 +592,10 @@ public class DbHelper extends SQLiteOpenHelper {
                 "dd.MM.yyyy HH:mm:ss", Locale.getDefault());
         Date date = new Date();
         return dateFormat.format(date);
+    }
+
+    private Long getUnix() {
+        long currentUnix = System.currentTimeMillis()/1000L;
+        return currentUnix;
     }
 }

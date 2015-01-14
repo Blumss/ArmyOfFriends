@@ -8,6 +8,7 @@ public class DbSoldier {
     private int level;
     private int rank;
     private String created_at;
+    private long created_at_unix;
 
     public DbSoldier() {
     }
@@ -18,10 +19,11 @@ public class DbSoldier {
         this.setRank(GameMechanics.getRankByLevel(level));
     }
 
-    public DbSoldier(int id, String name, int level, int rank, String created_at) {
+    public DbSoldier(int id, String name, int level, int rank, String created_at, Long created_at_unix) {
         this(name, level);
         this.setId(id);
         this.setCreated_at(created_at);
+        this.setCreated_at_Unix(created_at_unix);
     }
 
     public int getId() {
@@ -62,5 +64,13 @@ public class DbSoldier {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    public long getCreated_at_Unix() {
+        return created_at_unix;
+    }
+
+    public void setCreated_at_Unix(long created_at) {
+        this.created_at_unix = created_at_unix;
     }
 }

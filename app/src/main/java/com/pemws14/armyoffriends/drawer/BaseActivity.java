@@ -23,8 +23,12 @@ import com.pemws14.armyoffriends.HistoryActivity;
 import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.YourArmyActivity;
 import com.pemws14.armyoffriends.YourProfileActivity;
+import com.pemws14.armyoffriends.database.DbHelper;
+import com.pemws14.armyoffriends.database.DbProfile;
+import com.pemws14.armyoffriends.database.DbSoldier;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class BaseActivity extends ActionBarActivity {
@@ -49,11 +53,18 @@ public class BaseActivity extends ActionBarActivity {
     //used to store app title
     private CharSequence mTitle;
 
+    private DbHelper db;
+    private DbProfile profile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+
+        db = new DbHelper(getApplicationContext());
+        // TODO: getProfile & userId
+        // profile = db.getProfile(userId);
     }
 
     //public void set(String[] navMenuTitles, TypedArray navMenuIcons) {
@@ -62,22 +73,29 @@ public class BaseActivity extends ActionBarActivity {
         //set profile data
         //--------------
         profileUsername = (TextView) findViewById(R.id.left_drawer_user_profile_username);
-        //TODO an profil anbinden
         profileUsername.setText("Schnabeltier");
+        //TODO an profil anbinden
+        //profileUsername.setText(profile.getUserName());
 
         profileLevel = (TextView) findViewById(R.id.left_drawer_user_profile_lvl_number);
+        int ep = 1000;
+        Integer level = new Integer(GameMechanics.getPlayerLevelForEp(ep));
+        profileLevel.setText(level.toString());
         //TODO an profil anbinden
-        profileLevel.setText("4");
+        //profileLevel.setText(profile.getPlayerLevel());
 
         profileArmyStrength = (TextView) findViewById(R.id.left_drawer_user_profile_armystrength_number);
+        List<DbSoldier> getSoldiers = db.getAllSoldiers();
+        Integer ownStrength = GameMechanics.getArmyStrength(getSoldiers);
+        profileArmyStrength.setText(ownStrength.toString());
         //TODO an profil anbinden
-        profileArmyStrength.setText("17759");
+        //profileArmyStrength.setText(profile.getArmyStrength());
 
-        //TODO get real ep from DB
-        int ep = 33;
         profileEpBar = (ProgressBar) findViewById(R.id.left_drawer_user_profile_ep_bar);
         int progress = (int)(100*GameMechanics.getPlayerLevelProgress(ep));
         profileEpBar.setProgress(progress);
+        //TODO get real ep from DB
+        //profileEpBar.setProgress(profile.getEp());
 
 //        profileEpNumber = (TextView) findViewById(R.id.left_drawer_user_profile_ep_number);
 //        profileEpNumber.setText(" "+ ep);

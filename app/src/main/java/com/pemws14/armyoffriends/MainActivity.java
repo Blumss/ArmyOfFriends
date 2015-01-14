@@ -198,7 +198,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         db = new DbHelper(getApplicationContext());
 
         for(int i=0; i<200;i++) {
-            db.createSoldier(new DbSoldier("soldier"+i, i));
+            db.createSoldier(new DbSoldier("Prename Surname #"+i, i));
         }
         List<DbSoldier> solis = db.getAllSoldiers();
         for(DbSoldier s : solis ){

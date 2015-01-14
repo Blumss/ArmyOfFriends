@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.drawer.BaseActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -63,8 +65,9 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
 
         //get fights
         dbHelper = new DbHelper(getApplicationContext());
+        //TODO create DailyChallenge & normal Fights
         dailyChallenge(/*DbProfile profile*/);
-        // buildDummyData();
+        createFights();
         fightList = dbHelper.getAllFights();
         fightAdapter = new FightListAdapter(fightList, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(fightAdapter);
@@ -82,6 +85,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         ownLevel.setText(level);
         */
 
+        //TODO: replace Ep-value with real value
         //TODO: remove the part below when proper userID is received
         List<DbSoldier> getSoldiers = dbHelper.getAllSoldiers();
         ownStrength = GameMechanics.getArmyStrength(getSoldiers);
@@ -91,7 +95,17 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         //TODO: remove the part above
     }
 
-    private void buildDummyData() {
+    private void createFights() {
+        //TODO add Soldier's maxLevel and ArmyStrength
+        /*List<DbSoldier> soldiers = dbHelper.getAllSoldiers();
+        long currentUnix = System.currentTimeMillis()/1000L;
+        for (DbSoldier soldier: soldiers){
+            if(soldier.getCreated_at_Unix()-84400<=currentUnix){
+                DbFight fight = new DbFight(soldier.getName(), soldier.getLevel(),)
+            }
+        }*/
+
+        /**********DUMMIES*******************
         DbFight fight1 = new DbFight("abc",1,1,3);
         DbFight fight2 = new DbFight("def",2,2,4);
         DbFight fight3 = new DbFight("ghi",3,3,5);
@@ -111,6 +125,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         dbHelper.createFight(fight7);
         dbHelper.createFight(fight8);
         dbHelper.createFight(fight9);
+        ***********DUMMIES******************/
     }
 
     @Override
@@ -149,16 +164,22 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         int maxLevel = profile.getMaxSoldierLevel();
         int level = profile.getPlayerLevel();*/
         //TODO: Calculate Challenge's strength, level and some badass frightening name
-        String challengeName = "Oger";
-        Integer challengeLevel = 1;
-        Integer challengeStrength = 1;
+        String challengeName = "PEM Presentation";
+        Integer challengeLevel = 2;
+        Integer challengeStrength = 42;
 
         TextView chName = (TextView) view.findViewById(R.id.challenge_name);
         TextView chLevel = (TextView) view.findViewById(R.id.challenge_level);
         TextView chStrength = (TextView) view.findViewById(R.id.challenge_strength);
+        Button chFight = (Button) view.findViewById(R.id.challenge_button);
 
         chName.setText(challengeName);
         chLevel.setText(challengeName + "'s Level: " + challengeLevel.toString());
         chStrength.setText(challengeName + "'s Strength: " + challengeStrength.toString());
+
+        //TODO: hide when already fought that day
+        /*chName.setVisibility(View.GONE);
+        chFight.setVisibility(View.GONE);
+        */
     }
 }

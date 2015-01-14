@@ -35,9 +35,8 @@
             <TextView
                 android:id="@+id/fight_list_name"
                 android:textColor="#000000"
-                android:textAllCaps="true"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -51,7 +50,7 @@
                 android:layout_below="@id/fight_list_name"
                 android:layout_marginLeft="10dp"
                 android:singleLine="true"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:fontFamily="sans-serif"
                 android:ellipsize="marquee"/>
 
@@ -63,7 +62,7 @@
                 android:layout_below="@id/fight_list_level"
                 android:layout_marginLeft="10dp"
                 android:singleLine="true"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:fontFamily="sans-serif"
                 android:ellipsize="marquee"/>
 
@@ -75,7 +74,7 @@
                 android:layout_below="@id/fight_list_strength"
                 android:layout_marginLeft="10dp"
                 android:singleLine="true"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:fontFamily="sans-serif"
                 android:ellipsize="marquee"/>
 
@@ -84,7 +83,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
                 android:text="FIGHT!"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:fontFamily="sans-serif"
                 android:textColor="#ffffff"
                 android:background="#86272D"

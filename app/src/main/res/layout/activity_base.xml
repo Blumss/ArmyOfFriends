@@ -12,7 +12,7 @@
     <!-- The navigation drawer -->
         <RelativeLayout
             android:id="@+id/left_drawer"
-            android:background="#86272D"
+            android:background="#ffa5282f"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:layout_gravity="start">
