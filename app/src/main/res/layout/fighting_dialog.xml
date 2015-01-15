@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/fighting_dialog_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <SeekBar
+        android:id="@+id/fighting_dialog_seekbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:thumb="@drawable/ic_menu_army"
+        android:max="100"/>
+
+    <TextView
+        android:id="@+id/fighting_dialog_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="30dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/fighting_dialog_seekbar"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/fighting_dialog_additional"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#fff"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@+id/fighting_dialog_result"
+        android:textSize="14sp"/>
+
+    <Button
+        android:id="@+id/fighting_dialog_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:text="OK"
+        android:layout_below="@+id/fighting_dialog_additional"
+        style="?android:attr/borderlessButtonStyle" />
+
+</RelativeLayout>

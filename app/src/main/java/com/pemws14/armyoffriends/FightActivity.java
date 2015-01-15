@@ -44,7 +44,6 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
 
     private Integer level;
     private Integer ownStrength;
-    private Boolean result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,10 +131,14 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     public void onDialogPositiveClick(DialogFragment dialog, int fightId, int position) throws InterruptedException {
         dialog.dismiss();
         DbFight dbFight = dbHelper.getFight(fightId);
-        // FIGHT INCL DELAY -
-        // TODO: PROGRESS BAR OR DIE!
-        Thread.sleep(1000);
-        result = GameMechanics.getFightResult(ownStrength, dbFight.getStrength()) > 0 ? true : false;
+
+        // CALCULATE & SHOW FIGHT
+        Boolean result = GameMechanics.getFightResult(ownStrength, dbFight.getStrength()) > 0 ? true : false;
+        Double chance = GameMechanics.getFightResult(ownStrength, dbFight.getStrength());
+        FightResultDialogFragment chanceFrag = FightResultDialogFragment.newInstance(dbFight.getName(), fightId, 0, result.toString(), chance);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        chanceFrag.show(ft, "Fight");
+
 
         // SAVE RESULT IN HISTORY-DB
         dbHistory = new DbHistory(level, ownStrength, dbHelper.getMaxLevel(), dbFight.getName(), dbFight.getPlayerLevel(), dbFight.getStrength(), dbFight.getMaxLevel(), result);
@@ -148,8 +151,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         dbHelper.deleteFight(fightId);
 
         // SHOW RESULT IN DIALOG
-        FightResultDialogFragment resultFrag = FightResultDialogFragment.newInstance(dbFight.getName(), fightId, 0, result.toString());
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FightResultDialogFragment resultFrag = FightResultDialogFragment.newInstance(dbFight.getName(), fightId, 0, result.toString(), 0.0);
         resultFrag.show(ft, dbFight.getName());
     }
 
