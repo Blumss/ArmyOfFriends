@@ -198,7 +198,8 @@ public class GameMechanics {
     calculates level of daily challenge/random encounter for given own player Level
      */
     public static int[] randomEncounter(int ownLevel, int ownStrength){
-        int[] result = {Math.round((float) (ownLevel * randomMult())),Math.round((float) (ownStrength * randomMult()))};
+        double rM = randomMult();
+        int[] result = {Math.round((float) (ownLevel * rM)),Math.round((float) (ownStrength * rM))};
         return result;
     }
 
