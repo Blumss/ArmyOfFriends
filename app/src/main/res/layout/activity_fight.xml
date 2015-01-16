@@ -130,6 +130,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="FIGHT!"
                 android:textSize="15sp"
+                android:layout_marginRight="10dp"
                 android:fontFamily="sans-serif"
                 android:textColor="#ffffff"
                 android:background="#86272D"/>

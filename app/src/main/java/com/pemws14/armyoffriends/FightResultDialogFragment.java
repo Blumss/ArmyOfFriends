@@ -17,6 +17,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pemws14.armyoffriends.database.DbHelper;
+
 /**
  * Created by Martin on 06.01.2015.
  */
@@ -25,16 +27,18 @@ public class FightResultDialogFragment extends DialogFragment{
     int enemyStrength;
     int fightId;
     int position;
+    int enemyLevel;
     String toggle;
     double result;
     NoticeDialogListener mListener;
 
-    static FightResultDialogFragment newInstance(String name, int id, int pos, String toggle, Double result) {
+    static FightResultDialogFragment newInstance(String name, int id, int pos, int enemyLevel, String toggle, Double result) {
         FightResultDialogFragment f = new FightResultDialogFragment();
         Bundle args = new Bundle();
         args.putString("name", name);
         args.putInt("id", id);
         args.putInt("pos", pos);
+        args.putInt("enemyLevel", enemyLevel);
         args.putString("toggle", toggle);
         args.putDouble("result", result);
         f.setArguments(args);
@@ -63,10 +67,12 @@ public class FightResultDialogFragment extends DialogFragment{
         enemyStrength = getArguments().getInt("strength");
         fightId = getArguments().getInt("id");
         position = getArguments().getInt("pos");
+        enemyLevel = getArguments().getInt("enemyLevel");
         toggle = getArguments().getString("toggle");
         result = getArguments().getDouble("result");
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.OurAlertDialog);
+        final DbHelper dbHelper= new DbHelper(getActivity());
 
         if (!toggle.isEmpty()) {
 
@@ -75,12 +81,14 @@ public class FightResultDialogFragment extends DialogFragment{
 
             SeekBar seekBar = (SeekBar)layout.findViewById(R.id.fighting_dialog_seekbar);
             final TextView resultText = (TextView)layout.findViewById(R.id.fighting_dialog_result);
-            final TextView additionalText = (TextView)layout.findViewById(R.id.fighting_dialog_additional);
+            final TextView additionalText1 = (TextView)layout.findViewById(R.id.fighting_dialog_additional1);
+            final TextView additionalText2 = (TextView)layout.findViewById(R.id.fighting_dialog_additional2);
             final Button dismiss = (Button)layout.findViewById(R.id.fighting_dialog_button);
 
             seekBar.setEnabled(false);
             resultText.setVisibility(View.GONE);
-            additionalText.setVisibility(View.GONE);
+            additionalText1.setVisibility(View.GONE);
+            additionalText2.setVisibility(View.GONE);
             dismiss.setEnabled(false);
 
             dismiss.setOnClickListener(new View.OnClickListener() {
@@ -92,8 +100,12 @@ public class FightResultDialogFragment extends DialogFragment{
 
             builder.setView(layout)
                     .setTitle("Fight");
-
-            ObjectAnimator anim = ObjectAnimator.ofInt(seekBar, "progress", 0,seekBar.getMax());
+            ObjectAnimator anim;
+            if(toggle.equals("true")) {
+                anim = ObjectAnimator.ofInt(seekBar, "progress", 0, seekBar.getMax());
+            }else{
+                anim = ObjectAnimator.ofInt(seekBar, "progress", 0, 100-(int)result);
+            }
             anim.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
@@ -103,17 +115,24 @@ public class FightResultDialogFragment extends DialogFragment{
                 @Override
                 public void onAnimationEnd(Animator anim) {
                     if(toggle.equals("true")) {
+                        //TODO save EP's in Profile
+                        //int wonEPs = GameMechanics.getEpBaseReward(enemyLevel);
+                        //dbHelper.getProfile(0).setEp(wonEPs);
                         resultText.setVisibility(View.VISIBLE);
-                        additionalText.setVisibility(View.VISIBLE);
+                        additionalText1.setVisibility(View.VISIBLE);
                         dismiss.setEnabled(true);
                         resultText.setText("Victory!");
-                        additionalText.setText("Congrats, you won against " + enemy + "!");
+                        additionalText1.setText("Congrats, you won against " + enemy + "!");
                     }else if(toggle.equals("false")){
                         resultText.setVisibility(View.VISIBLE);
-                        additionalText.setVisibility(View.VISIBLE);
+                        additionalText1.setVisibility(View.VISIBLE);
+                        additionalText2.setVisibility(View.VISIBLE);
                         dismiss.setEnabled(true);
                         resultText.setText("Loss!");
-                        additionalText.setText("You lost against " + enemy + "...");
+                        additionalText1.setText("You lost against " + enemy + "...");
+                        if (result<=10){additionalText2.setText("Pretty close! You were just unlucky...");}
+                        else{additionalText2.setText("You got destroyed! Improve your army to have a chance!");
+                        }
                     }
                 }
 
@@ -130,7 +149,7 @@ public class FightResultDialogFragment extends DialogFragment{
             anim.setDuration(5000).start();
 
 
-        } else {
+        } else if (toggle.isEmpty()) {
             builder.setMessage("Do you really want to fight " + enemy + " ?")
                     .setPositiveButton("Fight!", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {

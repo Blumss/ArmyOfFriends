@@ -73,7 +73,7 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
         holder.fightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //Show dailog to confirm or cancel fight-action
-                FightResultDialogFragment dialog = FightResultDialogFragment.newInstance(fight.getName(), fight.getId(), position, "", 0.0);
+                FightResultDialogFragment dialog = FightResultDialogFragment.newInstance(fight.getName(), fight.getId(), position, 0, "", 0.0);
                 FragmentTransaction ft = mFragmentManager.beginTransaction();
                 dialog.show(ft, fight.getName());
             }
