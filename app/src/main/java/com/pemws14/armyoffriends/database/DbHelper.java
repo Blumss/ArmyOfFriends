@@ -69,7 +69,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_FIGHT = "CREATE TABLE "
             + TABLE_FIGHT + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_PLAYER_NAME
             + " TEXT," + KEY_PLAYER_LEVEL + " INTEGER," + KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
-            + " DATETIME" + ")";
+            + " DATETIME," + KEY_CREATED_AT_UNIX + " LONG" + ")";
 
     //history table create statement
     private static final String CREATE_TABLE_HISTORY = "CREATE TABLE "
@@ -231,6 +231,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
                 soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
                 soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+                soldier.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
 
                 // adding to soldier list
                 soldiers.add(soldier);
@@ -259,6 +260,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
                 soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
                 soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+                soldier.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
 
                 // adding to soldier list
                 soldiers.add(soldier);
@@ -279,6 +281,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_SOLDIER_LEVEL, soldier.getLevel());
         values.put(KEY_RANK, soldier.getRank());
         values.put(KEY_CREATED_AT, soldier.getCreated_at());
+        values.put(KEY_CREATED_AT_UNIX, soldier.getCreated_at_Unix());
 
         // updating row
         return db.update(TABLE_SOLDIER, values, KEY_ID + " = ?",
@@ -306,6 +309,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_STRENGTH,fight.getStrength());
         values.put(KEY_MAX_LEVEL, fight.getMaxLevel());
         values.put(KEY_CREATED_AT, getDateTime());
+        values.put(KEY_CREATED_AT_UNIX, getUnix());
 
         // insert row
         long fight_id = db.insert(TABLE_FIGHT, null, values);
@@ -334,6 +338,7 @@ public class DbHelper extends SQLiteOpenHelper {
         fight.setStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
         fight.setMaxLevel(c.getInt(c.getColumnIndex(KEY_MAX_LEVEL)));
         fight.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+        fight.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
 
         return fight;
     }
@@ -359,6 +364,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 fight.setStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
                 fight.setMaxLevel(c.getInt(c.getColumnIndex(KEY_MAX_LEVEL)));
                 fight.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+                fight.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
 
                 // adding to fight list
                 fights.add(fight);
@@ -380,6 +386,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_STRENGTH,fight.getStrength());
         values.put(KEY_MAX_LEVEL, fight.getMaxLevel());
         values.put(KEY_CREATED_AT, getDateTime());
+        values.put(KEY_CREATED_AT_UNIX, getUnix());
 
         // updating row
         return db.update(TABLE_FIGHT, values, KEY_ID + " = ?",
@@ -587,14 +594,14 @@ public class DbHelper extends SQLiteOpenHelper {
                 new String[] { String.valueOf(userID) });
     }
 
-    private String getDateTime() {
+    public String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "dd.MM.yyyy HH:mm:ss", Locale.getDefault());
         Date date = new Date();
         return dateFormat.format(date);
     }
 
-    private Long getUnix() {
+    public static Long getUnix() {
         long currentUnix = System.currentTimeMillis()/1000L;
         return currentUnix;
     }

@@ -7,6 +7,7 @@ public class DbFight {
     private int strength;
     private int maxLevel;
     private String created_at;
+    private long created_at_unix;
 
     public DbFight() {
     }
@@ -18,10 +19,11 @@ public class DbFight {
         this.setMaxLevel(maxLevel);
     }
 
-    public DbFight(int id, String name, int playerLevel, int strength, int maxLevel, String created_at) {
-        this(name, playerLevel, strength,maxLevel);
+    public DbFight(int id, String name, int playerLevel, int strength, int maxLevel, String created_at, long created_at_unix) {
+        this(name, playerLevel, strength, maxLevel);
         this.setId(id);
         this.setCreated_at(created_at);
+        this.setCreated_at_Unix(created_at_unix);
     }
 
     public int getId() {
@@ -70,5 +72,13 @@ public class DbFight {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    public long getCreated_at_Unix() {
+        return created_at_unix;
+    }
+
+    public void setCreated_at_Unix(long created_at_unix) {
+        this.created_at_unix = created_at_unix;
     }
 }

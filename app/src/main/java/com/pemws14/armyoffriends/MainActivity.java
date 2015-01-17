@@ -28,6 +28,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationRequest;
 import com.parse.ParseUser;
+import com.pemws14.armyoffriends.database.DbFight;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbSoldier;
 
@@ -37,6 +38,7 @@ import java.util.List;
 public class MainActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener  {
 
     DbHelper db;
+    public static Context mainContext;
 
     Button locButton;
     ImageView armyButton;
@@ -84,6 +86,10 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         System.out.println("MainActivity - onCreate ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MainActivity.mainContext = getApplicationContext();
+        db = new DbHelper(mainContext);
+        createDailyChallengeEntry();
 
         // findViewbyIDs
         locButton = (Button)findViewById(R.id.LocationButton);
@@ -194,9 +200,22 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         */
         //createSoldiers();
     }
-    private void createSoldiers(){
-        db = new DbHelper(getApplicationContext());
 
+    /*
+    Saves the first spot in DbFight for Daily Challenge
+     */
+    private void createDailyChallengeEntry() {
+        if (db.getAllFights().isEmpty()){
+            System.out.println("MainActivity: Creating Daily Challenge entry");
+            DbFight dailyChallenge = new DbFight("Daily Challenge", 0, 0, 10);
+            db.createFight(dailyChallenge);
+        }else if (db.getAllFights().get(0).getMaxLevel()==10){
+            System.out.println("MainActivity: Daily Challenge already existing, Name: " +db.getAllFights().get(0).getName());
+        }
+        System.out.println("MainActivity: List: " + db.getAllFights());
+    }
+
+    private void createSoldiers(){
         for(int i=0; i<200;i++) {
             db.createSoldier(new DbSoldier("Prename Surname #"+i, i));
         }
@@ -206,6 +225,11 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         }
 
     }
+
+    public static Context getAppContext() {
+        return MainActivity.mainContext;
+    }
+
     /*
     @Override
     protected void onStart() {

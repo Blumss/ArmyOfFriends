@@ -42,21 +42,16 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     private DbHistory dbHistory;
     private DbProfile dbProfile;
     private int profileId;
+    private long currentTime;
 
     private List<DbFight> fightList;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter fightAdapter;
 
-    private Boolean daily;
+    private Boolean dailyBool;
     private Integer level;
     private Integer ownStrength;
-    private Integer chLevel;
-    private Integer chStrength;
-    private String dailyName;
-    private double dailyChance;
-    private Boolean dailyResult;
-    private double chance;
-    private Boolean result;
+    private double[] fightResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,18 +72,19 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
 
         //get fights
         dbHelper = new DbHelper(getApplicationContext());
+        currentTime = dbHelper.getUnix();
         // TODO dbProfile = dbHelper.getProfile(0);
-
-        //TODO create DailyChallenge
-        daily = false;                      // Bool to toggle dailyChallenge (different onDialogPositiveClick-Handling)
-        dailyChallenge(/*DbProfile profile*/);
-        //createFights();
+        dailyBool = false;                      // Bool to toggle dailyChallenge (different onDialogPositiveClick-Handling)
+        checkFights(currentTime);
+        //createDummies();
+        //checkFights();
 
         fightList = dbHelper.getAllFights();
+        fightList.remove(0);
         fightAdapter = new FightListAdapter(fightList, getApplicationContext(), getFragmentManager());
         recyclerView.setAdapter(fightAdapter);
 
-        //get and set own level and army strength
+        //get view for ownLevel and ownArmyStrength
         TextView armyStrength = (TextView) view.findViewById(R.id.fight_info_strength);
         TextView ownLevel = (TextView) view.findViewById(R.id.fight_info_level);
 
@@ -112,8 +108,35 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         //TODO: remove the part above
     }
 
-    private void createFights() {
-        /**********DUMMIES*******************/
+
+    /*
+    Checks, if Fight was created more than a day ago and if so deletes it from DbFight
+     */
+    public void checkFights(long currentTime) {
+        DbHelper db = new DbHelper(getApplicationContext());
+        List<DbFight> fights = db.getAllFights();
+        for (DbFight fight : fights) {
+            System.out.println("FightActivity.checkFights: Checking " + fight.getName());
+            //if not daily challenge
+            if (fight.getMaxLevel() != 10){
+                if(fight.getCreated_at_Unix() < currentTime-86400) {
+                    db.deleteFight(fight.getId());
+                }
+            }else if (fight.getMaxLevel() == 10){
+                System.out.println("FightActivity.checkFights: Daily Challenge! " + fight.getName() + " - not deleting!");
+                if(fight.getCreated_at_Unix() < currentTime-86400 ||  fight.getStrength() == 0){
+                    System.out.println("FightActivity.checkFights: Old Daily Challenge! " + fight.getName() + " - generating new! Daily was from " + fight.getCreated_at_Unix() + " current is " + currentTime);
+                    dailyChallenge(/*DbProfile profile*/);
+                }
+            }
+        }
+    }
+
+    /*
+    creates Dummy-Fights
+     */
+    private void createDummies(){
+        /**********DUMMIES******************/
         DbFight fight1 = new DbFight("abc",1,1,3);
         DbFight fight2 = new DbFight("def",2,2,4);
         DbFight fight3 = new DbFight("ghi",3,3,5);
@@ -133,19 +156,23 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         dbHelper.createFight(fight7);
         dbHelper.createFight(fight8);
         dbHelper.createFight(fight9);
-        /***********DUMMIES******************/
+        /**********DUMMIES******************/
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog, int fightId, int position) throws InterruptedException {
         dialog.dismiss();
-        if (!daily){
-            DbFight dbFight = dbHelper.getFight(fightId);
+        DbFight dbFight = dbHelper.getFight(fightId);
+
+        fightResult = GameMechanics.getFightResult(4/*ownArmyStrength*/, dbFight.getStrength());
+        double random = fightResult[0];
+        double chance = fightResult[1];
+
+        //if (!daily){
             // CALCULATE & SHOW FIGHT
-            chance = GameMechanics.getFightResult(4/*ownArmyStrength*/, dbFight.getStrength());
-            result = GameMechanics.getFightResult(4, dbFight.getStrength()) > 0 ? true : false;
+            Boolean result = random >= chance;
             FightResultDialogFragment resultFrag = FightResultDialogFragment.newInstance(dbFight.getName(), fightId, 0,dbFight.getStrength(), result.toString(), chance);
-            System.out.println("Chance: " + chance + " - Result: " + result.toString());
+            System.out.println("Random/Chance: " + random + "/" + chance + " - Result: " + result.toString());
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             resultFrag.show(ft, dbFight.getName());
 
@@ -158,12 +185,13 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
             fightList.remove(position);
             fightAdapter.notifyItemRemoved(position);
             fightAdapter.notifyDataSetChanged();
-            dbHelper.deleteFight(fightId);*/
-        }else {
+            dbHelper.deleteFight(fightId);
+            */
+        /*}else {
             FightResultDialogFragment dailyResultFrag = FightResultDialogFragment.newInstance(dailyName, 0, 0, chLevel, dailyResult.toString(), dailyChance);
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             dailyResultFrag.show(ft, dailyName);
-            daily = false;
+            daily = false;*/
 
             //TODO: hide - already fought that day
             /*chName.setVisibility(View.GONE);
@@ -171,7 +199,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
             chStrength.setVisibility(View.GONE);
             chFight.setVisibility(View.GONE);
             */
-        }
+        //}
     }
 
     @Override
@@ -179,35 +207,44 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         dialog.dismiss();
     }
 
-    //TODO Fix: getting recalculated every time FightActivity opens
+    /*
+    generates a new Daily Challenge
+     */
     public void dailyChallenge(/*DbProfile profile*/){
+        System.out.println("FightActivity.dailyChallenge: Generating new Daily Challenge");
+        System.out.println("FightActivity.dailyChallenge: dbHelper.getAllFightsList: " + dbHelper.getAllFights());
+        final DbFight daily = dbHelper.getAllFights().get(0);
         //TODO: integrate DbProfile
         /*int ownArmyStrength = profile.getArmyStrength();
         int ownLevel = profile.getPlayerLevel();*/
-        //TODO: Get some badass frightening name
-        dailyName = "PEM Presentation";
+
+        //generate new & update DbEntry
         int[] challenge = GameMechanics.randomEncounter(/*ownLevel, ownArmyStrength*/ 2, 42);
-        chLevel = /*challenge[0]*/ 2;
-        chStrength = /*challenge[1]*/ 42;
+        //TODO Get some badass frightening name
+        daily.setName("PEM Presentation");
+        daily.setPlayerLevel(challenge[0]);
+        daily.setStrength(challenge[1]);
+        daily.setMaxLevel(0);
+        daily.setId(0);
+        daily.setCreated_at(dbHelper.getDateTime());
+        daily.setCreated_at_Unix(dbHelper.getUnix());
+        dbHelper.updateFight(daily);
 
         TextView TextChName = (TextView) view.findViewById(R.id.challenge_name);
         TextView TextChLevel = (TextView) view.findViewById(R.id.challenge_level);
         TextView TextChStrength = (TextView) view.findViewById(R.id.challenge_strength);
         Button ButtonChFight = (Button) view.findViewById(R.id.challenge_button);
 
-        TextChName.setText(dailyName);
-        TextChLevel.setText(dailyName + "'s Level: " + chLevel.toString());
-        TextChStrength.setText(dailyName + "'s Strength: " + chStrength.toString());
+        TextChName.setText(daily.getName());
+        TextChLevel.setText(daily.getName() + "'s Level: " + Integer.toString(daily.getPlayerLevel()));
+        TextChStrength.setText(daily.getName() + "'s Strength: " + Integer.toString(daily.getStrength()));
         ButtonChFight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FightResultDialogFragment dialog = FightResultDialogFragment.newInstance(dailyName, 0, 0, 0, "", 0.0);
-                daily = true;
-                dailyChance = GameMechanics.getFightResult(4/*ownArmyStrength*/, chStrength);
-                dailyResult = GameMechanics.getFightResult(4, chStrength) > 0 ? true : false;
-                System.out.println("Chance Daily: " + dailyChance + "; Result: " + dailyResult);
+                FightResultDialogFragment dialog = FightResultDialogFragment.newInstance(daily.getName(), 0, 0, 0, "", 0.0);
+                dailyBool = true;
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                dialog.show(ft, dailyName);
+                dialog.show(ft, daily.getName());
             }
         });
     }

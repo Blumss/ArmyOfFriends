@@ -23,13 +23,13 @@ public class GameMechanics {
     Threshold = enemy^POW/(enemy^POW + self^POW)
     converges to 0 for self->inf, to 1 for enemy->inf
      */
-    public static double getFightResult(int ownArmyStrength, int enemyArmyStrength){
+    public static double[] getFightResult(int ownArmyStrength, int enemyArmyStrength){
         double r = Math.random();
         double threshold = 0;
         if(ownArmyStrength != 0 || enemyArmyStrength != 0){
             threshold = Math.pow(enemyArmyStrength, POW)/(Math.pow(ownArmyStrength, POW)+Math.pow(enemyArmyStrength, POW));
         }
-        return r >= threshold ? threshold/0.5 : 0;
+        return new double[]{r, threshold};
     }
 
     /*
