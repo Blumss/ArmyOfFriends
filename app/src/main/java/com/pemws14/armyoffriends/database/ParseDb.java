@@ -75,6 +75,10 @@ public class ParseDb {
         String updatedAt = (CURRENT_USER.getUpdatedAt()).toString();
         return updatedAt;
     }
+    public int getEP(){
+        int ep = CURRENT_USER.getInt("ep");
+        return ep;
+    }
 
 /************ Set Methoden *************/
 
@@ -88,6 +92,10 @@ public class ParseDb {
     }
     public void setPlayerLevel(int playerLevel){
         CURRENT_USER.put("player_level",playerLevel);
+        CURRENT_USER.saveInBackground();
+    }
+    public void setEP(int ep){
+        CURRENT_USER.put("ep",ep);
         CURRENT_USER.saveInBackground();
     }
     public void setCurrentLocation(Location location){

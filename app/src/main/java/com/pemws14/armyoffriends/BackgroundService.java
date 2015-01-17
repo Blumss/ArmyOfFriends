@@ -65,6 +65,7 @@ public class BackgroundService extends Service {
     public ParseObject ArmyStrength ;
     int armyStrength;
     int defaultPlayerLevel = 1;
+    int defaultEP = 0;
     boolean armyExist;
 
     @Override
@@ -212,6 +213,7 @@ public class BackgroundService extends Service {
         parseDb.setArmyStrength(armyStrength);
         parseDb.setMaxLevel(maxLevel);
         parseDb.setPlayerLevel(defaultPlayerLevel);
+        parseDb.setEP(defaultEP);
     }
 
     protected void displayNotification() {
