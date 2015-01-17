@@ -195,7 +195,7 @@ public class GameMechanics {
     }
 
     /*
-    calculates level of daily challenge/random encounter for given own player Level
+    calculates level & strength of daily challenge/random encounter for given own player Level
      */
     public static int[] randomEncounter(int ownLevel, int ownStrength){
         double rM = randomMult();

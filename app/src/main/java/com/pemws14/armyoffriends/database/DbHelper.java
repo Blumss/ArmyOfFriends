@@ -16,8 +16,6 @@ import com.pemws14.armyoffriends.GameMechanics;
 
 public class DbHelper extends SQLiteOpenHelper {
 
-    private static final int maxArmySize = GameMechanics.getMaxArmySize(4); //TODO: get real current MaxArmySize
-
     // Database Version
     private static final int DATABASE_VERSION = 1;
 
@@ -215,7 +213,7 @@ public class DbHelper extends SQLiteOpenHelper {
     /*
 * SELECT * FROM soldier ORDER BY level DESC;
 * */
-    public List<DbSoldier> getLimitedSoldiers() {
+    public List<DbSoldier> getLimitedSoldiers(int maxArmySize) {
         List<DbSoldier> soldiers = new ArrayList<DbSoldier>();
         String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " ORDER BY " + KEY_SOLDIER_LEVEL + " DESC " + " LIMIT " + maxArmySize;
 
