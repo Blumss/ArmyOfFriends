@@ -1,14 +1,15 @@
 package com.pemws14.armyoffriends.database;
 
-import android.util.Log;
+import android.location.Location;
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,12 +17,15 @@ import java.util.List;
  */
 public class ParseDb {
 
-    public ParseDb(){}
+    public ParseDb(){this.CURRENT_USER = ParseUser.getCurrentUser();}
 
-    ParseObject army = new ParseObject("ArmyyStrength"); // no typo, there are really two y in the name
-    ParseQuery<ParseObject> query = ParseQuery.getQuery("ArmyyStrength");
 
-    ParseUser CURRENT_USER;
+   // ParseObject army = new ParseObject("ArmyyStrength"); // no typo, there are really two y in the name
+    public ParseQuery<ParseObject> query = ParseQuery.getQuery("ArmyyStrength");
+    public ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+    public ParseGeoPoint UserLocation;
+    public ArrayList<ParseGeoPoint> UserLocList;
+    public ParseUser CURRENT_USER = ParseUser.getCurrentUser();
     int MAX_LEVEL=0;
     int PLAYER_LEVEL=1;
     int ARMY_STRENGTH=0;
@@ -30,17 +34,13 @@ public class ParseDb {
 
 /************ Get Methoden *************/
 
-    public String getArmyID(){
 
-        String objectID = army.getObjectId();
-        return objectID;
-    }
-    public String getUserName(){
-        String userName = army.getString("ref_username");
+    public String getCurrentUserName(){
+        String userName = CURRENT_USER.getUsername();
         return userName;
     }
     public String getUserID(){
-        String UserID = army.getString("UserID");
+        String UserID = CURRENT_USER.getString("objectId");
         return UserID;
     }
     public ParseUser getCurrentParseUser(){
@@ -48,48 +48,68 @@ public class ParseDb {
         return CURRENT_USER;
     }
     public int getArmyStrength(){
-        int armyStrength = army.getInt("army_strength");
+        int armyStrength = CURRENT_USER.getInt("army_strength");
         return armyStrength;
     }
     public int getMaxLevel(){
-        int maxLevel = army.getInt("maxLevel");
+        int maxLevel = CURRENT_USER.getInt("maxLevel");
         return maxLevel;
     }
     public int getPlayerLevel(){
-        int playerLevel = army.getInt("player_Level");
+        int playerLevel = CURRENT_USER.getInt("player_Level");
         return playerLevel;
     }
+    public List<ParseUser> getMetPeopleToday(){
+        List<ParseUser> list = CURRENT_USER.getList("metPeopleToday");
+        return list;
+    }
+    public ParseGeoPoint getCurrentLocation(){
+        ParseGeoPoint currentLocation = CURRENT_USER.getParseGeoPoint("location");
+        return currentLocation;
+    }
     public String getCreateAt(){
-        String createdAt = (army.getCreatedAt()).toString();
+        String createdAt = (CURRENT_USER.getCreatedAt()).toString();
         return createdAt;
     }
     public String getUpdateAt(){
-        String updatedAt = (army.getUpdatedAt()).toString();
+        String updatedAt = (CURRENT_USER.getUpdatedAt()).toString();
         return updatedAt;
     }
 
 /************ Set Methoden *************/
 
     public void setMaxLevel(int maxLevel){
-        army.put("maxLevel",maxLevel);
-        army.saveInBackground();
+        CURRENT_USER.put("maxLevel",maxLevel);
+        CURRENT_USER.saveInBackground();
     }
     public void setArmyStrength(int armyStrength){
-        army.put("army_strength",armyStrength);
-        army.saveInBackground();
+        CURRENT_USER.put("army_strength",armyStrength);
+        CURRENT_USER.saveInBackground();
     }
     public void setPlayerLevel(int playerLevel){
-        army.put("army_strength",playerLevel);
-        army.saveInBackground();
+        CURRENT_USER.put("player_level",playerLevel);
+        CURRENT_USER.saveInBackground();
+    }
+    public void setCurrentLocation(Location location){
+        ParseGeoPoint currentLocation = CURRENT_USER.getParseGeoPoint("location");
+
+        UserLocation = new ParseGeoPoint(location.getLatitude(),location.getLongitude());
+        UserLocList = new ArrayList<ParseGeoPoint>();
+        UserLocList.add(UserLocation);
+
+        CURRENT_USER.put("location", UserLocation);
+        CURRENT_USER.add("locationList", UserLocList);
+
+        CURRENT_USER.saveInBackground();
     }
 
 /************ Methoden *************/
 
-    public void refreshParseDbArmy(){
+    public void refreshParseUser(){
         System.out.println("refreshParseDbArmy");
-        army.fetchInBackground(new GetCallback<ParseObject>() {
+        CURRENT_USER.fetchInBackground(new GetCallback<ParseUser>() {
             @Override
-            public void done(ParseObject parseObject, ParseException e) {
+            public void done(ParseUser parseUser, ParseException e) {
                 if (e == null) {
                     // Success!
                     System.out.println("refreshParseDbArmy - Success!");
@@ -100,6 +120,7 @@ public class ParseDb {
             }
         });
     }
+    /*
     public void createArmy(ParseUser currentUser,int armyStrength, int maxLevel, int playerLevel){
         System.out.println("createArmy");
         this.ARMY_STRENGTH = armyStrength;
@@ -113,7 +134,8 @@ public class ParseDb {
         army.put("maxLevel", maxLevel);                         // maxLevel
         army.put("player_level", playerLevel);                  //  Player Level
         army.saveInBackground();
-    }
+    }*/
+    /*
     public void updateArmy(int armyStrength, int maxLevel, int playerLevel){
         System.out.println("updateArmy");
         this.ARMY_STRENGTH = armyStrength;
@@ -138,7 +160,8 @@ public class ParseDb {
             }
 
         });
-    }
+    }*/
+    /*
     public void newArmy(int armyStrength, int maxLevel, int playerLevel){
         System.out.println(" newArmy()");
         this.ARMY_STRENGTH = armyStrength;
@@ -165,5 +188,5 @@ public class ParseDb {
             }
         });
 
-    }
+    }*/
 }

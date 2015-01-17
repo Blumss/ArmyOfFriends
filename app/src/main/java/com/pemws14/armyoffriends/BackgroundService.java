@@ -83,7 +83,9 @@ public class BackgroundService extends Service {
             System.out.println("BackgroundService - onHandleIntent - Location available - Latitude: "+location.getLatitude());
             System.out.println("BackgroundService - onHandleIntent - Location available - Longitude: "+location.getLongitude());
             Toast.makeText(this, "new Location!", Toast.LENGTH_SHORT).show();
-            saveUserLocParse(location);
+
+            parseDb.setCurrentLocation(location);
+            getNearbyUsers(parseDb.getCurrentLocation(), location);
             saveArmyStuff();
            // sendLocResult(location);
         }
@@ -163,23 +165,11 @@ public class BackgroundService extends Service {
         sendBroadcast(intent);
     }
 
-    public void saveUserLocParse(Location location){
+    public void getNearbyUsers(ParseGeoPoint geoPoint, Location location){
 
-        UserLocation = new ParseGeoPoint(location.getLatitude(),location.getLongitude());
-        UserLocList = new ArrayList<ParseGeoPoint>();
-        UserLocList.add(UserLocation);
-
-        currentUser.put("location", UserLocation);
-        currentUser.add("locationList", UserLocList);
-     //   User.put("location", UserLocation);
-     //   User.add("locationList", UserLocList);
-        currentUser.saveInBackground();
-
-      //  ParseQuery<ParseObject> query = ParseQuery.getQuery("TestObject");
+        UserLocation = geoPoint;
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
-       // query.whereNear("location", UserLocation);
-       // query.setLimit(10);
-      //  query.whereWithinKilometers("location",UserLocation,0.05);
+
         userQuery.whereWithinKilometers("location",UserLocation,0.05);
         userQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
@@ -216,11 +206,12 @@ public class BackgroundService extends Service {
     public void saveArmyStuff(){
 
         dbSoldiers = dbHelper.getAllSoldiers();
-        System.out.println("dbSoldiers: "+dbSoldiers);
         armyStrength = gameMechanics.getArmyStrength(dbSoldiers);
-        System.out.println("armyStrength: "+armyStrength);
+        int maxLevel = dbHelper.getMaxLevel();
 
-        parseDb.newArmy(armyStrength,dbHelper.getMaxLevel(),defaultPlayerLevel);
+        parseDb.setArmyStrength(armyStrength);
+        parseDb.setMaxLevel(maxLevel);
+        parseDb.setPlayerLevel(defaultPlayerLevel);
     }
 
     protected void displayNotification() {

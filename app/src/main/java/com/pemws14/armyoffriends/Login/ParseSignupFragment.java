@@ -197,7 +197,8 @@ public class ParseSignupFragment extends com.pemws14.armyoffriends.login.ParseLo
           }
             /** successful login */
           if (e == null) {
-            parseDb.createArmy(parseUser,0,0,1);
+         //   parseDb.createArmy(parseUser,0,0,1);
+
             loadingFinish();
             signupSuccess();
 

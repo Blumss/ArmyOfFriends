@@ -187,7 +187,7 @@ public class ParseLoginFragment extends com.pemws14.armyoffriends.login.ParseLog
               }
               /** successful login */
               if (user != null) {
-                parseDb.createArmy(user,0,0,1);
+              //  parseDb.createArmy(user,0,0,1);
                 loadingFinish();
                 loginSuccess();
 
