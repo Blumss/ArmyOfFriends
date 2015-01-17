@@ -29,10 +29,11 @@ public class FightResultDialogFragment extends DialogFragment{
     int position;
     int enemyLevel;
     String toggle;
-    double result;
+    int random;
+    int chance;
     NoticeDialogListener mListener;
 
-    static FightResultDialogFragment newInstance(String name, int id, int pos, int enemyLevel, String toggle, Double result) {
+    static FightResultDialogFragment newInstance(String name, int id, int pos, int enemyLevel, String toggle, Double random, Double chance) {
         FightResultDialogFragment f = new FightResultDialogFragment();
         Bundle args = new Bundle();
         args.putString("name", name);
@@ -40,7 +41,8 @@ public class FightResultDialogFragment extends DialogFragment{
         args.putInt("pos", pos);
         args.putInt("enemyLevel", enemyLevel);
         args.putString("toggle", toggle);
-        args.putDouble("result", result);
+        args.putDouble("random", random);
+        args.putDouble("chance", chance);
         f.setArguments(args);
 
         return f;
@@ -69,10 +71,12 @@ public class FightResultDialogFragment extends DialogFragment{
         position = getArguments().getInt("pos");
         enemyLevel = getArguments().getInt("enemyLevel");
         toggle = getArguments().getString("toggle");
-        result = getArguments().getDouble("result");
+        random = (int)(getArguments().getDouble("random")*100);
+        chance = (int)(getArguments().getDouble("chance")*100);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.OurAlertDialog);
         final DbHelper dbHelper= new DbHelper(getActivity());
+        int result = 100;
 
         if (!toggle.isEmpty()) {
 
@@ -101,10 +105,13 @@ public class FightResultDialogFragment extends DialogFragment{
             builder.setView(layout)
                     .setTitle("Fight");
             ObjectAnimator anim;
+
+            //TODO calculate max
             if(toggle.equals("true")) {
-                anim = ObjectAnimator.ofInt(seekBar, "progress", 0, seekBar.getMax());
+                anim = ObjectAnimator.ofInt(seekBar, "progress", 0, result);
             }else{
-                anim = ObjectAnimator.ofInt(seekBar, "progress", 0, 100-(int)result);
+                result = 100-chance+random;
+                anim = ObjectAnimator.ofInt(seekBar, "progress", 0, result);
             }
             anim.addListener(new Animator.AnimatorListener() {
                 @Override
@@ -120,9 +127,12 @@ public class FightResultDialogFragment extends DialogFragment{
                         //dbHelper.getProfile(0).setEp(wonEPs);
                         resultText.setVisibility(View.VISIBLE);
                         additionalText1.setVisibility(View.VISIBLE);
+                        additionalText2.setVisibility(View.VISIBLE);
                         dismiss.setEnabled(true);
                         resultText.setText("Victory!");
                         additionalText1.setText("Congrats, you won against " + enemy + "!");
+                        if (random-chance<=10){additionalText2.setText("Pretty close! You were lucky this time...");}
+                        else{additionalText2.setText("You destroyed your enemy! Nice fight!");}
                     }else if(toggle.equals("false")){
                         resultText.setVisibility(View.VISIBLE);
                         additionalText1.setVisibility(View.VISIBLE);
@@ -130,7 +140,7 @@ public class FightResultDialogFragment extends DialogFragment{
                         dismiss.setEnabled(true);
                         resultText.setText("Loss!");
                         additionalText1.setText("You lost against " + enemy + "...");
-                        if (result<=10){additionalText2.setText("Pretty close! You were just unlucky...");}
+                        if (chance-random<=10){additionalText2.setText("Pretty close! You were just unlucky...");}
                         else{additionalText2.setText("You got destroyed! Improve your army to have a chance!");
                         }
                     }
@@ -146,7 +156,10 @@ public class FightResultDialogFragment extends DialogFragment{
 
                 }
             });
-            anim.setDuration(5000).start();
+            int durationMax = 5000-Math.abs(chance-random)*10;
+            int durationMin = 3500-Math.abs(chance-random)*10;
+            long duration = (long) (Math.random() * (durationMax - durationMin) + durationMin);
+            anim.setDuration(duration).start();
 
 
         } else if (toggle.isEmpty()) {

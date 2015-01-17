@@ -206,13 +206,12 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
      */
     private void createDailyChallengeEntry() {
         if (db.getAllFights().isEmpty()){
-            System.out.println("MainActivity: Creating Daily Challenge entry");
-            DbFight dailyChallenge = new DbFight("Daily Challenge", 0, 0, 10);
+            Log.i("MainActivity.createDailyChallengeEntry","Creating initial Daily Challenge entry");
+            DbFight dailyChallenge = new DbFight("Daily Challenge", 1, 0, 10);
             db.createFight(dailyChallenge);
         }else if (db.getAllFights().get(0).getMaxLevel()==10){
-            System.out.println("MainActivity: Daily Challenge already existing, Name: " +db.getAllFights().get(0).getName());
+            Log.i("MainActivity.createDailyChallengeEntry","Daily Challenge already existing!");
         }
-        System.out.println("MainActivity: List: " + db.getAllFights());
     }
 
     private void createSoldiers(){

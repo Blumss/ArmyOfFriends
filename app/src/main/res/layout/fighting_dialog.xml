@@ -5,13 +5,27 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <SeekBar
-        android:id="@+id/fighting_dialog_seekbar"
+    <LinearLayout
+        android:id="@+id/fighting_dialog_bar_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:thumb="@drawable/ic_menu_army"
-        android:max="100"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dialog_fighting_army"/>
+
+        <SeekBar
+            android:id="@+id/fighting_dialog_seekbar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:thumb="@drawable/ic_dialog_fighting"
+            android:max="100"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/fighting_dialog_result"
@@ -21,7 +35,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="30dp"
         android:textStyle="bold"
-        android:layout_below="@+id/fighting_dialog_seekbar"
+        android:layout_below="@+id/fighting_dialog_bar_layout"
         android:textSize="18sp"/>
 
     <TextView
