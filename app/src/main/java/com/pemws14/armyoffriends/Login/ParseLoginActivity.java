@@ -38,6 +38,7 @@ import android.view.Window;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.pemws14.armyoffriends.R;
+import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbProfile;
 import com.pemws14.armyoffriends.database.ParseDb;
 
@@ -91,6 +92,7 @@ public class ParseLoginActivity extends FragmentActivity implements
 
   ParseDb parseDb;
   DbProfile dbProfile;
+    DbHelper dbHelper;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,7 @@ public class ParseLoginActivity extends FragmentActivity implements
     // Combine options from incoming intent and the activity metadata
     configOptions = getMergedOptions();
     parseDb = new ParseDb();
+      dbHelper = new DbHelper(getApplicationContext());
 
     // Show the login form
     if (savedInstanceState == null) {
@@ -175,16 +178,33 @@ public class ParseLoginActivity extends FragmentActivity implements
     System.out.println("######################");
     System.out.println("### onLoginSuccess ###");
     System.out.println("######################");
-/*
 
+/*
       dbProfile = new DbProfile(
+              parseDb.getUserID(),
               parseDb.getCurrentUserName(),
               parseDb.getPlayerLevel(),
               parseDb.getEP(),
               parseDb.getArmyStrength(),
               parseDb.getMaxLevel()
       );
-*/
+      System.out.println("### DB PROFIL: "+dbProfile);
+      System.out.println("#############################");
+      System.out.println("Gibt es ein Profil: "+dbHelper.getProfile(parseDb.getUserID()));
+
+      if(dbHelper.getProfile(parseDb.getUserID())!=null){
+          System.out.println("#############################");
+          System.out.println("### Profil vorhanden ###");
+          System.out.println("#############################");
+          dbHelper.updateProfile(dbProfile);
+      }else{
+          System.out.println("#############################");
+          System.out.println("### kein Profil vorhanden ###");
+          System.out.println("#############################");
+          dbHelper.createProfile(dbProfile);
+      } */
+    //  dbHelper.createProfile(dbProfile);
+
     setResult(RESULT_OK);
     finish();
   }

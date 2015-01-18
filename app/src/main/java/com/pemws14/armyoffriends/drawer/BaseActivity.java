@@ -26,6 +26,7 @@ import com.pemws14.armyoffriends.YourProfileActivity;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbProfile;
 import com.pemws14.armyoffriends.database.DbSoldier;
+import com.pemws14.armyoffriends.database.ParseDb;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,7 @@ public class BaseActivity extends ActionBarActivity {
 
     private DbHelper db;
     private DbProfile profile;
+    private ParseDb parseDb;
 
 
     @Override
@@ -62,9 +64,11 @@ public class BaseActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+        parseDb = new ParseDb();
         db = new DbHelper(getApplicationContext());
         // TODO: getProfile & userId
-        // profile = db.getProfile(userId);
+//         profile = db.getProfile(parseDb.getUserID());
+        System.out.println("Das Profil: "+profile);
     }
 
     //public void set(String[] navMenuTitles, TypedArray navMenuIcons) {
@@ -75,14 +79,14 @@ public class BaseActivity extends ActionBarActivity {
         profileUsername = (TextView) findViewById(R.id.left_drawer_user_profile_username);
         profileUsername.setText("Schnabeltier");
         //TODO an profil anbinden
-        //profileUsername.setText(profile.getUserName());
+      //  profileUsername.setText(profile.getUserName());
 
         profileLevel = (TextView) findViewById(R.id.left_drawer_user_profile_lvl_number);
         int ep = 1000;
         Integer level = new Integer(GameMechanics.getPlayerLevelForEp(ep));
         profileLevel.setText(level.toString());
         //TODO an profil anbinden
-        //profileLevel.setText(profile.getPlayerLevel());
+      //  profileLevel.setText(profile.getPlayerLevel());
 
         profileArmyStrength = (TextView) findViewById(R.id.left_drawer_user_profile_armystrength_number);
         List<DbSoldier> limitedSoldiers = db.getLimitedSoldiers(GameMechanics.getMaxArmySize(level));

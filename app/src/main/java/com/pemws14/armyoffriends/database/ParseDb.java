@@ -40,7 +40,8 @@ public class ParseDb {
         return userName;
     }
     public String getUserID(){
-        String UserID = CURRENT_USER.getString("objectId");
+
+        String UserID = CURRENT_USER.getObjectId();
         return UserID;
     }
     public ParseUser getCurrentParseUser(){

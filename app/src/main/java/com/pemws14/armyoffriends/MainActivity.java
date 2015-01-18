@@ -30,7 +30,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.parse.ParseUser;
 import com.pemws14.armyoffriends.database.DbFight;
 import com.pemws14.armyoffriends.database.DbHelper;
+import com.pemws14.armyoffriends.database.DbProfile;
 import com.pemws14.armyoffriends.database.DbSoldier;
+import com.pemws14.armyoffriends.database.ParseDb;
 
 import java.util.List;
 
@@ -38,6 +40,9 @@ import java.util.List;
 public class MainActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,GooglePlayServicesClient.OnConnectionFailedListener,LocationListener  {
 
     DbHelper db;
+    ParseDb parseDb;
+    DbProfile dbProfile;
+
     public static Context mainContext;
 
     Button locButton;
@@ -89,7 +94,15 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         MainActivity.mainContext = getApplicationContext();
         db = new DbHelper(mainContext);
+        parseDb = new ParseDb();
+
+
+
         createDailyChallengeEntry();
+
+        initDB();
+
+
 
         // findViewbyIDs
         locButton = (Button)findViewById(R.id.LocationButton);
@@ -375,6 +388,38 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void initDB(){
+        //
+        System.out.println("USER ID: "+ParseUser.getCurrentUser().getObjectId());
+        dbProfile = new DbProfile(
+                parseDb.getUserID(),
+                parseDb.getCurrentUserName(),
+                parseDb.getPlayerLevel(),
+                parseDb.getEP(),
+                parseDb.getArmyStrength(),
+                parseDb.getMaxLevel()
+        );
+        //
+        System.out.println("### DB PROFIL: "+dbProfile);
+        System.out.println("#############################");
+        db.createProfile(dbProfile);
+
+
+      //  System.out.println("Gibt es ein Profil: "+db.getProfile(parseDb.getUserID()));
+/*
+        if(db.getProfile(parseDb.getUserID())!=null){
+            System.out.println("#############################");
+            System.out.println("### Profil vorhanden ###");
+            System.out.println("#############################");
+            db.updateProfile(dbProfile);
+        }else{
+            System.out.println("#############################");
+            System.out.println("### kein Profil vorhanden ###");
+            System.out.println("#############################");
+            db.createProfile(dbProfile);
+        }*/
     }
 
     public void getTheLastLocation(){
