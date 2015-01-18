@@ -213,27 +213,28 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
 
     /******************* Checkbox Checked Change Listener ********************/
 
-    private final class CheckUpdateListener implements CompoundButton.OnCheckedChangeListener
-    {
-        private final ParentRow parent;
-
-        private CheckUpdateListener(ParentRow parent)
-        {
-            this.parent = parent;
-        }
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-        {
-            Log.i("onCheckedChanged", "isChecked: "+isChecked);
-            parent.setChecked(isChecked);
-
-            //((MyExpandableListAdapter)getExpandableListAdapter()).notifyDataSetChanged();
-            MyExpandableListAdapter.this.notifyDataSetChanged();
-            final Boolean checked = parent.isChecked();
-            Toast.makeText(mActivity.getApplicationContext(),
-                    "Parent : "+parent.getName() + " " + (checked ? STR_CHECKED : STR_UNCHECKED),
-                    Toast.LENGTH_LONG).show();
-        }
-    }
+//    private final class CheckUpdateListener implements CompoundButton.OnCheckedChangeListener
+//    {
+//
+//        private final ParentRow parent;
+//
+//        private CheckUpdateListener(ParentRow parent)
+//        {
+//            this.parent = parent;
+//        }
+//        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+//        {
+//            Log.i("onCheckedChanged", "isChecked: "+isChecked);
+//            parent.setChecked(isChecked);
+//
+//            //((MyExpandableListAdapter)getExpandableListAdapter()).notifyDataSetChanged();
+//            MyExpandableListAdapter.this.notifyDataSetChanged();
+//            final Boolean checked = parent.isChecked();
+//            Toast.makeText(mActivity.getApplicationContext(),
+//                    "Parent : "+parent.getName() + " " + (checked ? STR_CHECKED : STR_UNCHECKED),
+//                    Toast.LENGTH_LONG).show();
+//        }
+//    }
     /***********************************************************************/
 
 }

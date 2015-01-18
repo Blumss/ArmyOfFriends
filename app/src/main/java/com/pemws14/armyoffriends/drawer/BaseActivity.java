@@ -85,8 +85,8 @@ public class BaseActivity extends ActionBarActivity {
         //profileLevel.setText(profile.getPlayerLevel());
 
         profileArmyStrength = (TextView) findViewById(R.id.left_drawer_user_profile_armystrength_number);
-        List<DbSoldier> getSoldiers = db.getAllSoldiers();
-        Integer ownStrength = GameMechanics.getArmyStrength(getSoldiers);
+        List<DbSoldier> limitedSoldiers = db.getLimitedSoldiers(GameMechanics.getMaxArmySize(level));
+        Integer ownStrength = GameMechanics.getArmyStrength(limitedSoldiers);
         profileArmyStrength.setText(ownStrength.toString());
         //TODO an profil anbinden
         //profileArmyStrength.setText(profile.getArmyStrength());
