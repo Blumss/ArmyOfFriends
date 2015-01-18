@@ -67,7 +67,7 @@ public class BaseActivity extends ActionBarActivity {
         parseDb = new ParseDb();
         db = new DbHelper(getApplicationContext());
         // TODO: getProfile & userId
-//         profile = db.getProfile(parseDb.getUserID());
+         profile = db.getProfile(parseDb.getUserID());
         System.out.println("Das Profil: "+profile);
     }
 
@@ -77,16 +77,16 @@ public class BaseActivity extends ActionBarActivity {
         //set profile data
         //--------------
         profileUsername = (TextView) findViewById(R.id.left_drawer_user_profile_username);
-        profileUsername.setText("Schnabeltier");
+        //profileUsername.setText("Schnabeltier");
         //TODO an profil anbinden
-      //  profileUsername.setText(profile.getUserName());
+        profileUsername.setText(profile.getUserName());
 
         profileLevel = (TextView) findViewById(R.id.left_drawer_user_profile_lvl_number);
         int ep = 1000;
         Integer level = new Integer(GameMechanics.getPlayerLevelForEp(ep));
         profileLevel.setText(level.toString());
         //TODO an profil anbinden
-      //  profileLevel.setText(profile.getPlayerLevel());
+        //profileLevel.setText(""+profile.getPlayerLevel());
 
         profileArmyStrength = (TextView) findViewById(R.id.left_drawer_user_profile_armystrength_number);
         List<DbSoldier> limitedSoldiers = db.getLimitedSoldiers(GameMechanics.getMaxArmySize(level));
@@ -99,7 +99,7 @@ public class BaseActivity extends ActionBarActivity {
         int progress = (int)(100*GameMechanics.getPlayerLevelProgress(ep));
         profileEpBar.setProgress(progress);
         //TODO get real ep from DB
-        //profileEpBar.setProgress(profile.getEp());
+       // profileEpBar.setProgress(profile.getEp());
 
 //        profileEpNumber = (TextView) findViewById(R.id.left_drawer_user_profile_ep_number);
 //        profileEpNumber.setText(" "+ ep);

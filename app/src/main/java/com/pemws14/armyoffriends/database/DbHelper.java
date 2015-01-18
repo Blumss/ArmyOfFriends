@@ -6,13 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.text.SimpleDateFormat;
-
-import com.pemws14.armyoffriends.GameMechanics;
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -563,11 +561,11 @@ public class DbHelper extends SQLiteOpenHelper {
     /*
     * SELECT * FROM profile LIMIT 1;
     */
-    public DbProfile getProfile(int userID) {
+    public DbProfile getProfile(String userID) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_PROFILE + " WHERE "
-                + KEY_USERID + " = " + userID;
+                + KEY_SERVERID + " = '" + userID+"'";
 
         Cursor c = db.rawQuery(selectQuery, null);
 

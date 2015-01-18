@@ -404,11 +404,11 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         //
         System.out.println("### DB PROFIL: "+dbProfile);
         System.out.println("#############################");
-        db.createProfile(dbProfile);
+    //    db.createProfile(dbProfile);
 
 
-      //  System.out.println("Gibt es ein Profil: "+db.getProfile(parseDb.getUserID()));
-/*
+        System.out.println("Gibt es ein Profil: "+db.getProfile(parseDb.getUserID()));
+
         if(db.getProfile(parseDb.getUserID())!=null){
             System.out.println("#############################");
             System.out.println("### Profil vorhanden ###");
@@ -419,7 +419,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             System.out.println("### kein Profil vorhanden ###");
             System.out.println("#############################");
             db.createProfile(dbProfile);
-        }*/
+        }
     }
 
     public void getTheLastLocation(){
