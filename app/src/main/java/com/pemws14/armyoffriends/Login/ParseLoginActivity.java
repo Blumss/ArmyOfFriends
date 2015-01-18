@@ -38,6 +38,8 @@ import android.view.Window;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.pemws14.armyoffriends.R;
+import com.pemws14.armyoffriends.database.DbProfile;
+import com.pemws14.armyoffriends.database.ParseDb;
 
 /**
  * Encapsulates the Parse login flow. The user can log in by username/password,
@@ -87,6 +89,9 @@ public class ParseLoginActivity extends FragmentActivity implements
   // Although Activity.isDestroyed() is in API 17, we implement it anyways for older versions.
   private boolean destroyed = false;
 
+  ParseDb parseDb;
+  DbProfile dbProfile;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -95,6 +100,7 @@ public class ParseLoginActivity extends FragmentActivity implements
 
     // Combine options from incoming intent and the activity metadata
     configOptions = getMergedOptions();
+    parseDb = new ParseDb();
 
     // Show the login form
     if (savedInstanceState == null) {
@@ -166,6 +172,19 @@ public class ParseLoginActivity extends FragmentActivity implements
     // This default implementation returns to the parent activity with
     // RESULT_OK.
     // You can change this implementation if you want a different behavior.
+/*    System.out.println("######################");
+    System.out.println("### onLoginSuccess ###");
+    System.out.println("######################");
+
+
+      dbProfile = new DbProfile(
+              parseDb.getCurrentUserName(),
+              parseDb.getPlayerLevel(),
+              parseDb.getEP(),
+              parseDb.getArmyStrength(),
+              parseDb.getMaxLevel()
+      );
+*/
     setResult(RESULT_OK);
     finish();
   }

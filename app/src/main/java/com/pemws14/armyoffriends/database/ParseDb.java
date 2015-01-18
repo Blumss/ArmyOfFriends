@@ -128,21 +128,16 @@ public class ParseDb {
             }
         });
     }
-    /*
-    public void createArmy(ParseUser currentUser,int armyStrength, int maxLevel, int playerLevel){
-        System.out.println("createArmy");
-        this.ARMY_STRENGTH = armyStrength;
-        this.MAX_LEVEL = maxLevel;
-        this.PLAYER_LEVEL = playerLevel;
 
-        army.put("UserID", currentUser);                        // UserID
-        army.put("refkey_ID", currentUser);                     // refkey_ID
-        army.put("ref_username", currentUser.getUsername());    // ref_username
-        army.put("army_strength", armyStrength);                // army_strength
-        army.put("maxLevel", maxLevel);                         // maxLevel
-        army.put("player_level", playerLevel);                  //  Player Level
-        army.saveInBackground();
-    }*/
+    public void updateArmy(int armyStrength, int maxLevel, int playerLevel, int ep){
+        System.out.println("newArmy");
+
+        CURRENT_USER.put("army_strength", armyStrength);    // army_strength
+        CURRENT_USER.put("maxLevel", maxLevel);             // maxLevel
+        CURRENT_USER.put("player_level", playerLevel);      //  Player Level
+        CURRENT_USER.put("ep",ep);                          // EP
+        CURRENT_USER.saveInBackground();
+    }
     /*
     public void updateArmy(int armyStrength, int maxLevel, int playerLevel){
         System.out.println("updateArmy");
