@@ -7,13 +7,16 @@ import com.pemws14.armyoffriends.login.ParseLoginDispatchActivity;
  */
 public class DispatchActivity extends ParseLoginDispatchActivity {
 
+
     @Override
     protected Class<?> getTargetClass() {
 
         // zu testzwecken:
-        return Test.class;
+       // return Test.class;
 
         // wenn die Mainactivity geschützt wird:
-        //return MainActivity.class;
+        return MainActivity.class;
     }
+
+
 }

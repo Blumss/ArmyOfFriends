@@ -82,8 +82,29 @@ public abstract class ParseLoginDispatchActivity extends Activity {
    * @return Intent that can be used to start ParseLoginActivity
    */
   protected Intent getParseLoginIntent() {
-      com.pemws14.armyoffriends.login.ParseLoginBuilder builder = new com.pemws14.armyoffriends.login.ParseLoginBuilder(this);
-    return builder.build();
+
+      ParseLoginBuilder builder = new ParseLoginBuilder(this);
+      Intent parseLoginIntent = builder
+              .setAppLogo(R.drawable.ic_launcher)
+              .setParseLoginEnabled(true)
+              .setParseLoginButtonText("Go")
+              .setParseSignupButtonText("Register")
+              .setParseLoginHelpText("Forgot password?")
+              .setParseLoginInvalidCredentialsToastText("You email and/or password is not correct")
+                      //      .setParseLoginEmailAsUsername(true)
+              .setParseSignupSubmitButtonText("Submit registration")
+                      //     .setFacebookLoginEnabled(true)
+                      //     .setFacebookLoginButtonText("Facebook")
+                      //      .setFacebookLoginPermissions(Arrays.asList("public_profile", "user_friends"))
+                      //     .setTwitterLoginEnabled(true)
+                      //      .setTwitterLoginButtontext("Twitter")
+              .setParseSignupMinPasswordLength(6)
+
+              .build();
+
+
+    //  com.pemws14.armyoffriends.login.ParseLoginBuilder builder = new com.pemws14.armyoffriends.login.ParseLoginBuilder(this);
+    return parseLoginIntent;
   }
 
   private void runDispatch() {
@@ -91,6 +112,7 @@ public abstract class ParseLoginDispatchActivity extends Activity {
       debugLog(getString(R.string.com_parse_ui_login_dispatch_user_logged_in) + getTargetClass());
       startActivityForResult(new Intent(this, getTargetClass()), TARGET_REQUEST);
     } else {
+
       debugLog(getString(R.string.com_parse_ui_login_dispatch_user_not_logged_in));
       startActivityForResult(getParseLoginIntent(), LOGIN_REQUEST);
     }

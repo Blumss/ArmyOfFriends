@@ -36,9 +36,11 @@ public class Test extends ActionBarActivity {
                 UserLogout();
                 System.out.println("User wurde ausgeloggt: ");
                 System.out.println("User ist: "+currentUser);
+            //    Intent intent = new Intent(getApplicationContext(), DispatchActivity.class);
+           //     startActivity(intent);
               //  Intent intent = new Intent(getApplicationContext(), MainActivity.class);
               //  startActivity(intent);
-                loginProcess();
+             //   loginProcess();
 
             }
         });

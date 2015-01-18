@@ -229,7 +229,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         return MainActivity.mainContext;
     }
 
-    /*
+/*
     @Override
     protected void onStart() {
         super.onStart();
@@ -245,7 +245,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         }
     }
-    */
+*/
     public BroadcastReceiver broadcastReceiver = new BroadcastReceiver(){
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -432,7 +432,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         latitudeText.setText(String.valueOf(lat));
         longitudeText.setText(String.valueOf(lng));
     }
-    /*
+/*
     public void loginProcess(){
 
         ParseLoginBuilder builder = new ParseLoginBuilder(MainActivity.this);
@@ -455,8 +455,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
                 .build();
         startActivityForResult(parseLoginIntent, 0);
 
-    }
-
+    }*/
+/*
     public void UserLogout(){
         currentUser = ParseUser.getCurrentUser();
         Parse

@@ -20,7 +20,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="com.pemws14.armyoffriends.MainActivity"
+            android:name="com.pemws14.armyoffriends.DispatchActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
@@ -37,7 +37,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
-            android:name="com.pemws14.armyoffriends.DispatchActivity"
+            android:name="com.pemws14.armyoffriends.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
