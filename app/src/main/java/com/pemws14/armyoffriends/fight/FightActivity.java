@@ -22,6 +22,8 @@ import com.pemws14.armyoffriends.database.DbProfile;
 import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.database.ParseDb;
 import com.pemws14.armyoffriends.drawer.BaseActivity;
+import com.pemws14.armyoffriends.history.HistoryActivity;
+import com.pemws14.armyoffriends.history.HistoryListAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -114,11 +116,8 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
      */
     public void checkFights(long currentTime) {
         List<DbFight> fights = dbHelper.getAllFights();
-
-        System.out.println("FightActivity.checkFights: " + fights);
         for (DbFight fight : fights) {
             //if not daily challenge
-            System.out.println("FightActivity.checkFights: trying to... ID: " + fight.getId());
             if (fight.getId() != 1){
                 if(fight.getCreated_at_Unix() < currentTime-86400) {
                     dbHelper.deleteFight(fight.getId());
@@ -129,12 +128,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
                     Log.i("FightActivity.checkFights","dailyChallenge has already been fought");
                     displayDailyChallenge(fight, false);
 
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
-                    Calendar cal = Calendar.getInstance();
-                    cal.add(Calendar.DATE, -1);
-                    String dailySplit[] = fight.getCreated_at().split("\\s+");
-                    String split[] = dateFormat.format(cal.getTime()).split("\\s+");
-                    if (split[0].equals(dailySplit[0])) {
+                    if (HistoryActivity.getDateDifference(fight.getCreated_at_Unix(),0) >= 1) {
                         Log.i("FightActivity.checkFights","old dailyChallenge getting replaced");
                         generateDailyChallenge(/*DbProfile profile*/);
                     }else{
@@ -143,7 +137,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
 
                 //if not or never fought (initial call)
                 }else{
-                    if(fight.getCreated_at_Unix() == 0){
+                    if(fight.getName().equals("Daily Challenge")){
                         Log.i("FightActivity.checkFights","dailyChallenge gets initially calculated");
                         generateDailyChallenge(/*DbProfile profile*/);
                     }else{

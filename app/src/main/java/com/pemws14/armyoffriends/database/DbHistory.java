@@ -12,6 +12,7 @@ public class DbHistory {
     private int enemyMaxLevel;
     private boolean result;
     private String created_at;
+    private long created_at_unix;
 
 
     public DbHistory() {
@@ -28,10 +29,11 @@ public class DbHistory {
         this.setResult(result);
     }
 
-    public DbHistory(int id, int ownPlayerLevel, int ownStrength, int ownMaxLevel, String enemyName, int enemyPlayerLevel, int enemyStrength, int enemyMaxLevel, boolean result, String created_at) {
+    public DbHistory(int id, int ownPlayerLevel, int ownStrength, int ownMaxLevel, String enemyName, int enemyPlayerLevel, int enemyStrength, int enemyMaxLevel, boolean result, String created_at, long created_at_unix) {
         this(ownPlayerLevel, ownStrength, ownMaxLevel, enemyName, enemyPlayerLevel, enemyStrength, enemyMaxLevel, result);
         this.setId(id);
         this.setCreated_at(created_at);
+        this.setCreated_at_Unix(created_at_unix);
     }
 
     public int getId() {
@@ -112,6 +114,14 @@ public class DbHistory {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    public long getCreated_at_Unix() {
+        return created_at_unix;
+    }
+
+    public void setCreated_at_Unix(long created_at_unix) {
+        this.created_at_unix = created_at_unix;
     }
 
 }
