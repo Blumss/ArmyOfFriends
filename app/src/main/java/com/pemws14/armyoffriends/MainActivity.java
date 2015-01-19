@@ -397,6 +397,14 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     public void initDB(){
         //
+        if(parseDb.getPlayerLevel()>0){
+            System.out.println("parseDb.getPlayerLevel()>0 TRUE: "+parseDb.getPlayerLevel());   // wird ausgelöst, wenn es einen Eintrag gibt
+
+
+        }else {
+            System.out.println("parseDb.getPlayerLevel()>0 FALSE: "+parseDb.getPlayerLevel()); // wird ausgelöst, wenn es keinen Eintrag gibt
+            parseDb.updateArmy(0,0,1,0);
+        }
         System.out.println("USER ID: "+ParseUser.getCurrentUser().getObjectId());
         dbProfile = new DbProfile(
                 parseDb.getUserID(),
@@ -407,6 +415,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
                 parseDb.getMaxLevel()
         );
         //
+
         System.out.println("### DB PROFIL: "+dbProfile);
         System.out.println("#############################");
         db.createProfile(dbProfile);

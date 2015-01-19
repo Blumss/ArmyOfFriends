@@ -57,7 +57,7 @@ public class ParseDb {
         return maxLevel;
     }
     public int getPlayerLevel(){
-        int playerLevel = CURRENT_USER.getInt("player_Level");
+        int playerLevel = CURRENT_USER.getInt("player_level");
         return playerLevel;
     }
     public List<ParseUser> getMetPeopleToday(){
