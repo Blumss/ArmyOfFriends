@@ -1,4 +1,4 @@
-package com.pemws14.armyoffriends;
+package com.pemws14.armyoffriends.background;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -16,6 +16,13 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.pemws14.armyoffriends.fight.FightActivity;
+import com.pemws14.armyoffriends.GameMechanics;
+import com.pemws14.armyoffriends.MainActivity;
+import com.pemws14.armyoffriends.ProfileActivity;
+import com.pemws14.armyoffriends.R;
+import com.pemws14.armyoffriends.UserProfile;
+import com.pemws14.armyoffriends.army.ArmyActivity;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.database.ParseDb;
@@ -220,8 +227,8 @@ public class BackgroundService extends Service {
 
         Intent MainAIntent = new Intent(this, MainActivity.class);
         Intent FightAIntent = new Intent(this, FightActivity.class);
-        Intent ArmyAIntent = new Intent(this, YourArmyActivity.class);
-        Intent ProfileAIntent = new Intent(this, YourProfileActivity.class);
+        Intent ArmyAIntent = new Intent(this, ArmyActivity.class);
+        Intent ProfileAIntent = new Intent(this, ProfileActivity.class);
 
         PendingIntent MainApIntent = PendingIntent.getActivity(this, 0, MainAIntent, 0);
         PendingIntent FightApIntent = PendingIntent.getActivity(this, 0, FightAIntent, 0);

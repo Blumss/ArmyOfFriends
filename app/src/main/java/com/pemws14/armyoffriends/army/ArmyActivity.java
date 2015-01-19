@@ -1,4 +1,4 @@
-package com.pemws14.armyoffriends;
+package com.pemws14.armyoffriends.army;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -10,20 +10,18 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.text.Html;
 
+import com.pemws14.armyoffriends.GameMechanics;
+import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.drawer.BaseActivity;
-import com.pemws14.armyoffriends.yourarmy.ChildRow;
 
-
-import com.pemws14.armyoffriends.yourarmy.MyExpandableListAdapter;
-import com.pemws14.armyoffriends.yourarmy.ParentRow;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class YourArmyActivity extends BaseActivity implements View.OnCreateContextMenuListener, ExpandableListView.OnChildClickListener {
+public class ArmyActivity extends BaseActivity implements View.OnCreateContextMenuListener, ExpandableListView.OnChildClickListener {
     ExpandableListView mList;
     ExpandableListAdapter mAdapter;
     boolean mFinishedStart = false;
@@ -200,7 +198,7 @@ public class YourArmyActivity extends BaseActivity implements View.OnCreateConte
         if (this.getExpandableListAdapter() == null)
         {
             //Create ExpandableListAdapter Object
-            final MyExpandableListAdapter mAdapter = new MyExpandableListAdapter(YourArmyActivity.this, parents);
+            final MyExpandableListAdapter mAdapter = new MyExpandableListAdapter(ArmyActivity.this, parents);
 
             // Set Adapter to MyExpandableList Adapter
             this.setListAdapter(mAdapter);

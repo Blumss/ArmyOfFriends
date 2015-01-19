@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.pemws14.armyoffriends.army.ArmyActivity;
+import com.pemws14.armyoffriends.fight.FightActivity;
+
 
 public class CreateNotificationActivity extends Activity {
 
@@ -52,8 +55,8 @@ public class CreateNotificationActivity extends Activity {
 
         Intent MainAIntent = new Intent(this, MainActivity.class);
         Intent FightAIntent = new Intent(this, FightActivity.class);
-        Intent ArmyAIntent = new Intent(this, YourArmyActivity.class);
-        Intent ProfileAIntent = new Intent(this, YourProfileActivity.class);
+        Intent ArmyAIntent = new Intent(this, ArmyActivity.class);
+        Intent ProfileAIntent = new Intent(this, ProfileActivity.class);
 
         PendingIntent MainApIntent = PendingIntent.getActivity(this, 0, MainAIntent, 0);
         PendingIntent FightApIntent = PendingIntent.getActivity(this, 0, FightAIntent, 0);

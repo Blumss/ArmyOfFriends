@@ -1,4 +1,4 @@
-package com.pemws14.armyoffriends;
+package com.pemws14.armyoffriends.background;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

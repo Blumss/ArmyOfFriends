@@ -1,4 +1,4 @@
-package com.pemws14.armyoffriends;
+package com.pemws14.armyoffriends.history;
 
 import android.app.FragmentManager;
 import android.content.Context;
@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
+import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.database.DbHistory;
 
 import java.util.List;

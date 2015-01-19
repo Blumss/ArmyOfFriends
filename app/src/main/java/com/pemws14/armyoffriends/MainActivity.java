@@ -28,11 +28,16 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationRequest;
 import com.parse.ParseUser;
+import com.pemws14.armyoffriends.army.ArmyActivity;
+import com.pemws14.armyoffriends.background.BackgroundReceiver;
+import com.pemws14.armyoffriends.background.BackgroundService;
 import com.pemws14.armyoffriends.database.DbFight;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbProfile;
 import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.database.ParseDb;
+import com.pemws14.armyoffriends.fight.FightActivity;
+import com.pemws14.armyoffriends.history.HistoryActivity;
 
 import java.util.List;
 
@@ -158,7 +163,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         armyButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), YourArmyActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ArmyActivity.class);
                 startActivity(intent);
             }
         });
@@ -185,7 +190,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         profileButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), YourProfileActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(intent);
             }
         });

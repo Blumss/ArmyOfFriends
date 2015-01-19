@@ -1,16 +1,12 @@
-package com.pemws14.armyoffriends.yourarmy;
+package com.pemws14.armyoffriends.army;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pemws14.armyoffriends.R;
 
@@ -51,7 +47,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
         final ParentRow parent = parents.get(groupPosition);
 
         // Inflate grouprow.xml file for parent rows
-        convertView = inflater.inflate(R.layout.your_army_group_row_layout, parentView, false);
+        convertView = inflater.inflate(R.layout.army_group_row_layout, parentView, false);
 
         // Get grouprow.xml file elements and set values
         ((TextView) convertView.findViewById(R.id.text1)).setText(parent.getText1());
@@ -98,7 +94,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
         final ChildRow child = parent.getChildren().get(childPosition);
 
         // Inflate childrow.xml file for child rows
-        convertView = inflater.inflate(R.layout.your_army_child_row_layout, parentView, false);
+        convertView = inflater.inflate(R.layout.army_child_row_layout, parentView, false);
 
         // Get childrow.xml file elements and set values
         ((TextView) convertView.findViewById(R.id.soldier_name)).setText(child.getName());

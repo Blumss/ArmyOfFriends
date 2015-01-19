@@ -130,8 +130,8 @@
     <string name="title_activity_test">Test</string>
     <string name="level_label">Level: </string>
     <string name="impressum_label">Impressum</string>
-    <string name="made_with_label">made with </string>
-    <string name="in_munich_label"> in Munich</string>
+    <string name="made_with_label">made with</string>
+    <string name="in_munich_label">in Munich</string>
     <string name="title_activity_create_notification">CreateNotificationActivity</string>
 
 </resources>

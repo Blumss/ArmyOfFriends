@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.pemws14.armyoffriends.drawer.BaseActivity;
 
-public class YourProfileActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity {
     private View view;
 
     @Override

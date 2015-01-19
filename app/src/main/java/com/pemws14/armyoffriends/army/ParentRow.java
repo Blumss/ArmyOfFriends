@@ -1,4 +1,4 @@
-package com.pemws14.armyoffriends.yourarmy;
+package com.pemws14.armyoffriends.army;
 
 /**
  * Created by Schnabeltier on 07.12.2014.

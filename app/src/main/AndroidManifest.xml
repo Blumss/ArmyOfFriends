@@ -48,25 +48,25 @@
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name="com.pemws14.armyoffriends.YourArmyActivity"
+            android:name=".army.ArmyActivity"
             android:label="@string/title_activity_your_army"
             android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name="com.pemws14.armyoffriends.FightActivity"
+            android:name=".fight.FightActivity"
             android:label="@string/title_activity_fight"
             android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name="com.pemws14.armyoffriends.HistoryActivity"
+            android:name=".history.HistoryActivity"
             android:label="@string/title_activity_history"
             android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name="com.pemws14.armyoffriends.YourProfileActivity"
+            android:name=".ProfileActivity"
             android:label="@string/title_activity_your_profile"
             android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
@@ -88,14 +88,14 @@
         </activity>
 
         <service
-            android:name="com.pemws14.armyoffriends.BackgroundService"
+            android:name=".background.BackgroundService"
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/ic_launcher"
             android:label="Army of Friends - Backgroundservice"
             android:process=":background_process" />
 
-        <receiver android:name="com.pemws14.armyoffriends.BackgroundReceiver" >
+        <receiver android:name=".background.BackgroundReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
