@@ -13,8 +13,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import com.pemws14.armyoffriends.R;
+import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbHistory;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -68,7 +70,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
             holder.detail.setTextColor(0xff990000);
         }
 
-        getDate(holder,history,0);
+        getDateString(holder, history);
     }
 
     @Override
@@ -76,28 +78,18 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
         return mDataset.size();
     }
 
-    public void getDate(ViewHolder holder, DbHistory history, int i){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -i);
-
-        String historySplit[] = history.getCreated_at().split("\\s+");
-        String split[] = dateFormat.format(cal.getTime()).split("\\s+");
-
-        if (split[0].equals(historySplit[0])) {
-            if(i==0){
-                holder.date.setText("today, " + historySplit[1].substring(0,5));
-            }else if(i==1){
-                holder.date.setText("yesterday, " + historySplit[1].substring(0,5));
-            }else if(2<=i && i<14){
-                holder.date.setText(i + " days ago");
-            }else if(14<=i && i<=200){
-                holder.date.setText((i+1)/7 + " weeks ago");
-            }else if(i>200){
-                holder.date.setText("a long time ago");
-            }
-        }else{
-            getDate(holder, history, ++i);
+    public void getDateString(ViewHolder holder, DbHistory history){
+        int difference = HistoryActivity.getDateDifference(history.getCreated_at_Unix(), 0);
+        if(difference==0){
+            holder.date.setText("today, " + history.getCreated_at().split("\\s+")[1].substring(0,5));
+        }else if(difference==1){
+            holder.date.setText("yesterday, " + history.getCreated_at().split("\\s+")[1].substring(0,5));
+        }else if(2<=difference && difference<14){
+            holder.date.setText(difference + " days ago");
+        }else if(14<=difference && difference<=200){
+            holder.date.setText((difference+1)/7 + " weeks ago");
+        }else if(difference>200){
+            holder.date.setText("a long time ago");
         }
     }
 }

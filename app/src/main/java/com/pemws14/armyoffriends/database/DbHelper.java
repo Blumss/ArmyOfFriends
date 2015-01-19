@@ -73,7 +73,7 @@ public class DbHelper extends SQLiteOpenHelper {
             + TABLE_HISTORY + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_OWN_PLAYER_LEVEL + " INTEGER,"
             + KEY_OWN_STRENGTH + " INTEGER," + KEY_OWN_MAX_LEVEL + " INTEGER,"  + KEY_ENEMY_NAME + " TEXT,"
             + KEY_ENEMY_PLAYER_LEVEL + " INTEGER,"+ KEY_ENEMY_STRENGTH + " INTEGER," + KEY_ENEMY_MAX_LEVEL + " INTEGER,"
-            + KEY_RESULT + " BOOLEAN," + KEY_CREATED_AT + " DATETIME" + ")";
+            + KEY_RESULT + " BOOLEAN," + KEY_CREATED_AT + " DATETIME," + KEY_CREATED_AT_UNIX + " LONG" + ")";
 
     //profile table create statement
     private static final String CREATE_TABLE_PROFILE = "CREATE TABLE "
@@ -415,6 +415,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_ENEMY_MAX_LEVEL, history.getEnemyMaxLevel());
         values.put(KEY_RESULT, history.getResult());
         values.put(KEY_CREATED_AT, getDateTime());
+        values.put(KEY_CREATED_AT_UNIX, getUnix());
 
         // insert row
         long history_id = db.insert(TABLE_HISTORY, null, values);
@@ -447,6 +448,7 @@ public class DbHelper extends SQLiteOpenHelper {
         history.setEnemyMaxLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_MAX_LEVEL)));
         history.setResult(c.getInt(c.getColumnIndex(KEY_RESULT)) > 0);
         history.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+        history.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
 
         return history;
     }
@@ -475,6 +477,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 history.setEnemyMaxLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_MAX_LEVEL)));
                 history.setResult(c.getInt(c.getColumnIndex(KEY_RESULT)) > 0);
                 history.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+                history.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
 
                 // adding to fight list
                 historyEntries.add(history);
@@ -501,6 +504,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_ENEMY_MAX_LEVEL, history.getEnemyMaxLevel());
         values.put(KEY_RESULT, history.getResult());
         values.put(KEY_CREATED_AT, getDateTime());
+        values.put(KEY_CREATED_AT_UNIX, getUnix());
 
         // updating row
         return db.update(TABLE_HISTORY, values, KEY_ID + " = ?",

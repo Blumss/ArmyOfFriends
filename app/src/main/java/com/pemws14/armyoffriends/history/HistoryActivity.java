@@ -14,8 +14,12 @@ import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbHistory;
 import com.pemws14.armyoffriends.drawer.BaseActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class HistoryActivity extends BaseActivity {
@@ -70,5 +74,19 @@ public class HistoryActivity extends BaseActivity {
         TextView lost = (TextView) view.findViewById(R.id.fight_info_total_losses);
         won.setText(new Integer(wins).toString());
         lost.setText(new Integer(losses).toString());
+    }
+
+    public static int getDateDifference (long historyTime, int day){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -day);
+        String comparator = dateFormat.format(cal.getTime()).split("\\s+")[0];
+        String date = dateFormat.format(new Date(historyTime*1000)).split("\\s+")[0];
+
+        if (comparator.equals(date)){
+            return day;
+        }else{
+            return getDateDifference(historyTime,++day);
+        }
     }
 }
