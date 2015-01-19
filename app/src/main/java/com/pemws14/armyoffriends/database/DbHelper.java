@@ -77,8 +77,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //profile table create statement
     private static final String CREATE_TABLE_PROFILE = "CREATE TABLE "
-            + TABLE_PROFILE + "(" + KEY_USERID + " INTEGER PRIMARY KEY," + KEY_SERVERID
-            + " TEXT," + KEY_PLAYER_NAME + " TEXT," + KEY_PLAYER_LEVEL + " INTEGER," + KEY_EP + " INTEGER," +  KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
+            + TABLE_PROFILE + "(" + KEY_USERID + " TEXT," + KEY_SERVERID
+            + " TEXT PRIMARY KEY," + KEY_PLAYER_NAME + " TEXT," + KEY_PLAYER_LEVEL + " INTEGER," + KEY_EP + " INTEGER," +  KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
             + " DATETIME" + ")";
 
 
@@ -210,7 +210,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     /*
-* SELECT * FROM soldier ORDER BY level DESC;
+* SELECT * FROM soldier ORDER BY level DESC LIMIT maxArmySize;
 * */
     public List<DbSoldier> getLimitedSoldiers(int maxArmySize) {
         List<DbSoldier> soldiers = new ArrayList<DbSoldier>();
