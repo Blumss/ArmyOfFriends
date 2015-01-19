@@ -23,7 +23,10 @@ import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.database.ParseDb;
 import com.pemws14.armyoffriends.drawer.BaseActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class FightActivity extends BaseActivity implements FightResultDialogFragment.NoticeDialogListener{
@@ -111,9 +114,12 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
      */
     public void checkFights(long currentTime) {
         List<DbFight> fights = dbHelper.getAllFights();
+
+        System.out.println("FightActivity.checkFights: " + fights);
         for (DbFight fight : fights) {
             //if not daily challenge
-            if (fight.getMaxLevel() != 10){
+            System.out.println("FightActivity.checkFights: trying to... ID: " + fight.getId());
+            if (fight.getId() != 1){
                 if(fight.getCreated_at_Unix() < currentTime-86400) {
                     dbHelper.deleteFight(fight.getId());
                 }
@@ -122,13 +128,22 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
                 if(fight.getPlayerLevel()==0){
                     Log.i("FightActivity.checkFights","dailyChallenge has already been fought");
                     displayDailyChallenge(fight, false);
-                    if(fight.getCreated_at_Unix() < currentTime-86400){
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault());
+                    Calendar cal = Calendar.getInstance();
+                    cal.add(Calendar.DATE, -1);
+                    String dailySplit[] = fight.getCreated_at().split("\\s+");
+                    String split[] = dateFormat.format(cal.getTime()).split("\\s+");
+                    if (split[0].equals(dailySplit[0])) {
                         Log.i("FightActivity.checkFights","old dailyChallenge getting replaced");
                         generateDailyChallenge(/*DbProfile profile*/);
+                    }else{
+                        Log.i("FightActivity.checkFights","dailyChallenge is ok");
                     }
+
                 //if not or never fought (initial call)
                 }else{
-                    if(fight.getStrength() == 0){
+                    if(fight.getCreated_at_Unix() == 0){
                         Log.i("FightActivity.checkFights","dailyChallenge gets initially calculated");
                         generateDailyChallenge(/*DbProfile profile*/);
                     }else{
@@ -223,7 +238,6 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         daily.setName("PEM Presentation");
         daily.setPlayerLevel(challenge[0]);
         daily.setStrength(challenge[1]);
-        daily.setMaxLevel(10);
         daily.setId(1);
         daily.setCreated_at(dbHelper.getDateTime());
         daily.setCreated_at_Unix(dbHelper.getUnix());
