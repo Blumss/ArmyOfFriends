@@ -70,12 +70,12 @@ public class FightResultDialogFragment extends DialogFragment{
         position = getArguments().getInt("pos");
         enemyLevel = getArguments().getInt("enemyLevel");
         toggle = getArguments().getString("toggle");
-        random = (int)(getArguments().getDouble("random")*100);
-        chance = (int)(getArguments().getDouble("chance")*100);
+        random = (int)(getArguments().getDouble("random")*1000);
+        chance = (int)(getArguments().getDouble("chance")*1000);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.OurAlertDialog);
         final DbHelper dbHelper= new DbHelper(getActivity());
-        int result = 100;
+        int result = 1000;
 
         if (!toggle.isEmpty()) {
 
@@ -109,7 +109,7 @@ public class FightResultDialogFragment extends DialogFragment{
             if(toggle.equals("true")) {
                 anim = ObjectAnimator.ofInt(seekBar, "progress", 0, result);
             }else{
-                result = 100-chance+random;
+                result = 1000-chance+random;
                 anim = ObjectAnimator.ofInt(seekBar, "progress", 0, result);
             }
             anim.addListener(new Animator.AnimatorListener() {
@@ -155,8 +155,8 @@ public class FightResultDialogFragment extends DialogFragment{
 
                 }
             });
-            int durationMax = 5000-Math.abs(chance-random)*10;
-            int durationMin = 3500-Math.abs(chance-random)*10;
+            int durationMax = 5000-Math.abs(chance-random);
+            int durationMin = 3500-Math.abs(chance-random);
             long duration = (long) (Math.random() * (durationMax - durationMin) + durationMin);
             anim.setDuration(duration).start();
 
