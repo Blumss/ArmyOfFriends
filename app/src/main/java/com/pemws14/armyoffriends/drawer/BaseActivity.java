@@ -69,6 +69,7 @@ public class BaseActivity extends ActionBarActivity {
         // TODO: getProfile & userId
          profile = db.getProfile(parseDb.getUserID());
         System.out.println("Das Profil: "+profile);
+        System.out.println("EP: " + profile.getEp());
     }
 
     //public void set(String[] navMenuTitles, TypedArray navMenuIcons) {
@@ -80,13 +81,13 @@ public class BaseActivity extends ActionBarActivity {
         profileUsername.setText(profile.getUserName());
 
         profileLevel = (TextView) findViewById(R.id.left_drawer_user_profile_lvl_number);
-        Integer level = new Integer(GameMechanics.getPlayerLevelForEp(profile.getEp()));
+        Integer level = GameMechanics.getPlayerLevelForEp(profile.getEp());
         profileLevel.setText(level.toString());
 
         profileArmyStrength = (TextView) findViewById(R.id.left_drawer_user_profile_armystrength_number);
         List<DbSoldier> limitedSoldiers = db.getLimitedSoldiers(GameMechanics.getMaxArmySize(level));
         Integer ownStrength = GameMechanics.getArmyStrength(limitedSoldiers);
-        profileArmyStrength.setText(ownStrength.toString());;
+        profileArmyStrength.setText(ownStrength.toString());
 
         profileEpBar = (ProgressBar) findViewById(R.id.left_drawer_user_profile_ep_bar);
         int progress = (int)(100*GameMechanics.getPlayerLevelProgress(profile.getEp()));

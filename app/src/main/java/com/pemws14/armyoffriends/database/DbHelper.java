@@ -50,7 +50,6 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_RESULT = "result";
 
     //profile Table - column names
-    private static final String KEY_USERID = "userID";
     private static final String KEY_SERVERID = "serverID";
     private static final String KEY_EP = "ep";
 
@@ -77,8 +76,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //profile table create statement
     private static final String CREATE_TABLE_PROFILE = "CREATE TABLE "
-            + TABLE_PROFILE + "(" + KEY_USERID + " TEXT," + KEY_SERVERID
-            + " TEXT PRIMARY KEY," + KEY_PLAYER_NAME + " TEXT," + KEY_PLAYER_LEVEL + " INTEGER," + KEY_EP + " INTEGER," +  KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
+            + TABLE_PROFILE + "(" + KEY_SERVERID + " TEXT PRIMARY KEY," + KEY_PLAYER_NAME + " TEXT,"
+            + KEY_PLAYER_LEVEL + " INTEGER," + KEY_EP + " INTEGER," +  KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
             + " DATETIME" + ")";
 
 
@@ -527,7 +526,6 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_USERID, profile.getUserID());
         values.put(KEY_SERVERID, profile.getServerID());
         values.put(KEY_PLAYER_NAME, profile.getUserName());
         values.put(KEY_PLAYER_LEVEL,profile.getPlayerLevel());
@@ -549,17 +547,16 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_SERVERID, profile.getServerID());
         values.put(KEY_PLAYER_NAME, profile.getUserName());
         values.put(KEY_PLAYER_LEVEL,profile.getPlayerLevel());
         values.put(KEY_EP,profile.getEp());
         values.put(KEY_STRENGTH,profile.getArmyStrength());
         values.put(KEY_MAX_LEVEL, profile.getMaxSoldierLevel());
         values.put(KEY_CREATED_AT, getDateTime());
-
+        System.out.println("DBHelper: Updated! CurEPs: " + profile.getEp());
         // updating row
-        return db.update(TABLE_PROFILE, values, KEY_USERID + " = ?",
-                new String[] { String.valueOf(profile.getUserID()) });
+        return db.update(TABLE_PROFILE, values, KEY_SERVERID + " = ?",
+                new String[] { profile.getServerID() });
     }
 
     /*
@@ -577,7 +574,6 @@ public class DbHelper extends SQLiteOpenHelper {
             c.moveToFirst();
 
         DbProfile profile = new DbProfile();
-        profile.setUserID((c.getInt(c.getColumnIndex(KEY_USERID))));
         profile.setServerID((c.getString(c.getColumnIndex(KEY_SERVERID))));
         profile.setUserName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
         profile.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
@@ -594,7 +590,7 @@ public class DbHelper extends SQLiteOpenHelper {
     */
     public void deleteProfile(int userID) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_PROFILE, KEY_USERID + " = ?",
+        db.delete(TABLE_PROFILE, KEY_SERVERID + " = ?",
                 new String[] { String.valueOf(userID) });
     }
 
