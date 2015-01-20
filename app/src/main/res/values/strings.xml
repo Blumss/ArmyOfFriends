@@ -133,5 +133,20 @@
     <string name="made_with_label">made with</string>
     <string name="in_munich_label">in Munich</string>
     <string name="title_activity_create_notification">CreateNotificationActivity</string>
+    <string name="profile_level">Level:</string>
+    <string name="profile_actual_army_strength">Actual Army Strength:</string>
+    <string name="profile_max_army_strength">Max Army Strength:</string>
+    <string name="fight_army_strength">Army Strength:</string>
+    <string name="fight_daily_challenge">Daily Challenge</string>
+    <string name="fight_level">Level:</string>
+    <string name="fight_fight_button">FIGHT!</string>
+    <string name="fight_people_you_can_fight">People you can fight</string>
+    <string name="impressum_i1">Brought to you by:</string>
+    <string name="impressum_i2">Benjamin Fritzsche</string>
+    <string name="impressum_i3">Martin Fröhlich</string>
+    <string name="impressum_i5">Daniel Kolb</string>
+    <string name="impressum_i4">Lara Hirschbeck</string>
+    <string name="impressum_i6">Version 0.8.14</string>
+    <string name="logo_description">Logo</string>
 
 </resources>

@@ -27,6 +27,25 @@
         <item name="colorAccent">#515151</item>
     </style>
 
+    <style name="ImpressumTheme" parent="OurDrawerTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:background">#86272D</item>
+    </style>
+
+    <style name="BGTheme" parent="OurDrawerTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:background">#fff</item>
+    </style>
+
+    <style name="RegularTextTheme" parent="BGTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:textColor">#000</item>
+    </style>
+
+    <style name="Headline1TextColor" parent="BGTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:textColor">#666</item>
+    </style>
 
     <style name="ParseLoginUI" />
 

@@ -86,7 +86,7 @@ public class BaseActivity extends ActionBarActivity {
         profileArmyStrength = (TextView) findViewById(R.id.left_drawer_user_profile_armystrength_number);
         List<DbSoldier> limitedSoldiers = db.getLimitedSoldiers(GameMechanics.getMaxArmySize(level));
         Integer ownStrength = GameMechanics.getArmyStrength(limitedSoldiers);
-        profileArmyStrength.setText(ownStrength.toString());;
+        profileArmyStrength.setText(ownStrength.toString());
 
         profileEpBar = (ProgressBar) findViewById(R.id.left_drawer_user_profile_ep_bar);
         int progress = (int)(100*GameMechanics.getPlayerLevelProgress(profile.getEp()));

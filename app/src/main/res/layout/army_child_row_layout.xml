@@ -22,7 +22,7 @@
             <TableRow>
                 <TextView
                     android:id="@+id/soldier_name"
-                    android:textColor="#000"
+                    style="@style/RegularTextTheme"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_weight="1" android:layout_gravity="left|center_vertical"
@@ -45,7 +45,7 @@
                     android:weightSum="2">
                     <TextView
                         android:id="@+id/level"
-                        android:textColor="#666"
+                        style="@style/Headline1TextColor"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_weight="1" android:layout_gravity="left|center_vertical"
@@ -54,7 +54,7 @@
 
                     <TextView
                         android:id="@+id/level_next_rank"
-                        android:textColor="#666"
+                        style="@style/Headline1TextColor"
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_weight="1" android:layout_gravity="left|center_vertical"

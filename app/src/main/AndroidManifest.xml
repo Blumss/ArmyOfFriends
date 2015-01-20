@@ -75,7 +75,7 @@
             android:name="com.pemws14.armyoffriends.ImpressumActivity"
             android:label="@string/title_activity_impressum"
             android:screenOrientation="portrait"
-            android:theme="@style/OurDrawerTheme" >
+            android:theme="@style/ImpressumTheme" >
         </activity>
         <activity
             android:name="com.pemws14.armyoffriends.login.ParseLoginActivity"

@@ -21,14 +21,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="Level: "
+                android:text="@string/fight_level"
                 android:textColor="#ffffff"/>
 
             <TextView
                 android:id="@+id/fight_info_level"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="200"
                 android:singleLine="true"
                 android:textColor="#ffffff"/>
 
@@ -44,14 +43,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="Army Strength: "
+                android:text="@string/fight_army_strength"
                 android:textColor="#ffffff"/>
 
             <TextView
                 android:id="@+id/fight_info_strength"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="1"
                 android:singleLine="true"
                 android:textColor="#ffffff" />
 
@@ -71,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginLeft="10dp"
-            android:text="Daily Challenge"
+            android:text="@string/fight_daily_challenge"
             android:textColor="#000"
             android:singleLine="true"
             android:textSize="20sp"
@@ -128,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
                 android:layout_gravity="center_vertical"
-                android:text="FIGHT!"
+                android:text="@string/fight_fight_button"
                 android:textSize="15sp"
                 android:layout_marginRight="10dp"
                 android:fontFamily="sans-serif"
@@ -154,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="People you can fight"
+            android:text="@string/fight_people_you_can_fight"
             android:textColor="#000"
             android:singleLine="true"
             android:textSize="20sp" />
