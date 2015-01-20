@@ -69,6 +69,7 @@ public class BaseActivity extends ActionBarActivity {
         // TODO: getProfile & userId
          profile = db.getProfile(parseDb.getUserID());
         System.out.println("Das Profil: "+profile);
+        System.out.println("EP: " + profile.getEp());
     }
 
     //public void set(String[] navMenuTitles, TypedArray navMenuIcons) {
@@ -80,7 +81,7 @@ public class BaseActivity extends ActionBarActivity {
         profileUsername.setText(profile.getUserName());
 
         profileLevel = (TextView) findViewById(R.id.left_drawer_user_profile_lvl_number);
-        Integer level = new Integer(GameMechanics.getPlayerLevelForEp(profile.getEp()));
+        Integer level = GameMechanics.getPlayerLevelForEp(profile.getEp());
         profileLevel.setText(level.toString());
 
         profileArmyStrength = (TextView) findViewById(R.id.left_drawer_user_profile_armystrength_number);

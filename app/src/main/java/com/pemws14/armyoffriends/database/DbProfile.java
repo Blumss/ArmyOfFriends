@@ -22,18 +22,9 @@ public class DbProfile {
         this.maxSoldierLevel = maxSoldierLevel;
     }
 
-    public DbProfile(int userID, String serverID, String userName, int playerLevel, int ep, int armyStrength, int maxSoldierLevel, String created_at) {
+    public DbProfile(String serverID, String userName, int playerLevel, int ep, int armyStrength, int maxSoldierLevel, String created_at) {
         this(serverID, userName, playerLevel, ep, armyStrength, maxSoldierLevel);
-        this.userID = userID;
         this.created_at = created_at;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
     }
 
     public String getServerID() {
