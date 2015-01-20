@@ -18,7 +18,7 @@ public class ProfileActivity extends BaseActivity {
         // catches Frame, where to insert actual ActivityView
         ViewGroup parent = (ViewGroup) findViewById(R.id.content_frame);
         //View of new activity
-        view = LayoutInflater.from(this).inflate(R.layout.activity_your_profile, parent, false);
+        view = LayoutInflater.from(this).inflate(R.layout.activity_profile, parent, false);
         parent.addView(view);
         //--> IN EVERY ACTIVITY WITH DRAWER
     }

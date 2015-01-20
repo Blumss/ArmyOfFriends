@@ -41,7 +41,7 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
         // catches Frame, where to insert actual ActivityView
         ViewGroup parent = (ViewGroup) findViewById(R.id.content_frame);
         //View of new activity
-        view = LayoutInflater.from(this).inflate(R.layout.activity_your_army, parent, false);
+        view = LayoutInflater.from(this).inflate(R.layout.activity_army, parent, false);
         parent.addView(view);
         //--> IN EVERY ACTIVITY WITH DRAWER
         mList = (ExpandableListView) findViewById(R.id.yourArmyListView);
@@ -94,7 +94,7 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
             return;
         }
         //setContentView(com.android.internal.R.layout.expandable_list_content);
-        //setContentView(R.layout.activity_your_army);
+        //setContentView(R.layout.activity_army);
     }
 
     /**
