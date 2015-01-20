@@ -130,7 +130,7 @@ public class FightResultDialogFragment extends DialogFragment{
                         dismiss.setEnabled(true);
                         resultText.setText("Victory!");
                         additionalText1.setText("Congrats, you won against " + enemy + "!");
-                        if (random-chance<=10){additionalText2.setText("Pretty close! You were lucky this time...");}
+                        if (random-chance<=100){additionalText2.setText("Pretty close! You were lucky this time...");}
                         else{additionalText2.setText("You destroyed your enemy! Nice fight!");}
                     }else if(toggle.equals("false")){
                         resultText.setVisibility(View.VISIBLE);
@@ -139,8 +139,9 @@ public class FightResultDialogFragment extends DialogFragment{
                         dismiss.setEnabled(true);
                         resultText.setText("Loss!");
                         additionalText1.setText("You lost against " + enemy + "...");
-                        if (chance-random<=10){additionalText2.setText("Pretty close! You were just unlucky...");}
-                        else{additionalText2.setText("You got destroyed! Improve your army to have a chance!");
+                        if (chance-random<=100){additionalText2.setText("Pretty close! You were just unlucky...");}
+                        else if (100<chance-random && chance-random<=750){additionalText2.setText("You lost this time! Improve your army!");}
+                        else {additionalText2.setText("You got destroyed! To win, your army should get a major army improvement!");
                         }
                     }
                 }

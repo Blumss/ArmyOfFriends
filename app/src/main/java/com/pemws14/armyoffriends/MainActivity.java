@@ -101,13 +101,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         db = new DbHelper(mainContext);
         parseDb = new ParseDb();
 
-
-
         createDailyChallengeEntry();
-
         initDB();
-
-
 
         // findViewbyIDs
         locButton = (Button)findViewById(R.id.LocationButton);
@@ -123,21 +118,17 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         userNumberText = (TextView)findViewById(R.id.CountNearUsersText);
 
         backgroundReceiver = new BackgroundReceiver();
-
         mIntentService = new Intent(this,BackgroundService.class);
         mPendingIntent = PendingIntent.getService(this, 1, mIntentService, 0);
-
         int resp = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
         if(resp == ConnectionResult.SUCCESS){
             System.out.println("MainActivity - onCreate - GooglePlayServiceConnection: SUCCESS ");
             locationclient = new LocationClient(this,this,this);
             locationclient.connect();
-        }
-        else{
+        }else{
             System.out.println("MainActivity - onCreate - GooglePlayServiceConnection: FAILURE ");
             Toast.makeText(this, "Google Play Service Error " + resp, Toast.LENGTH_LONG).show();
-
         }
 
       //  ParseObject testObject = new ParseObject("TestObject");
@@ -407,22 +398,22 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             parseDb.updateArmy(0,0,1,0);
         }
         System.out.println("USER ID: "+ParseUser.getCurrentUser().getObjectId());
-        dbProfile = new DbProfile(
-                parseDb.getUserID(),
-                parseDb.getCurrentUserName(),
-                parseDb.getPlayerLevel(),
-                parseDb.getEP(),
-                parseDb.getArmyStrength(),
-                parseDb.getMaxLevel()
-        );
-        //
-
+        List<DbProfile> profiles = db.getAllProfiles();
+        for (DbProfile oneProfile: profiles){
+            if (!(oneProfile.getServerID().equals(ParseUser.getCurrentUser().getObjectId()))){
+                dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
+                db.createProfile(dbProfile);
+            }else{
+                Log.i("MainActivity.initDB", "Profile already existing");
+            }
+        }
         System.out.println("### DB PROFIL: "+dbProfile);
         System.out.println("#############################");
-        db.createProfile(dbProfile);
 
 
-    //    System.out.println("Gibt es ein Profil: "+db.getProfile(parseDb.getUserID()));
+
+
+        //    System.out.println("Gibt es ein Profil: "+db.getProfile(parseDb.getUserID()));
 /*
         if(db.getProfile(parseDb.getUserID())!=null){
             System.out.println("#############################");

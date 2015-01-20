@@ -37,6 +37,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     private ParseDb parseDb;
     private DbHelper dbHelper;
     private DbHistory dbHistory;
+    private DbProfile dbProfile;
     private int profileId;
     private long currentTime;
 
@@ -71,9 +72,9 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         dbHelper = new DbHelper(getApplicationContext());
         currentTime = DbHelper.getUnix();
         parseDb = new ParseDb();
-        DbProfile dbProfile = dbHelper.getProfile(parseDb.getUserID());
+        dbProfile = dbHelper.getProfile(parseDb.getUserID());
 
-        //createDummies();
+        createDummies();
 
         fightList = dbHelper.getAllFights();
         fightList.remove(0);
@@ -89,7 +90,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         List<DbSoldier> getSoldiers = dbHelper.getAllSoldiers();
 
         maxOwnStrength = GameMechanics.getArmyStrength(getSoldiers);
-        ownStrength = 6;//GameMechanics.getArmyStrength(dbHelper.getLimitedSoldiers(armySize));
+        ownStrength = GameMechanics.getArmyStrength(dbHelper.getLimitedSoldiers(armySize));
         armyStrength.setText(ownStrength.toString() + "/" + maxOwnStrength.toString());
         ownLevel.setText(level.toString());
 
@@ -126,7 +127,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
 
                     if (HistoryActivity.getDateDifference(fight.getCreated_at_Unix(),0) >= 1) {
                         Log.i("FightActivity.checkFights","old dailyChallenge getting replaced");
-                        generateDailyChallenge(/*DbProfile profile*/);
+                        generateDailyChallenge(dbProfile);
                     }else{
                         Log.i("FightActivity.checkFights","dailyChallenge is ok");
                     }
@@ -135,7 +136,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
                 }else{
                     if(fight.getName().equals("Daily Challenge")){
                         Log.i("FightActivity.checkFights","dailyChallenge gets initially calculated");
-                        generateDailyChallenge(/*DbProfile profile*/);
+                        generateDailyChallenge(dbProfile);
                     }else{
                         Log.i("FightActivity.checkFights","dailyChallenge has not been fought today");
                         displayDailyChallenge(fight, true);
@@ -177,7 +178,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         dialog.dismiss();
         DbFight dbFight = dbHelper.getFight(fightId);
 
-        fightResult = GameMechanics.getFightResult(ownStrength/*ownArmyStrength*/, dbFight.getStrength());
+        fightResult = GameMechanics.getFightResult(ownStrength, dbFight.getStrength());
         double random = fightResult[0];
         double chance = fightResult[1];
 
@@ -221,23 +222,20 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     public void updateDBs(DbFight dbFight, Boolean result, double chance){
         dbHistory = new DbHistory(level, ownStrength, dbHelper.getMaxLevel(), dbFight.getName(), dbFight.getPlayerLevel(), dbFight.getStrength(), dbFight.getMaxLevel(), result);
         dbHelper.createHistory(dbHistory);
-        DbProfile dbProfile = dbHelper.getProfile(parseDb.getUserID());
         if(result){
-            System.out.println("FightAc: Your current EPs: " + dbProfile.getEp());
             dbProfile.setEp(dbProfile.getEp() + (int)(GameMechanics.getEpBaseReward(dbFight.getPlayerLevel())*chance));
             dbHelper.updateProfile(dbProfile);
-            System.out.println("FightAc: Your new EPs: " + dbProfile.getEp());
         }
     }
 
     /*
     generates a new Daily Challenge
      */
-    public void generateDailyChallenge(/*DbProfile profile*/){
+    public void generateDailyChallenge(DbProfile profile){
         final DbFight daily = dbHelper.getAllFights().get(0);
 
-        //generate new & update DbEntry TODO do it with a profile
-        int[] challenge = GameMechanics.randomEncounter(/*ownLevel, ownStrength*/ level, ownStrength);
+        //generate new & update DbEntry
+        int[] challenge = GameMechanics.randomEncounter(profile.getPlayerLevel(), profile.getArmyStrength());
         //TODO Get some badass frightening name
         daily.setName("PEM Presentation");
         daily.setPlayerLevel(challenge[0]);
