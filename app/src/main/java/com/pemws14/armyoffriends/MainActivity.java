@@ -311,7 +311,14 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         }
 
         if (id == R.id.action_login) {
-            Intent intent = new Intent(getApplicationContext(), Test.class);
+            Intent intent;
+            if(item.getTitle().equals("Logout")){
+                currentUser = ParseUser.getCurrentUser();
+                ParseUser.logOut();
+                intent = new Intent(getApplicationContext(), DispatchActivity.class);
+            }else {
+                intent = new Intent(getApplicationContext(), Test.class);
+            }
             startActivity(intent);
         }
 
@@ -407,6 +414,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
                     dbProfile = new DbProfile(parseDb.getUserID(), parseDb.getCurrentUserName(), parseDb.getPlayerLevel(), parseDb.getEP(), parseDb.getArmyStrength(), parseDb.getMaxLevel());
                     db.createProfile(dbProfile);
                 } else {
+                    dbProfile = db.getProfile(ParseUser.getCurrentUser().getObjectId());
                     Log.i("MainActivity.initDB", "Profile already existing");
                 }
             }
