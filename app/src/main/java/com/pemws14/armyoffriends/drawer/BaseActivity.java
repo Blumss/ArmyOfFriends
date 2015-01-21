@@ -44,6 +44,7 @@ public class BaseActivity extends ActionBarActivity {
     private TypedArray navMenuIcons;
 
     private DrawerLayout mDrawerLayout;
+    private DrawerLayout.DrawerListener mDrawerListener;
     private RelativeLayout mDrawerLeft;
     private ListView mDrawerList;
     private RelativeLayout mDrawerFooter;
@@ -158,8 +159,12 @@ public class BaseActivity extends ActionBarActivity {
 
             public void onDrawerOpened(View drawerView) {
                 getSupportActionBar().setTitle(mDrawerTitle);
+                System.out.println("onDrawerOpened CALLED");
                 // calling onPrepareOptionsMenu() to hide action bar icons
                 supportInvalidateOptionsMenu();
+                profile = db.getProfile(parseDb.getUserID());
+                int progress = (int)(100*GameMechanics.getPlayerLevelProgress(profile.getEp()));
+                profileEpBar.setProgress(progress);
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -212,9 +217,9 @@ public class BaseActivity extends ActionBarActivity {
      */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-// if nav drawer is opened, hide the action items
-// boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-// menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+    // if nav drawer is opened, hide the action items
+    // boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+    // menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -223,7 +228,7 @@ public class BaseActivity extends ActionBarActivity {
      * Diplaying fragment view for selected nav drawer list item
      */
     private void displayView(int position) {
-// update the main content by replacing fragments
+    // update the main content by replacing fragments
         String title = (String) getSupportActionBar().getTitle();
         switch (position) {
             case 0:
@@ -288,5 +293,7 @@ public class BaseActivity extends ActionBarActivity {
         // Pass any configuration change to the drawer toggles
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
+
 
 }
