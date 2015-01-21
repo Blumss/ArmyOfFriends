@@ -183,21 +183,8 @@ public class BackgroundService extends Service {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
                 if (e == null) {
+                    meet(parseUsers);
                     // Hooray! Let them use the app now.
-                    numberUsers =  parseUsers.toArray().length;
-                    System.out.println("Background Service - saveUserLocParse - query.findinBackground");
-                    System.out.println("Success! Number Users: "+numberUsers);
-                    System.out.println("Success! Retrieved: "+parseUsers);
-                    if(numberUsers>=2){
-                        ParseObject pO = parseUsers.get(1);
-                        System.out.println("ID: "+pO.getObjectId());
-                        displayNotification();
-                    }
-                    for(int i=0;i<numberUsers;i++){
-                        ParseUser pu = parseUsers.get(i);
-                        currentUser.add("metPeopleToday", pu);
-                        currentUser.saveInBackground();
-                    }
 
                 } else {
                     // Sign up didn't succeed. Look at the ParseException
@@ -254,5 +241,35 @@ public class BackgroundService extends Service {
         notificationManager.notify(0, noti);
 
     }
+    public void meet(List<ParseUser> parseUsers){
+        numberUsers =  parseUsers.toArray().length;
+        System.out.println("Background Service - saveUserLocParse - query.findinBackground");
+        System.out.println("Success! Number Users: "+numberUsers);
+        System.out.println("Success! Retrieved: "+parseUsers);
+
+        if(numberUsers>=2){
+            ParseObject pO = parseUsers.get(1);
+            System.out.println("ID: "+pO.getObjectId());
+            displayNotification();
+        }
+        for(int i=0;i<numberUsers;i++){
+            ParseUser pu = parseUsers.get(i);
+            currentUser.add("metPeopleToday", pu);
+            currentUser.saveInBackground();
+        }
+    }
+
+    /*brauch ich für dailyzeug:
+private long currentTime;
+
+in oncreate:         currentTime = DbHelper.getUnix();
+
+in methode:
+        if (fight.getId() != 1){
+                if(fight.getCreated_at_Unix() < currentTime-86400) {
+                    dbHelper.deleteFight(fight.getId());
+                }
+
+     */
 }
 
