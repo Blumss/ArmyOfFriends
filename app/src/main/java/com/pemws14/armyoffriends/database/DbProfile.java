@@ -31,7 +31,7 @@ public class DbProfile {
         return serverID;
     }
 
-    public void setServerID(String userID) {
+    public void setServerID(String serverID) {
         this.serverID = serverID;
     }
 

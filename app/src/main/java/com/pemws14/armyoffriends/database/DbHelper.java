@@ -594,6 +594,33 @@ public class DbHelper extends SQLiteOpenHelper {
                 new String[] { String.valueOf(userID) });
     }
 
+    public List<DbProfile> getAllProfiles() {
+        List<DbProfile> profileEntries = new ArrayList<DbProfile>();
+        String selectQuery = "SELECT  * FROM " + TABLE_PROFILE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                DbProfile profile = new DbProfile();
+                profile.setServerID(c.getString(c.getColumnIndex(KEY_SERVERID)));
+                profile.setUserName(c.getString(c.getColumnIndex(KEY_PLAYER_NAME)));
+                profile.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
+                profile.setEp(c.getInt(c.getColumnIndex(KEY_EP)));
+                profile.setArmyStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
+                profile.setMaxSoldierLevel(c.getInt(c.getColumnIndex(KEY_MAX_LEVEL)));
+                profile.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+
+                // adding to fight list
+                profileEntries.add(profile);
+            } while (c.moveToNext());
+        }
+
+        return profileEntries;
+    }
+
     public String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "dd.MM.yyyy HH:mm:ss", Locale.getDefault());
