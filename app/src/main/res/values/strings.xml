@@ -128,12 +128,12 @@
     <string name="parse_client_key">KGS6HUZLE4oWBigpefoJiHr4GzmGO8WYmL3qYf69</string>
     <string name="title_activity_check_login_status">CheckLoginStatus</string>
     <string name="title_activity_test">Test</string>
-    <string name="level_label">Level: </string>
+    <string name="level_label">Level</string>
     <string name="impressum_label">Impressum</string>
     <string name="made_with_label">made with</string>
     <string name="in_munich_label">in Munich</string>
     <string name="title_activity_create_notification">CreateNotificationActivity</string>
-    <string name="profile_level">Level:</string>
+    <string name="profile_level">Level</string>
     <string name="profile_actual_army_strength">Actual Army Strength:</string>
     <string name="profile_max_army_strength">Max Army Strength:</string>
     <string name="fight_army_strength">Army Strength:</string>

@@ -16,40 +16,64 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:id="@+id/profile_user_image" />
+            android:id="@+id/profile_user_image"
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/profile_username" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/profile_level"/>
+            android:id="@+id/profile_username"
+            style="@style/Headline1TextColor"
+            android:layout_gravity="center_horizontal" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#666">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/profile_current_level" />
+                android:id="@+id/profile_current_level"
+                style="@style/RegularTextTheme"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" />
 
-            <ProgressBar
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="0px"
                 android:layout_height="wrap_content"
-                android:indeterminate="false"
-                android:progressDrawable="@drawable/layout_ep_bar"
-                android:id="@+id/profile_ep_bar" />
+                android:layout_weight="10">
+
+                <ProgressBar
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="false"
+                    android:progressDrawable="@drawable/layout_ep_bar"
+                    android:id="@+id/profile_ep_bar"
+                    android:paddingTop="3dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_level"
+                    android:background="#00000000"
+                    style="@style/RegularTextTheme"
+                    android:layout_alignLeft="@id/profile_ep_bar"
+                    android:layout_alignTop="@id/profile_ep_bar"
+                    android:layout_alignRight="@id/profile_ep_bar"
+                    android:layout_alignBottom="@id/profile_ep_bar"
+                    android:gravity="center_horizontal"/>
+            </RelativeLayout>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/profile_next_level" />
+                android:id="@+id/profile_next_level"
+                style="@style/RegularTextTheme"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" />
 
         </LinearLayout>
 
@@ -62,12 +86,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_actual_army_strength"
-                android:id="@+id/textView" />
+                style="@style/RegularTextTheme"
+                android:layout_marginRight="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/profile_actual_army_strength" />
+                android:id="@+id/profile_actual_army_strength"
+                style="@style/RegularTextTheme"/>
         </LinearLayout>
 
         <LinearLayout
@@ -79,12 +105,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_max_army_strength"
-                android:id="@+id/textView2" />
+                style="@style/RegularTextTheme"
+                android:layout_marginRight="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/profile_max_army_strength" />
+                android:id="@+id/profile_max_army_strength"
+                style="@style/RegularTextTheme" />
 
         </LinearLayout>
 

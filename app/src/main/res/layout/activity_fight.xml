@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#86272D"
+        style="@style/ActivityExtendedHeadline"
         android:padding="5dp">
 
         <LinearLayout
@@ -70,7 +70,7 @@
             android:layout_height="fill_parent"
             android:layout_marginLeft="10dp"
             android:text="@string/fight_daily_challenge"
-            android:textColor="#000"
+            style="@style/RegularTextTheme"
             android:singleLine="true"
             android:textSize="20sp"
             android:layout_marginBottom="3dp" />
@@ -102,20 +102,20 @@
                 <TextView android:id="@+id/challenge_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#000"
+                    style="@style/RegularTextTheme"
                     android:textStyle="bold"
                     android:textSize="16sp" />
 
                 <TextView android:id="@+id/challenge_strength"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/darker_gray"
+                    style="@style/Headline1TextColor"
                     android:textSize="14sp" />
 
                 <TextView android:id="@+id/challenge_level"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/darker_gray"
+                    style="@style/Headline1TextColor"
                     android:textSize="14sp"/>
 
             </LinearLayout>
@@ -153,7 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="@string/fight_people_you_can_fight"
-            android:textColor="#000"
+            style="@style/RegularTextTheme"
             android:singleLine="true"
             android:textSize="20sp" />
         <View

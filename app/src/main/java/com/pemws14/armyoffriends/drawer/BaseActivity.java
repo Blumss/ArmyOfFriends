@@ -34,7 +34,8 @@ import java.util.List;
 
 public class BaseActivity extends ActionBarActivity {
     private TextView profileUsername;
-    private TextView profileLevel;
+    private TextView profileCurrentLevel;
+    private TextView profileNextLevel;
     private TextView profileArmyStrength;
     private ProgressBar profileEpBar;
     private TextView profileEpNumber;
@@ -80,9 +81,12 @@ public class BaseActivity extends ActionBarActivity {
         profileUsername = (TextView) findViewById(R.id.left_drawer_user_profile_username);
         profileUsername.setText(profile.getUserName());
 
-        profileLevel = (TextView) findViewById(R.id.left_drawer_user_profile_lvl_number);
+        profileCurrentLevel = (TextView) findViewById(R.id.left_drawer_user_profile_current_lvl_number);
         Integer level = GameMechanics.getPlayerLevelForEp(profile.getEp());
-        profileLevel.setText(level.toString());
+        profileCurrentLevel.setText(level.toString());
+        profileNextLevel = (TextView) findViewById(R.id.left_drawer_user_profile_next_lvl_number);
+        level = level + 1;
+        profileNextLevel.setText(level.toString());
 
         profileArmyStrength = (TextView) findViewById(R.id.left_drawer_user_profile_armystrength_number);
         List<DbSoldier> limitedSoldiers = db.getLimitedSoldiers(GameMechanics.getMaxArmySize(level));

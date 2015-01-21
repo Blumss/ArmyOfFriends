@@ -58,6 +58,8 @@ public class ProfileActivity extends BaseActivity {
         level = level+1;
         profileNextLevel.setText(level.toString());
         profileEpBar = (ProgressBar) findViewById(R.id.profile_ep_bar);
+        int progress = (int)(100*GameMechanics.getPlayerLevelProgress(profile.getEp()));
+        profileEpBar.setProgress(progress);
 
         profileActualArmyStrength = (TextView) findViewById(R.id.profile_actual_army_strength);
         List<DbSoldier> limitedSoldiers = db.getLimitedSoldiers(GameMechanics.getMaxArmySize(level));
