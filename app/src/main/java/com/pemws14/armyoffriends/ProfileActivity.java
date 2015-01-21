@@ -47,6 +47,8 @@ public class ProfileActivity extends BaseActivity {
 
         // TODO connect userImg to DB
         profileUserImage = (ImageView) findViewById(R.id.profile_user_image);
+        profileUserImage.setImageResource(R.drawable.profile_placeholder);
+
         profileUsername = (TextView) findViewById(R.id.profile_username);
         profileUsername.setText(profile.getUserName());
 

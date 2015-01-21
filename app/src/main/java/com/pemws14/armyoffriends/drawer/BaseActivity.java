@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -33,6 +34,7 @@ import java.util.List;
 
 
 public class BaseActivity extends ActionBarActivity {
+    private ImageView profileUserImage;
     private TextView profileUsername;
     private TextView profileCurrentLevel;
     private TextView profileNextLevel;
@@ -79,6 +81,10 @@ public class BaseActivity extends ActionBarActivity {
         //--------------
         //set profile data
         //--------------
+        //TODO replace placeholder
+        profileUserImage = (ImageView) findViewById(R.id.left_drawer_user_profile_image);
+        profileUserImage.setImageResource(R.drawable.profile_placeholder);
+
         profileUsername = (TextView) findViewById(R.id.left_drawer_user_profile_username);
         profileUsername.setText(profile.getUserName());
 
