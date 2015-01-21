@@ -31,9 +31,17 @@
         <!-- Customize your theme here. -->
         <item name="android:textColor">#fff</item>
     </style>
-    <style name="ImpressumTheme" parent="OurDrawerTheme">
+    <style name="ImpressumTheme">
         <!-- Customize your theme here. -->
         <item name="android:background">#86272D</item>
+    </style>
+
+    <style name="ProgressbarBackground">
+        <item name="android:background">#666</item>
+    </style>
+
+    <style name="ProgressbarTextColor">
+        <item name="android:textColor">#fff</item>
     </style>
 
     <style name="BGTheme" parent="OurDrawerTheme">

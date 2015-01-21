@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:gravity="center_vertical"
-        android:textColor="#fff"
+        style="@style/OurDrawerThemeText"
         android:textSize="20sp"
         android:paddingRight="40dp"
         android:layout_toRightOf="@+id/icon" />

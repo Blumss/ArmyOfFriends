@@ -148,5 +148,7 @@
     <string name="impressum_i4">Lara Hirschbeck</string>
     <string name="impressum_i6">Version 0.8.14</string>
     <string name="logo_description">Logo</string>
+    <string name="user_image_description">User Image</string>
+    <string name="drawer_army_strength">Army Strength:</string>
 
 </resources>
