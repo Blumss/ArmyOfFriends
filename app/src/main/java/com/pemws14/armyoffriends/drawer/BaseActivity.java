@@ -70,8 +70,6 @@ public class BaseActivity extends ActionBarActivity {
         db = new DbHelper(getApplicationContext());
         // TODO: getProfile & userId
          profile = db.getProfile(parseDb.getUserID());
-        System.out.println("Das Profil: "+profile);
-        System.out.println("EP: " + profile.getEp());
     }
 
     //public void set(String[] navMenuTitles, TypedArray navMenuIcons) {
