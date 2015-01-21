@@ -153,36 +153,28 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         armyButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ArmyActivity.class);
-                startActivity(intent);
+            public void onClick(View view) {startActivity(ArmyActivity.class);
             }
         });
 
 
         fightButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FightActivity.class);
-                startActivity(intent);
+            public void onClick(View view) {startActivity(FightActivity.class);
             }
         });
 
 
         historyButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
-                startActivity(intent);
+            public void onClick(View view) {startActivity(HistoryActivity.class);
             }
         });
 
 
         profileButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                startActivity(intent);
+            public void onClick(View view) {startActivity(ProfileActivity.class);
             }
         });
 
@@ -209,6 +201,22 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         */
         //createSoldiers();
     }
+
+    /*
+    onClickHandler for Activities
+     */
+    public void startActivity(Class activity){
+        Intent intent;
+        currentUser = ParseUser.getCurrentUser();
+        if (currentUser==null){
+            Toast.makeText(getApplicationContext(), "You need to login first!", Toast.LENGTH_SHORT).show();
+            intent = new Intent(getApplicationContext(), DispatchActivity.class);
+        }else{
+            intent = new Intent(getApplicationContext(), activity);
+        }
+        startActivity(intent);
+    }
+
 
     /*
     Saves the first spot in DbFight for Daily Challenge
@@ -311,7 +319,12 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         }
 
         if (id == R.id.action_login) {
-            Intent intent = new Intent(getApplicationContext(), Test.class);
+            Intent intent;
+            if(item.getTitle().equals("Logout")){
+                currentUser = ParseUser.getCurrentUser();
+                ParseUser.logOut();
+            }
+            intent = new Intent(getApplicationContext(), DispatchActivity.class);
             startActivity(intent);
         }
 
@@ -387,32 +400,31 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     }
 
     public void initDB(){
-        //
         if(parseDb.getPlayerLevel()>0){
             System.out.println("parseDb.getPlayerLevel()>0 TRUE: "+parseDb.getPlayerLevel());   // wird ausgelöst, wenn es einen Eintrag gibt
-
-
         }else {
             System.out.println("parseDb.getPlayerLevel()>0 FALSE: "+parseDb.getPlayerLevel()); // wird ausgelöst, wenn es keinen Eintrag gibt
             parseDb.updateArmy(0,0,1,0);
         }
-        System.out.println("USER ID: "+ParseUser.getCurrentUser().getObjectId());
+        String parseUserID= ParseUser.getCurrentUser().getObjectId();
         List<DbProfile> profiles = db.getAllProfiles();
         if(profiles.size()==0){
+            Log.i("MainActivity.initDB", "No profiles found on device! Creating profile with ID " + parseUserID + ".");
             dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
             db.createProfile(dbProfile);
         }else{
             for (DbProfile oneProfile: profiles) {
-                if (!(oneProfile.getServerID().equals(ParseUser.getCurrentUser().getObjectId()))) {
+                if (!(oneProfile.getServerID().equals(parseUserID))) {
+                    Log.i("MainActivity.initDB", "Profile with ID " + parseUserID + " not under existing profiles. Creating it!");
                     dbProfile = new DbProfile(parseDb.getUserID(), parseDb.getCurrentUserName(), parseDb.getPlayerLevel(), parseDb.getEP(), parseDb.getArmyStrength(), parseDb.getMaxLevel());
                     db.createProfile(dbProfile);
                 } else {
-                    Log.i("MainActivity.initDB", "Profile already existing");
+                    dbProfile = db.getProfile(parseUserID);
+                    Log.i("MainActivity.initDB", "Profile with ID " + parseUserID + " already existing");
                 }
             }
         }
-        System.out.println("### DB PROFIL: "+dbProfile);
-        System.out.println("#############################");
+        System.out.println("################# Profile logged #################");
 
 
 

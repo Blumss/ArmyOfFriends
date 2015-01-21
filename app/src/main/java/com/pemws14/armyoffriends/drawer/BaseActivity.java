@@ -72,8 +72,6 @@ public class BaseActivity extends ActionBarActivity {
         db = new DbHelper(getApplicationContext());
         // TODO: getProfile & userId
          profile = db.getProfile(parseDb.getUserID());
-        System.out.println("Das Profil: "+profile);
-        System.out.println("EP: " + profile.getEp());
     }
 
     //public void set(String[] navMenuTitles, TypedArray navMenuIcons) {
@@ -165,7 +163,6 @@ public class BaseActivity extends ActionBarActivity {
 
             public void onDrawerOpened(View drawerView) {
                 getSupportActionBar().setTitle(mDrawerTitle);
-                System.out.println("onDrawerOpened CALLED");
                 // calling onPrepareOptionsMenu() to hide action bar icons
                 supportInvalidateOptionsMenu();
                 profile = db.getProfile(parseDb.getUserID());
