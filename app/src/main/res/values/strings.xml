@@ -68,6 +68,88 @@
         <item>@drawable/ranks_red_general</item>
     </array>
 
+    <array name="daily_challenge_enemies">
+        <item>Ainur</item>
+        <item>Basilisk</item>
+        <item>Balrog</item>
+        <item>Bigfoot</item>
+        <item>Black Dog</item>
+        <item>Black Eyed Being</item>
+        <item>Blaze</item>
+        <item>Bray Road Beast</item>
+        <item>Centaur</item>
+        <item>Cerberus</item>
+        <item>Charybdis</item>
+        <item>Chimera</item>
+        <item>Creeper</item>
+        <item>Cockatrice</item>
+        <item>Count Dracula</item>
+        <item>Cyclops</item>
+        <item>Cynocephalus</item>
+        <item>Demon</item>
+        <item>Dragon</item>
+        <item>Dwarf</item>
+        <item>Echidna</item>
+        <item>Elf</item>
+        <item>Enderman</item>
+        <item>Endermite</item>
+        <item>Ender Dragon</item>
+        <item>Ent</item>
+        <item>Frankensteins Monster</item>
+        <item>Ghast</item>
+        <item>Ghost</item>
+        <item>Giant</item>
+        <item>Goblin</item>
+        <item>Golem</item>
+        <item>Gorgon</item>
+        <item>Griffin</item>
+        <item>Grim Reaper</item>
+        <item>Hydra</item>
+        <item>Imp</item>
+        <item>Killer Bunny</item>
+        <item>Killer Chicken</item>
+        <item>Ladon</item>
+        <item>Loch Ness Monster</item>
+        <item>Maia</item>
+        <item>Manticore</item>
+        <item>Magma Cube</item>
+        <item>Medusa</item>
+        <item>Mermaid</item>
+        <item>Minotaur</item>
+        <item>Mothman</item>
+        <item>Mutant</item>
+        <item>Nemean Lion</item>
+        <item>Ogre</item>
+        <item>Ork</item>
+        <item>Orthros</item>
+        <item>Pegasus</item>
+        <item>Phoenix</item>
+        <item>Sasquatch</item>
+        <item>Satyr</item>
+        <item>Sauron</item>
+        <item>Scylla</item>
+        <item>Sea-Goat</item>
+        <item>Shapeshifter</item>
+        <item>Siren</item>
+        <item>Slime</item>
+        <item>Sphinx</item>
+        <item>Spider</item>
+        <item>Thunderbird</item>
+        <item>Troll</item>
+        <item>Typhon</item>
+        <item>Unicorn</item>
+        <item>Uruk-hai</item>
+        <item>Vampire</item>
+        <item>Wendigo</item>
+        <item>Werewolf</item>
+        <item>Witch</item>
+        <item>Wither</item>
+        <item>Wither Skeleton</item>
+        <item>Wraith</item>
+        <item>Zombie</item>
+        <item>Zombie Pigman</item>
+    </array>
+
     <string name="com_parse_ui_logo_content_description">Logo</string>
     <string name="com_parse_ui_progress_dialog_text">Loading...</string>
     <string name="com_parse_ui_username_input_hint">Username</string>

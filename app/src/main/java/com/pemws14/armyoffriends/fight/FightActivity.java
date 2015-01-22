@@ -2,6 +2,7 @@ package com.pemws14.armyoffriends.fight;
 
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -74,7 +75,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         parseDb = new ParseDb();
         dbProfile = dbHelper.getProfile(parseDb.getUserID());
 
-        createDummies();
+        //createDummies();
 
         fightList = dbHelper.getAllFights();
         fightList.remove(0);
@@ -233,11 +234,15 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
      */
     public void generateDailyChallenge(DbProfile profile){
         final DbFight daily = dbHelper.getAllFights().get(0);
+        Resources res = getResources();
 
         //generate new & update DbEntry
+        String [] enemies = res.getStringArray(R.array.daily_challenge_enemies);
+        int enemy = (int) (Math.random()*79);
         int[] challenge = GameMechanics.randomEncounter(profile.getPlayerLevel(), profile.getArmyStrength());
+
         //TODO Get some badass frightening name
-        daily.setName("PEM Presentation");
+        daily.setName(enemies[enemy]);
         daily.setPlayerLevel(challenge[0]);
         daily.setStrength(challenge[1]);
         daily.setId(1);
