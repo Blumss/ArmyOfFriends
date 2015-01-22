@@ -7,12 +7,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +57,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     public static Context mainContext;
 
     Button locButton;
+    Button saveImageButton;
+    ImageView imgView;
     ImageView armyButton;
     ImageView fightButton;
     ImageView historyButton;
@@ -68,6 +76,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     Location location;
 
     private ParseUser currentUser;
+
+    private static final int RESULT_LOAD_IMAGE = 111;
 
     public static PendingIntent pintent;
     public static AlarmManager alarm;
@@ -101,11 +111,16 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         db = new DbHelper(mainContext);
         parseDb = new ParseDb();
 
+        LayoutInflater inflatter =(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); // getting access to laytou inflatter
+
         createDailyChallengeEntry();
         initDB();
 
+      //  View v = new ImageView()
+
         // findViewbyIDs
         locButton = (Button)findViewById(R.id.LocationButton);
+        saveImageButton = (Button)findViewById(R.id.savePicture);
         armyButton = (ImageView)findViewById(R.id.main_army);
         fightButton = (ImageView)findViewById(R.id.main_fight);
         historyButton = (ImageView)findViewById(R.id.main_latest);
@@ -116,6 +131,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         longitudeText = (TextView)findViewById(R.id.LongitudeText);
         latitudeText = (TextView)findViewById(R.id.LatitudeText);
         userNumberText = (TextView)findViewById(R.id.CountNearUsersText);
+        imgView = (ImageView) findViewById(R.id.imgView);
 
         backgroundReceiver = new BackgroundReceiver();
         mIntentService = new Intent(this,BackgroundService.class);
@@ -146,8 +162,15 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
                     stopLocationIntent();
                     locButton.setText("start Location Service");
                 }
+            }
+        });
 
-
+        saveImageButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(
+                Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
 
@@ -397,6 +420,53 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     public void onStatusChanged(String provider, int status, Bundle extras) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE  && resultCode == Activity.RESULT_OK) {
+          //  MainActivity activity = (MainActivity)getActivity();
+            Bitmap bitmap = getBitmapFromCameraData(data, this);
+            parseDb.saveImageInParse(bitmap);
+            imgView.setImageBitmap(bitmap);
+        }
+    }
+
+    private void setFullImageFromFilePath(String imagePath) {
+        // Get the dimensions of the View
+        int targetW = imgView.getWidth();
+        int targetH = imgView.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+       // bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
+        imgView.setImageBitmap(bitmap);
+    }
+
+    public static Bitmap getBitmapFromCameraData(Intent data, Context context){
+        Uri selectedImage = data.getData();
+        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
+        return BitmapFactory.decodeFile(picturePath);
     }
 
     public void initDB(){

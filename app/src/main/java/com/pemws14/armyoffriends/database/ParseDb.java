@@ -1,14 +1,17 @@
 package com.pemws14.armyoffriends.database;
 
+import android.graphics.Bitmap;
 import android.location.Location;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,6 +141,37 @@ public class ParseDb {
         CURRENT_USER.put("player_level", playerLevel);      //  Player Level
         CURRENT_USER.put("ep",ep);                          // EP
         CURRENT_USER.saveInBackground();
+    }
+
+    public void saveImageInParse(Bitmap bitmap){
+
+        // Locate the image in res > drawable-hdpi
+      //  Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.androidbegin);
+
+        // Convert it to byte
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        // Compress image to lower quality scale 1 - 100
+        bitmap.compress(Bitmap.CompressFormat.PNG, 1, stream);
+        byte[] image = stream.toByteArray();
+
+        // Create the ParseFile
+        ParseFile file = new ParseFile(CURRENT_USER.getUsername()+".png", image);
+        // Upload the image into Parse Cloud
+        file.saveInBackground();
+
+        // Create a New Class called "ImageUpload" in Parse
+      //  ParseObject imgupload = new ParseObject("ImageUpload");
+
+        // Create a column named "ImageName" and set the string
+     //   CURRENT_USER.put("ImageName", "AndroidBegin Logo");
+
+        // Create a column named "ImageFile" and insert the image
+        CURRENT_USER.put("ImageFile", file);
+
+        // Create the class and the columns
+        CURRENT_USER.saveInBackground();
+
+
     }
     /*
     public void updateArmy(int armyStrength, int maxLevel, int playerLevel){
