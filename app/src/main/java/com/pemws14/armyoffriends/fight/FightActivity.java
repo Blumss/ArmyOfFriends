@@ -238,7 +238,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
 
         //generate new & update DbEntry
         String [] enemies = res.getStringArray(R.array.daily_challenge_enemies);
-        int enemy = (int) (Math.random()*(enemies.length-1));
+        int enemy = (int) (Math.random()*enemies.length);
         int[] challenge = GameMechanics.randomEncounter(profile.getPlayerLevel(), profile.getArmyStrength());
 
         //TODO Get some badass frightening name
