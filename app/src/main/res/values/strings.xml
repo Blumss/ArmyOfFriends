@@ -150,5 +150,8 @@
     <string name="logo_description">Logo</string>
     <string name="user_image_description">User Image</string>
     <string name="drawer_army_strength">Army Strength:</string>
+    <string name="profile_active_soldiers_number">Active Soldiers:</string>
+    <string name="profile_total_soldiers_number">Total Soldiers:</string>
+    <string name="profile_ep_next_level">EP to next Level:</string>
 
 </resources>
