@@ -1,5 +1,6 @@
 package com.pemws14.armyoffriends;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,13 +58,14 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     public static Context mainContext;
 
-    Button locButton;
-    Button saveImageButton;
+    ImageView locationIcon;
+    ImageView saveImageIcon;
     ImageView imgView;
-    ImageView armyButton;
-    ImageView fightButton;
-    ImageView historyButton;
-    ImageView profileButton;
+    LinearLayout armyButton;
+    LinearLayout fightButton;
+    LinearLayout historyButton;
+    LinearLayout profileButton;
+    ImageView logoutButton;
   //  Button loginButton;
   //  Button logoutButton;
     TextView locTextView;
@@ -81,6 +84,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     public static PendingIntent pintent;
     public static AlarmManager alarm;
+    public static boolean serviceOn;
 
     // private TextView txtConnectionStatus;
     private TextView txtLastKnownLoc;
@@ -106,6 +110,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         System.out.println("MainActivity - onCreate ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getActionBar().hide();
 
         MainActivity.mainContext = getApplicationContext();
         db = new DbHelper(mainContext);
@@ -119,19 +124,18 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
       //  View v = new ImageView()
 
         // findViewbyIDs
-        locButton = (Button)findViewById(R.id.LocationButton);
-        saveImageButton = (Button)findViewById(R.id.savePicture);
-        armyButton = (ImageView)findViewById(R.id.main_army);
-        fightButton = (ImageView)findViewById(R.id.main_fight);
-        historyButton = (ImageView)findViewById(R.id.main_latest);
-        profileButton = (ImageView)findViewById(R.id.main_profile);
+        locationIcon = (ImageView)findViewById(R.id.LocationButton);
+        saveImageIcon = (ImageView)findViewById(R.id.savePicture);
+        armyButton = (LinearLayout)findViewById(R.id.main_army);
+        fightButton = (LinearLayout)findViewById(R.id.main_fight);
+        historyButton = (LinearLayout)findViewById(R.id.main_latest);
+        profileButton = (LinearLayout)findViewById(R.id.main_profile);
+        logoutButton = (ImageView)findViewById(R.id.logout_button);
       //  loginButton = (Button)findViewById(R.id.start_login_button);
-      //  logoutButton = (Button)findViewById(R.id.Button_LogoutUsername);
         locTextView = (TextView)findViewById(R.id.LocationText);
         longitudeText = (TextView)findViewById(R.id.LongitudeText);
         latitudeText = (TextView)findViewById(R.id.LatitudeText);
         userNumberText = (TextView)findViewById(R.id.CountNearUsersText);
-        imgView = (ImageView) findViewById(R.id.imgView);
 
         backgroundReceiver = new BackgroundReceiver();
         mIntentService = new Intent(this,BackgroundService.class);
@@ -151,21 +155,21 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
       //  testObject.put("foo", "bar");
       //  testObject.saveInBackground();
 
-        locButton.setOnClickListener(new View.OnClickListener() {
+        locationIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //  getTheLastLocation();
-                if (locButton.getText().equals("start Location Service")) {
+                if (!serviceOn) {
                     startLocationIntent();
-                    locButton.setText("stop Location Service");
+                    locationIcon.setImageResource(R.drawable.actionbar_location);
                 } else {
                     stopLocationIntent();
-                    locButton.setText("start Location Service");
+                    locationIcon.setImageResource(R.drawable.actionbar_location_off);
                 }
             }
         });
 
-        saveImageButton.setOnClickListener(new View.OnClickListener(){
+        saveImageIcon.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(
@@ -173,6 +177,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
+
+
 
         armyButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -211,17 +217,19 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         });
         */
 
-        /*
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                stopLocationIntent();
 
-                UserLogout();
-                System.out.println("User wurde ausgeloggt: ");
-                System.out.println("User ist: "+currentUser);
+                Intent intent;
+                currentUser = ParseUser.getCurrentUser();
+                ParseUser.logOut();
+                intent = new Intent(getApplicationContext(), DispatchActivity.class);
+                startActivity(intent);
             }
         });
-        */
+
         //createSoldiers();
     }
 
@@ -312,7 +320,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         }
     };
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -353,7 +361,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         return super.onOptionsItemSelected(item);
     }
-
+*/
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -544,6 +552,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     */
     public void startLocationIntent(){
         System.out.println("MainActivity - startLocationIntent ");
+        serviceOn = true;
         locationrequest = LocationRequest.create();
         locationrequest.setInterval(200); // von 100 auf 200 geändert
         locationclient.requestLocationUpdates(locationrequest, mPendingIntent);
@@ -553,6 +562,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     public void stopLocationIntent(){
         System.out.println("MainActivity - stopLocationIntent ");
+        serviceOn = false;
         locationclient.removeLocationUpdates(mPendingIntent);
     }
 

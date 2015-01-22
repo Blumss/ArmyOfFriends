@@ -1,123 +1,238 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#dddddd"
     tools:context=".MainActivity">
 
-    <ImageView android:id="@+id/splash_icon"
-        android:layout_marginTop="20dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_launcher_hires"/>
 
-    <TextView android:id="@+id/splash_appname"
-        android:layout_below="@+id/splash_icon"
-        android:layout_centerHorizontal="true"
-        android:text="@string/app_name"
-        android:layout_marginTop="10dp"
-        android:textSize="30sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <RelativeLayout android:id="@+id/splash_app"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#86272D"
+        android:paddingBottom="30dp"
+        android:layout_centerHorizontal="true">
+
+        <ImageView android:id="@+id/splash_icon"
+            android:layout_marginTop="20dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_launcher_hires"/>
+
+        <TextView android:id="@+id/splash_appname"
+            android:layout_below="@+id/splash_icon"
+            android:layout_centerHorizontal="true"
+            android:text="@string/app_name"
+            android:layout_marginTop="10dp"
+            android:textSize="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@id/splash_app"
+        android:background="@drawable/toolbar_dropshadow" />
 
     <LinearLayout android:id="@+id/splash_activities"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/splash_appname"
-        android:orientation="horizontal"
-        android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/splash_app"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:weightSum="4">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@drawable/app_bg"
             android:id="@+id/main_army"
-            android:src="@drawable/ic_menu_army"/>
+            android:orientation="horizontal"
+            android:layout_weight="1">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_menu_army"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:textColor="#333333"
+                android:text="@string/title_activity_your_army"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@drawable/app_bg"
             android:id="@+id/main_fight"
-            android:src="@drawable/ic_menu_fight"/>
+            android:orientation="horizontal"
+            android:layout_weight="1">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_menu_fight"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:textColor="#333333"
+                android:text="@string/title_activity_fight"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@drawable/app_bg"
             android:id="@+id/main_latest"
-            android:src="@drawable/ic_menu_history"/>
+            android:orientation="horizontal"
+            android:layout_weight="1">
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_menu_history"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:textColor="#333333"
+                android:text="@string/title_activity_history"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@drawable/app_bg"
             android:id="@+id/main_profile"
-            android:src="@drawable/ic_menu_profile"/>
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_menu_profile"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:textColor="#333333"
+                android:text="@string/title_activity_your_profile"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/splash_activities"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="50dp"
         android:orientation="vertical">
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="start Location Service"
+            android:textSize="14dp"
+            android:text="Location"
+            android:id="@+id/LocationText"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="Latitude"
+            android:id="@+id/LatitudeText"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="Longitude"
+            android:id="@+id/LongitudeText"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/taskbar"
+        android:layout_below="@+id/splash_activities"
+        android:layout_width="fill_parent"
+        android:gravity="right"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_change_pic"
+            android:id="@+id/savePicture"/>
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/actionbar_location_off"
             android:id="@+id/LocationButton"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Location"
-            android:id="@+id/LocationText"/>
-
+            android:layout_marginLeft="2dp"
+            android:textSize="14dp"
+            android:text="("
+            android:id="@+id/NearUsersText1"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Latitude"
-            android:id="@+id/LatitudeText"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Longitude"
-            android:id="@+id/LongitudeText"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="other Users in a radius of 50 meters:"
-            android:id="@+id/NearUsersText"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
+            android:textSize="14dp"
+            android:text="0"
             android:id="@+id/CountNearUsersText"/>
-
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose Profilepicture"
-            android:id="@+id/savePicture"/>
+            android:textSize="14dp"
+            android:text=")"
+            android:layout_marginRight="15dp"
+            android:id="@+id/NearUsersText2"/>
+
         <ImageView
-            android:id="@+id/imgView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:id="@+id/logout_button"
+            android:src="@drawable/ic_main_logout"/>
 
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:layout_marginTop="-8dp"
-        android:background="@drawable/toolbar_dropshadow" />
+        </LinearLayout>
 
 </RelativeLayout>

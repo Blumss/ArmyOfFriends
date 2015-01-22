@@ -6,7 +6,7 @@
         <item name="android:actionBarStyle">@style/OurActionBar</item>
         <item name="android:alertDialogStyle">@style/OurAlertDialog</item>
         <item name="colorPrimary">#86272D</item>
-        <item name="colorAccent">#515151</item>
+        <item name="colorAccent">#333333</item>
     </style>
 
     <style name="OurActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
@@ -24,7 +24,7 @@
     <style name="OurDrawerTheme" parent="Theme.AppCompat">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#86272D</item>
-        <item name="colorAccent">#515151</item>
+        <item name="colorAccent">#333333</item>
     </style>
 
     <style name="OurDrawerThemeText" parent="Theme.AppCompat">
@@ -60,7 +60,7 @@
 
     <style name="Headline1TextColor" parent="BGTheme">
         <!-- Customize your theme here. -->
-        <item name="android:textColor">#666</item>
+        <item name="android:textColor">#333333</item>
     </style>
 
     <style name="ParseLoginUI" />
