@@ -480,7 +480,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         List<DbProfile> profiles = db.getAllProfiles();
         if(profiles.size()==0){
             Log.i("MainActivity.initDB", "No profiles found on device! Creating profile with ID " + parseUserID + ".");
-            dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
+            dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
             db.createProfile(dbProfile);
         }else{
             for (DbProfile oneProfile: profiles) {
