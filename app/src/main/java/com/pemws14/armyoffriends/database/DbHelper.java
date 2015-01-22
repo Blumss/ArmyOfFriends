@@ -5,7 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import org.apache.http.util.EntityUtils;
+
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +36,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_CREATED_AT = "created_at";
     private static final String KEY_CREATED_AT_UNIX = "created_at_unix";
     private static final String KEY_PLAYER_NAME = "name";
+    private static final String KEY_PICTURE = "picture";
     private static final String KEY_PLAYER_LEVEL = "player_level";
     private static final String KEY_STRENGTH = "strength";
     private static final String KEY_MAX_LEVEL = "maxLevel";
@@ -58,7 +64,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // soldier table create statement
     private static final String CREATE_TABLE_SOLDIER = "CREATE TABLE "
             + TABLE_SOLDIER + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_PLAYER_NAME
-            + " TEXT," + KEY_SOLDIER_LEVEL + " INTEGER," + KEY_RANK + " INTEGER," + KEY_CREATED_AT
+            + " TEXT," + KEY_PICTURE + " BLOB," + KEY_SOLDIER_LEVEL + " INTEGER," + KEY_RANK + " INTEGER," + KEY_CREATED_AT
             + " DATETIME," + KEY_CREATED_AT_UNIX + " LONG" + ")";
 
     // fight table create statement
@@ -76,7 +82,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //profile table create statement
     private static final String CREATE_TABLE_PROFILE = "CREATE TABLE "
-            + TABLE_PROFILE + "(" + KEY_SERVERID + " TEXT PRIMARY KEY," + KEY_PLAYER_NAME + " TEXT,"
+            + TABLE_PROFILE + "(" + KEY_SERVERID + " TEXT PRIMARY KEY," + KEY_PLAYER_NAME + " TEXT," + KEY_PICTURE + " BLOB,"
             + KEY_PLAYER_LEVEL + " INTEGER," + KEY_EP + " INTEGER," +  KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
             + " DATETIME" + ")";
 
@@ -125,9 +131,9 @@ public class DbHelper extends SQLiteOpenHelper {
     */
     public long createSoldier(DbSoldier soldier) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(KEY_PLAYER_NAME, soldier.getName());
+        values.put(KEY_PICTURE, bitmapToBArray(soldier.getImg()));
         values.put(KEY_SOLDIER_LEVEL, soldier.getLevel());
         values.put(KEY_RANK, soldier.getRank());
         values.put(KEY_CREATED_AT, getDateTime());
@@ -156,6 +162,8 @@ public class DbHelper extends SQLiteOpenHelper {
         DbSoldier soldier = new DbSoldier();
         soldier.setId(c.getInt(c.getColumnIndex(KEY_ID)));
         soldier.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+        byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+        soldier.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
         soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
         soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
         soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
@@ -179,6 +187,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbSoldier soldier = new DbSoldier();
                 soldier.setId(c.getInt(c.getColumnIndex(KEY_ID)));
                 soldier.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+                byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+                soldier.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
                 soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
                 soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
                 soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
@@ -224,6 +234,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbSoldier soldier = new DbSoldier();
                 soldier.setId(c.getInt(c.getColumnIndex(KEY_ID)));
                 soldier.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+                byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+                soldier.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
                 soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
                 soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
                 soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
@@ -253,6 +265,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbSoldier soldier = new DbSoldier();
                 soldier.setId(c.getInt(c.getColumnIndex(KEY_ID)));
                 soldier.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+                byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+                soldier.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
                 soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
                 soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
                 soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
@@ -275,6 +289,7 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_PLAYER_NAME, soldier.getName());
         values.put(KEY_SOLDIER_LEVEL, soldier.getLevel());
+        values.put(KEY_PICTURE, bitmapToBArray(soldier.getImg()));
         values.put(KEY_RANK, soldier.getRank());
         values.put(KEY_CREATED_AT, soldier.getCreated_at());
         values.put(KEY_CREATED_AT_UNIX, soldier.getCreated_at_Unix());
@@ -528,6 +543,7 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_SERVERID, profile.getServerID());
         values.put(KEY_PLAYER_NAME, profile.getUserName());
+        values.put(KEY_PICTURE, bitmapToBArray(profile.getImg()));
         values.put(KEY_PLAYER_LEVEL,profile.getPlayerLevel());
         values.put(KEY_EP,profile.getEp());
         values.put(KEY_STRENGTH,profile.getArmyStrength());
@@ -548,6 +564,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_PLAYER_NAME, profile.getUserName());
+        values.put(KEY_PICTURE, bitmapToBArray(profile.getImg()));
         values.put(KEY_PLAYER_LEVEL,profile.getPlayerLevel());
         values.put(KEY_EP,profile.getEp());
         values.put(KEY_STRENGTH,profile.getArmyStrength());
@@ -576,6 +593,8 @@ public class DbHelper extends SQLiteOpenHelper {
         DbProfile profile = new DbProfile();
         profile.setServerID((c.getString(c.getColumnIndex(KEY_SERVERID))));
         profile.setUserName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+        byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+        profile.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
         profile.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
         profile.setEp(c.getInt(c.getColumnIndex(KEY_EP)));
         profile.setArmyStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
@@ -607,6 +626,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbProfile profile = new DbProfile();
                 profile.setServerID(c.getString(c.getColumnIndex(KEY_SERVERID)));
                 profile.setUserName(c.getString(c.getColumnIndex(KEY_PLAYER_NAME)));
+                byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+                profile.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
                 profile.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
                 profile.setEp(c.getInt(c.getColumnIndex(KEY_EP)));
                 profile.setArmyStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
@@ -631,5 +652,12 @@ public class DbHelper extends SQLiteOpenHelper {
     public static Long getUnix() {
         long currentUnix = System.currentTimeMillis()/1000L;
         return currentUnix;
+    }
+
+    public static byte[] bitmapToBArray(Bitmap bmp){
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        byte[] bArray = bos.toByteArray();
+        return bArray;
     }
 }

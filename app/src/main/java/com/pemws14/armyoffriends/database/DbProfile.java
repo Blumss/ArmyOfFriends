@@ -1,9 +1,11 @@
 package com.pemws14.armyoffriends.database;
 
+import android.graphics.Bitmap;
+
 public class DbProfile {
-    private int userID;
     private String serverID;
     private String userName;
+    private Bitmap img;
     private int playerLevel;
     private int ep;
     private int armyStrength;
@@ -22,8 +24,13 @@ public class DbProfile {
         this.maxSoldierLevel = maxSoldierLevel;
     }
 
-    public DbProfile(String serverID, String userName, int playerLevel, int ep, int armyStrength, int maxSoldierLevel, String created_at) {
+    public DbProfile(String serverID, String userName, Bitmap img, int playerLevel, int ep, int armyStrength, int maxSoldierLevel) {
         this(serverID, userName, playerLevel, ep, armyStrength, maxSoldierLevel);
+        this.img = img;
+    }
+
+    public DbProfile(String serverID, String userName, Bitmap img, int playerLevel, int ep, int armyStrength, int maxSoldierLevel, String created_at) {
+        this(serverID, userName, img, playerLevel, ep, armyStrength, maxSoldierLevel);
         this.created_at = created_at;
     }
 
@@ -41,6 +48,14 @@ public class DbProfile {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Bitmap getImg() {
+        return img;
+    }
+
+    public void setImg(Bitmap img) {
+        this.img = img;
     }
 
     public int getPlayerLevel() {

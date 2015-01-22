@@ -1,10 +1,13 @@
 package com.pemws14.armyoffriends.database;
 
+import android.graphics.Bitmap;
+
 import com.pemws14.armyoffriends.GameMechanics;
 
 public class DbSoldier {
     private int id;
     private String name;
+    private Bitmap img;
     private int level;
     private int rank;
     private String created_at;
@@ -19,8 +22,9 @@ public class DbSoldier {
         this.setRank(GameMechanics.getRankByLevel(level));
     }
 
-    public DbSoldier(int id, String name, int level, int rank, String created_at, Long created_at_unix) {
+    public DbSoldier(int id, String name, Bitmap img, int level, int rank, String created_at, Long created_at_unix) {
         this(name, level);
+        this.img = img;
         this.setId(id);
         this.setCreated_at(created_at);
         this.setCreated_at_Unix(created_at_unix);
@@ -40,6 +44,14 @@ public class DbSoldier {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Bitmap getImg() {
+        return img;
+    }
+
+    public void setImg(Bitmap img) {
+        this.img = img;
     }
 
     public int getLevel() {
