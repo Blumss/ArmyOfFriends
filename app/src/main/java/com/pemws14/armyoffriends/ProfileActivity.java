@@ -25,6 +25,9 @@ public class ProfileActivity extends BaseActivity {
     private TextView profileNextLevel;
     private TextView profileActualArmyStrength;
     private TextView profileMaxArmyStrength;
+    private TextView profileActiveSoldiers;
+    private TextView profileTotalSoldiers;
+    private TextView profileEpToNextLevel;
 
     private DbHelper db;
     private DbProfile profile;
@@ -63,6 +66,9 @@ public class ProfileActivity extends BaseActivity {
         int progress = (int)(100*GameMechanics.getPlayerLevelProgress(profile.getEp()));
         profileEpBar.setProgress(progress);
 
+        profileEpToNextLevel = (TextView) findViewById(R.id.profile_ep_next_level);
+        profileEpToNextLevel.setText(""+profile.getEp()+"/"+GameMechanics.getEpForPlayerLevelUp(profile.getPlayerLevel()));
+
         profileActualArmyStrength = (TextView) findViewById(R.id.profile_actual_army_strength);
         List<DbSoldier> limitedSoldiers = db.getLimitedSoldiers(GameMechanics.getMaxArmySize(level));
         Integer ownStrength = GameMechanics.getArmyStrength(limitedSoldiers);
@@ -71,6 +77,14 @@ public class ProfileActivity extends BaseActivity {
         profileMaxArmyStrength = (TextView) findViewById(R.id.profile_max_army_strength);
         Integer maxStrength = GameMechanics.getArmyStrength(db.getAllSoldiers());
         profileMaxArmyStrength.setText(maxStrength.toString());
+
+        profileActiveSoldiers = (TextView) findViewById(R.id.profile_active_soldiers_number);
+        profileActiveSoldiers.setText(((Integer)limitedSoldiers.size()).toString());
+
+        profileTotalSoldiers = (TextView) findViewById(R.id.profile_total_soldiers_number);
+        profileTotalSoldiers.setText(((Integer)db.getAllSoldiers().size()).toString());
+
+
 
     }
 
