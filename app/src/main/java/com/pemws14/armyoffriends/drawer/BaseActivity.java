@@ -81,7 +81,7 @@ public class BaseActivity extends ActionBarActivity {
         //--------------
         //TODO replace placeholder
         profileUserImage = (ImageView) findViewById(R.id.left_drawer_user_profile_image);
-        profileUserImage.setImageResource(R.drawable.profile_placeholder);
+        profileUserImage.setImageBitmap(profile.getImg());
 
         profileUsername = (TextView) findViewById(R.id.left_drawer_user_profile_username);
         profileUsername.setText(profile.getUserName());
