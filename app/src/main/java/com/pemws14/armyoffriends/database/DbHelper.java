@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class DbHelper extends SQLiteOpenHelper {
+    private static DbHelper sInstance;
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -86,9 +87,22 @@ public class DbHelper extends SQLiteOpenHelper {
             + KEY_PLAYER_LEVEL + " INTEGER," + KEY_EP + " INTEGER," +  KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
             + " DATETIME" + ")";
 
-
-    public DbHelper(Context context) {
+    /**
+     * Constructor should be private to prevent direct instantiation.
+     * make call to static method "getInstance()" instead.
+     */
+    private DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public static DbHelper getInstance(Context context){
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null){
+            sInstance = new DbHelper(context.getApplicationContext());
+        }
+        return sInstance;
     }
 
     @Override

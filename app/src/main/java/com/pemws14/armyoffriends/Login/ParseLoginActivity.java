@@ -103,7 +103,7 @@ public class ParseLoginActivity extends FragmentActivity implements
     // Combine options from incoming intent and the activity metadata
     configOptions = getMergedOptions();
     parseDb = new ParseDb();
-      dbHelper = new DbHelper(getApplicationContext());
+    dbHelper = DbHelper.getInstance(getApplicationContext());
 
     // Show the login form
     if (savedInstanceState == null) {

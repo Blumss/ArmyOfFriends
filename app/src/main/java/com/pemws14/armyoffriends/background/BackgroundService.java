@@ -112,7 +112,7 @@ public class BackgroundService extends Service {
     public void onCreate() {
 
         userProfile = new UserProfile();
-        dbHelper = new DbHelper(getApplicationContext());
+        dbHelper = DbHelper.getInstance(getApplicationContext());
         gameMechanics = new GameMechanics();
         parseDb = new ParseDb();
 

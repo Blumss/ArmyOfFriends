@@ -74,7 +74,7 @@ public class FightResultDialogFragment extends DialogFragment{
         chance = (int)(getArguments().getDouble("chance")*1000);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.OurAlertDialog);
-        final DbHelper dbHelper= new DbHelper(getActivity());
+        final DbHelper dbHelper= DbHelper.getInstance(getActivity());
         int result = 1000;
 
         if (!toggle.isEmpty()) {

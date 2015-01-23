@@ -72,7 +72,7 @@ public class BaseActivity extends ActionBarActivity {
         setContentView(R.layout.activity_base);
 
         parseDb = new ParseDb();
-        db = new DbHelper(getApplicationContext());
+        db = DbHelper.getInstance(getApplicationContext());
         // TODO: getProfile & userId
          profile = db.getProfile(parseDb.getUserID());
     }

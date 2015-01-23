@@ -70,7 +70,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         //get fights
-        dbHelper = new DbHelper(getApplicationContext());
+        dbHelper = DbHelper.getInstance(getApplicationContext());
         currentTime = DbHelper.getUnix();
         parseDb = new ParseDb();
         dbProfile = dbHelper.getProfile(parseDb.getUserID());

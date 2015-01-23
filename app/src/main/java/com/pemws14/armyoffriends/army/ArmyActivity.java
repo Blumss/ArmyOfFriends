@@ -153,7 +153,7 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
 
     private ArrayList<ParentRow> buildDummyData()
     {
-        db = new DbHelper(getApplicationContext());
+        db = DbHelper.getInstance(getApplicationContext());
 
         // Creating ArrayList of type parent class to store parent class objects
         final ArrayList<ParentRow> list = new ArrayList<ParentRow>();

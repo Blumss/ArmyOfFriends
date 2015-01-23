@@ -105,7 +105,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         getActionBar().hide();
 
         MainActivity.mainContext = getApplicationContext();
-        db = new DbHelper(mainContext);
+        db = DbHelper.getInstance(mainContext);
         parseDb = new ParseDb();
 
         LayoutInflater inflatter =(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); // getting access to laytou inflatter

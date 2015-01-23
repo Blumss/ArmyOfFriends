@@ -109,7 +109,7 @@ public class ProfileActivity extends BaseActivity {
 
     private void setupDB() {
         parseDb = new ParseDb();
-        db = new DbHelper(getApplicationContext());
+        db = DbHelper.getInstance(getApplicationContext());
         profile = db.getProfile(parseDb.getUserID());
     }
 

@@ -48,7 +48,7 @@ public class HistoryActivity extends BaseActivity {
         //--> IN EVERY ACTIVITY WITH DRAWER
 
         //get data from DB
-        dbHelper = new DbHelper(getApplicationContext());
+        dbHelper = DbHelper.getInstance(getApplicationContext());
         historyList = dbHelper.getAllHistory();
         Collections.reverse(historyList);
 
