@@ -181,6 +181,7 @@ public class BaseActivity extends ActionBarActivity {
                 profile = db.getProfile(parseDb.getUserID());
                 int progress = (int)(100*GameMechanics.getPlayerLevelProgress(profile.getEp()));
                 profileEpBar.setProgress(progress);
+                profileUserImage.setImageBitmap(profile.getImg());
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -310,7 +311,4 @@ public class BaseActivity extends ActionBarActivity {
         // Pass any configuration change to the drawer toggles
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-
-
-
 }
