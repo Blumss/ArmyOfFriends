@@ -235,28 +235,28 @@ public class BaseActivity extends ActionBarActivity {
         String title = (String) getSupportActionBar().getTitle();
         switch (position) {
             case 0:
-                if (!title.equals("Your Army")) {
+                if (!title.equals(R.string.title_activity_your_army)) {
                     Intent intent = new Intent(this, ArmyActivity.class);
                     startActivity(intent);
                     finish();
                 }
                 break;
             case 1:
-                if (!title.equals("Fight")) {
+                if (!title.equals(R.string.title_activity_fight)) {
                     Intent intent1 = new Intent(this, FightActivity.class);
                     startActivity(intent1);
                     finish();
                 }
                 break;
             case 2:
-                if (!title.equals("History")) {
+                if (!title.equals(R.string.title_activity_history)) {
                     Intent intent2 = new Intent(this, HistoryActivity.class);
                     startActivity(intent2);
                     finish();
                 }
                 break;
             case 3:
-                if (!title.equals("Your Profile")) {
+                if (!title.equals(R.string.title_activity_your_profile)) {
                     Intent intent3 = new Intent(this, ProfileActivity.class);
                     startActivity(intent3);
                     finish();
