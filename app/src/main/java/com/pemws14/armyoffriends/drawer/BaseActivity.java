@@ -2,6 +2,7 @@ package com.pemws14.armyoffriends.drawer;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -34,6 +36,7 @@ import java.util.List;
 
 
 public class BaseActivity extends ActionBarActivity {
+    private LinearLayout head;
     private ImageView profileUserImage;
     private TextView profileUsername;
     private TextView profileCurrentLevel;
@@ -80,6 +83,7 @@ public class BaseActivity extends ActionBarActivity {
         //set profile data
         //--------------
         //TODO replace placeholder
+        head = (LinearLayout)findViewById(R.id.left_drawer_header);
         profileUserImage = (ImageView) findViewById(R.id.left_drawer_user_profile_image);
         profileUserImage.setImageBitmap(profile.getImg());
 
@@ -136,11 +140,20 @@ public class BaseActivity extends ActionBarActivity {
         adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
         mDrawerList.setAdapter(adapter);
 
+        head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         mDrawerFooter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String title = (String) getSupportActionBar().getTitle();
-                if (!title.equals("Impressum")) {
+                if (!title.equals(getResources().getString(R.string.title_activity_impressum))) {
                     Intent intent = new Intent(getApplicationContext(), ImpressumActivity.class);
                     mDrawerLayout.closeDrawer(mDrawerLeft);
                     startActivity(intent);
@@ -232,31 +245,32 @@ public class BaseActivity extends ActionBarActivity {
      */
     private void displayView(int position) {
     // update the main content by replacing fragments
-        String title = (String) getSupportActionBar().getTitle();
+        String title = getSupportActionBar().getTitle().toString();
+        Resources res = getResources();
         switch (position) {
             case 0:
-                if (!title.equals(R.string.title_activity_your_army)) {
+                if (!title.equals(res.getString(R.string.title_activity_your_army))) {
                     Intent intent = new Intent(this, ArmyActivity.class);
                     startActivity(intent);
                     finish();
                 }
                 break;
             case 1:
-                if (!title.equals(R.string.title_activity_fight)) {
+                if (!title.equals(res.getString(R.string.title_activity_fight))) {
                     Intent intent1 = new Intent(this, FightActivity.class);
                     startActivity(intent1);
                     finish();
                 }
                 break;
             case 2:
-                if (!title.equals(R.string.title_activity_history)) {
+                if (!title.equals(res.getString(R.string.title_activity_history))) {
                     Intent intent2 = new Intent(this, HistoryActivity.class);
                     startActivity(intent2);
                     finish();
                 }
                 break;
             case 3:
-                if (!title.equals(R.string.title_activity_your_profile)) {
+                if (!title.equals(res.getString(R.string.title_activity_your_profile))) {
                     Intent intent3 = new Intent(this, ProfileActivity.class);
                     startActivity(intent3);
                     finish();
