@@ -195,14 +195,6 @@
         <ImageView
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/ic_change_pic"
-            android:id="@+id/savePicture"/>
-
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
             android:src="@drawable/actionbar_location_off"
             android:id="@+id/LocationButton"/>
 

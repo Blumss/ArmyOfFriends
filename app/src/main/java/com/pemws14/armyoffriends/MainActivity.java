@@ -1,6 +1,5 @@
 package com.pemws14.armyoffriends;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -8,22 +7,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,7 +52,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     ImageView locationIcon;
     ImageView saveImageIcon;
-    ImageView imgView;
+    ImageView profileView;
     LinearLayout armyButton;
     LinearLayout fightButton;
     LinearLayout historyButton;
@@ -125,12 +117,12 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         // findViewbyIDs
         locationIcon = (ImageView)findViewById(R.id.LocationButton);
-        saveImageIcon = (ImageView)findViewById(R.id.savePicture);
         armyButton = (LinearLayout)findViewById(R.id.main_army);
         fightButton = (LinearLayout)findViewById(R.id.main_fight);
         historyButton = (LinearLayout)findViewById(R.id.main_latest);
         profileButton = (LinearLayout)findViewById(R.id.main_profile);
         logoutButton = (ImageView)findViewById(R.id.logout_button);
+        profileView = (ImageView)findViewById(R.id.profile_user_image);
       //  loginButton = (Button)findViewById(R.id.start_login_button);
         locTextView = (TextView)findViewById(R.id.LocationText);
         longitudeText = (TextView)findViewById(R.id.LongitudeText);
@@ -168,15 +160,15 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
                 }
             }
         });
-
+/*
         saveImageIcon.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(
-                Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+              //  Intent i = new Intent(
+             //   Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+             //   startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
-        });
+        });*/
 
 
 
@@ -430,52 +422,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RESULT_LOAD_IMAGE  && resultCode == Activity.RESULT_OK) {
-          //  MainActivity activity = (MainActivity)getActivity();
-            Bitmap bitmap = getBitmapFromCameraData(data, this);
-            parseDb.saveImageInParse(bitmap);
-            imgView.setImageBitmap(bitmap);
-        }
-    }
-
-    private void setFullImageFromFilePath(String imagePath) {
-        // Get the dimensions of the View
-        int targetW = imgView.getWidth();
-        int targetH = imgView.getHeight();
-
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imagePath, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
-       // bmOptions.inPurgeable = true;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
-        imgView.setImageBitmap(bitmap);
-    }
-
-    public static Bitmap getBitmapFromCameraData(Intent data, Context context){
-        Uri selectedImage = data.getData();
-        String[] filePathColumn = { MediaStore.Images.Media.DATA };
-        Cursor cursor = context.getContentResolver().query(selectedImage,filePathColumn, null, null, null);
-        cursor.moveToFirst();
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String picturePath = cursor.getString(columnIndex);
-        cursor.close();
-        return BitmapFactory.decodeFile(picturePath);
-    }
 
     public void initDB(){
         if(parseDb.getPlayerLevel()>0){
@@ -490,14 +437,30 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             Log.i("MainActivity.initDB", "No profiles found on device! Creating profile with ID " + parseUserID + ".");
             dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
             db.createProfile(dbProfile);
+            if(parseDb.existImage()){
+                System.out.println("getimage != null -> bild wird aus db genommen");
+                dbProfile.setImg(parseDb.getImage());
+            }
+
         }else{
             for (DbProfile oneProfile: profiles) {
                 if (!(oneProfile.getServerID().equals(parseUserID))) {
                     Log.i("MainActivity.initDB", "Profile with ID " + parseUserID + " not under existing profiles. Creating it!");
                     dbProfile = new DbProfile(parseDb.getUserID(), parseDb.getCurrentUserName(), parseDb.getPlayerLevel(), parseDb.getEP(), parseDb.getArmyStrength(), parseDb.getMaxLevel());
                     db.createProfile(dbProfile);
+                    if(parseDb.getImage()!=null){
+                        System.out.println("getimage != null -> bild wird aus db genommen");
+                        dbProfile.setImg(parseDb.getImage());
+                    }
+
                 } else {
                     dbProfile = db.getProfile(parseUserID);
+                    if(parseDb.existImage()){
+                        System.out.println("getimage != null -> bild wird aus db genommen");
+                        dbProfile.setImg(parseDb.getImage());
+
+                    }
+
                     Log.i("MainActivity.initDB", "Profile with ID " + parseUserID + " already existing");
                 }
             }

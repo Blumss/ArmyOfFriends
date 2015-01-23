@@ -1,9 +1,11 @@
 package com.pemws14.armyoffriends.database;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -32,6 +34,7 @@ public class ParseDb {
     int MAX_LEVEL=0;
     int PLAYER_LEVEL=1;
     int ARMY_STRENGTH=0;
+    Bitmap bmp;
 
     int listSize;
 
@@ -82,6 +85,38 @@ public class ParseDb {
     public int getEP(){
         int ep = CURRENT_USER.getInt("ep");
         return ep;
+    }
+    public Bitmap getImage(){
+        System.out.println("getImage");
+        ParseFile imageFile = (ParseFile)CURRENT_USER.get("ImageFile");
+        imageFile.getDataInBackground(new GetDataCallback() {
+            public void done(byte[] data, ParseException e) {
+                if (e == null) {
+
+                    // data has the bytes for the image
+                    bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    System.out.println("Bild: "+bmp);
+
+                } else {
+                    // something went wrong
+                    System.out.println("getImage ERROR: "+e.getMessage());
+                }
+            }
+        });
+        return bmp;
+    }
+
+    public boolean existImage(){
+        System.out.println("existImage: ");
+        ParseFile imageFile = (ParseFile)CURRENT_USER.get("ImageFile");
+        if(imageFile!=null){
+            System.out.print("true");
+            return true;
+        }else  {
+            System.out.print("false");
+            return false;
+        }
+
     }
 
 /************ Set Methoden *************/

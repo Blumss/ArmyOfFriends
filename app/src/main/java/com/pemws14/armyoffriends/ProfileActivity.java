@@ -1,6 +1,14 @@
 package com.pemws14.armyoffriends;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +27,7 @@ import java.util.List;
 public class ProfileActivity extends BaseActivity {
     private View view;
     private ImageView profileUserImage;
+
     private TextView profileUsername;
     private TextView profileCurrentLevel;
     private ProgressBar profileEpBar;
@@ -28,6 +37,8 @@ public class ProfileActivity extends BaseActivity {
     private TextView profileActiveSoldiers;
     private TextView profileTotalSoldiers;
     private TextView profileEpToNextLevel;
+
+    private static final int RESULT_LOAD_IMAGE = 111;
 
     private DbHelper db;
     private DbProfile profile;
@@ -51,6 +62,7 @@ public class ProfileActivity extends BaseActivity {
         // TODO connect userImg to DB
         profileUserImage = (ImageView) findViewById(R.id.profile_user_image);
         profileUserImage.setImageBitmap(profile.getImg());
+        System.out.println("profil bild: "+profile.getImg());
 
         profileUsername = (TextView) findViewById(R.id.profile_username);
         profileUsername.setText(profile.getUserName());
@@ -84,7 +96,14 @@ public class ProfileActivity extends BaseActivity {
         profileTotalSoldiers = (TextView) findViewById(R.id.profile_total_soldiers_number);
         profileTotalSoldiers.setText(((Integer)db.getAllSoldiers().size()).toString());
 
-
+        profileUserImage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(
+                        Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
 
     }
 
@@ -92,5 +111,53 @@ public class ProfileActivity extends BaseActivity {
         parseDb = new ParseDb();
         db = new DbHelper(getApplicationContext());
         profile = db.getProfile(parseDb.getUserID());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE  && resultCode == Activity.RESULT_OK) {
+            //  MainActivity activity = (MainActivity)getActivity();
+            Bitmap bitmap = getBitmapFromCameraData(data, this);
+            parseDb.saveImageInParse(bitmap);
+            profile.setImg(bitmap);
+            profileUserImage.setImageBitmap(bitmap);
+        }
+    }
+
+    private void setFullImageFromFilePath(String imagePath) {
+        // Get the dimensions of the View
+        int targetW = profileUserImage.getWidth();
+        int targetH = profileUserImage.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imagePath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        // bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath, bmOptions);
+        profileUserImage.setImageBitmap(bitmap);
+    }
+
+    public static Bitmap getBitmapFromCameraData(Intent data, Context context){
+        Uri selectedImage = data.getData();
+        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        Cursor cursor = context.getContentResolver().query(selectedImage,filePathColumn, null, null, null);
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
+        return BitmapFactory.decodeFile(picturePath);
     }
 }
