@@ -12,6 +12,7 @@ import android.text.Html;
 
 import com.pemws14.armyoffriends.GameMechanics;
 import com.pemws14.armyoffriends.R;
+import com.pemws14.armyoffriends.database.DbAchievement;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.drawer.BaseActivity;
@@ -55,6 +56,7 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
 
         // Adding ArrayList data to ExpandableListView values
         loadHosts(dummyList);
+        checkArmyAchievements();
     }
 
 
@@ -173,6 +175,7 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
                 ChildRow child = new ChildRow();
                 child.setName(s.getName());
                 child.setLevel("Level " + s.getLevel());
+                child.setImage(s.getImg());
                 int levelForRankUp = GameMechanics.getLevelForRankUp(s.getLevel());
                 child.setLevelNextRank(levelForRankUp > 0 ? String.valueOf(levelForRankUp) + " " + Html.fromHtml("&#8593;") : "");
                 parent.getChildren().add(child);
@@ -207,6 +210,54 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
         {
             // Refresh ExpandableListView data
             ((MyExpandableListAdapter)getExpandableListAdapter()).notifyDataSetChanged();
+        }
+    }
+
+    private void checkArmyAchievements(){
+        List<DbSoldier> soldiers = db.getAllSoldiers();
+        List<DbAchievement> achievements = db.getAllAchievements();
+        //check SoldierCount achievements
+        for(int i = 11; i<14; i++){
+            DbAchievement achievement = achievements.get(i);
+            achievement.setAchieved(soldiers.size());
+            achievement.setFulfilled(db.checkAchievementState(achievement));
+            db.updateAchievement(achievement);
+        }
+        //check SoldierRank achievements
+        //*get Privates, Majors and Generals
+        int privates=0; int majors = 0; int generals = 0;
+        for(DbSoldier soldier:soldiers) {
+            if (soldier.getRank()==0){
+                privates++;
+            }else if (soldier.getRank()==6){
+                majors++;
+            }else if (soldier.getRank()==9){
+                generals++;
+            }
+        }
+        for(int i = 14; i<17; i++){
+            DbAchievement achievement = achievements.get(i);
+            switch (i){
+                case 14: achievement.setAchieved(privates);
+                    achievement.setFulfilled(db.checkAchievementState(achievement));
+                    db.updateAchievement(achievement);
+                    break;
+                case 15: achievement.setAchieved(majors);
+                    achievement.setFulfilled(db.checkAchievementState(achievement));
+                    db.updateAchievement(achievement);
+                    break;
+                case 16: achievement.setAchieved(generals);
+                    achievement.setFulfilled(db.checkAchievementState(achievement));
+                    db.updateAchievement(achievement);
+                    break;
+            }
+        }
+        //check ArmyStrength achievements
+        for(int i = 19; i<23; i++){
+            DbAchievement achievement = achievements.get(i);
+            achievement.setAchieved(GameMechanics.getArmyStrength(soldiers));
+            achievement.setFulfilled(db.checkAchievementState(achievement));
+            db.updateAchievement(achievement);
         }
     }
 }

@@ -7,6 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
+
+import com.pemws14.armyoffriends.MainActivity;
 
 import com.pemws14.armyoffriends.GameMechanics;
 
@@ -33,6 +38,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String TABLE_FIGHT = "fight";
     private static final String TABLE_HISTORY = "history";
     private static final String TABLE_PROFILE = "profile";
+    private static final String TABLE_ACHIEVEMENT = "achievement";
 
     // Common column names
     private static final String KEY_ID = "id";
@@ -62,6 +68,13 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String KEY_SERVERID = "serverID";
     private static final String KEY_EP = "ep";
 
+    //achievement Table - column names
+    private static final String KEY_TITLE = "title";
+    private static final String KEY_DESCRIPTION = "description";
+    private static final String KEY_REQUIRED = "required";
+    private static final String KEY_ACHIEVED = "achieved";
+    private static final String KEY_FULFILLED = "fulfilled";
+
 
     // Table Create Statements
     // soldier table create statement
@@ -89,6 +102,13 @@ public class DbHelper extends SQLiteOpenHelper {
             + KEY_PLAYER_LEVEL + " INTEGER," + KEY_EP + " INTEGER," +  KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
             + " DATETIME" + ")";
 
+    // achievements table create statement
+    private static final String CREATE_TABLE_ACHIEVEMENT = "CREATE TABLE "
+            + TABLE_ACHIEVEMENT + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE
+            + " TEXT,"  + KEY_DESCRIPTION + " TEXT," + KEY_REQUIRED + " INTEGER," + KEY_ACHIEVED + " INTEGER," + KEY_FULFILLED + " INTEGER," + KEY_CREATED_AT
+            + " DATETIME," + KEY_CREATED_AT_UNIX + " LONG" + ")";
+
+
     /**
      * Constructor should be private to prevent direct instantiation.
      * make call to static method "getInstance()" instead.
@@ -115,6 +135,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_FIGHT);
         db.execSQL(CREATE_TABLE_HISTORY);
         db.execSQL(CREATE_TABLE_PROFILE);
+        db.execSQL(CREATE_TABLE_ACHIEVEMENT);
     }
 
     @Override
@@ -124,6 +145,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FIGHT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACHIEVEMENT);
         // create new tables
         onCreate(db);
     }
@@ -140,6 +162,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FIGHT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_HISTORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PROFILE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ACHIEVEMENT);
     }
 
     /*
@@ -649,6 +672,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 new String[] { String.valueOf(userID) });
     }
 
+    /*
+    * SELECT * FROM profile;
+    */
     public List<DbProfile> getAllProfiles() {
         List<DbProfile> profileEntries = new ArrayList<DbProfile>();
         String selectQuery = "SELECT  * FROM " + TABLE_PROFILE;
@@ -678,6 +704,114 @@ public class DbHelper extends SQLiteOpenHelper {
         return profileEntries;
     }
 
+    /*
+    * Creating an Achievement Entry
+    */
+    public long createAchievement(DbAchievement achievement) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_TITLE, achievement.getTitle());
+        values.put(KEY_DESCRIPTION, achievement.getDescription());
+        values.put(KEY_REQUIRED, achievement.getRequired());
+        values.put(KEY_ACHIEVED, achievement.getAchieved());
+        values.put(KEY_FULFILLED, achievement.getFulfilled());
+        values.put(KEY_CREATED_AT, getDateTime());
+        values.put(KEY_CREATED_AT_UNIX, getUnix());
+
+        // insert row
+        long achievement_id = db.insert(TABLE_ACHIEVEMENT, null, values);
+
+        return achievement_id;
+    }
+
+    /*
+    * SELECT * FROM achievements WHERE id = i;
+    */
+    public DbAchievement getAchievement(long achievement_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_ACHIEVEMENT + " WHERE "
+                + KEY_ID + " = " + achievement_id;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        DbAchievement achievement = new DbAchievement();
+        achievement.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+        achievement.setTitle(c.getString(c.getColumnIndex(KEY_TITLE)));
+        achievement.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
+        achievement.setRequired(c.getInt(c.getColumnIndex(KEY_REQUIRED)));
+        achievement.setAchieved(c.getInt(c.getColumnIndex(KEY_ACHIEVED)));
+        achievement.setFulfilled(c.getInt(c.getColumnIndex(KEY_FULFILLED)));
+        achievement.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+        achievement.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
+
+        return achievement;
+    }
+
+    /*
+    * SELECT * FROM achievements;
+    */
+    public List<DbAchievement> getAllAchievements() {
+        List<DbAchievement> achievementEntries = new ArrayList<DbAchievement>();
+        String selectQuery = "SELECT  * FROM " + TABLE_ACHIEVEMENT;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (c.moveToFirst()) {
+            do {
+                DbAchievement achievement = new DbAchievement();
+                achievement.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+                achievement.setTitle(c.getString(c.getColumnIndex(KEY_TITLE)));
+                achievement.setDescription(c.getString(c.getColumnIndex(KEY_DESCRIPTION)));
+                achievement.setRequired(c.getInt(c.getColumnIndex(KEY_REQUIRED)));
+                achievement.setAchieved(c.getInt(c.getColumnIndex(KEY_ACHIEVED)));
+                achievement.setFulfilled(c.getInt(c.getColumnIndex(KEY_FULFILLED)));
+                achievement.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
+
+                // adding to fight list
+                achievementEntries.add(achievement);
+            } while (c.moveToNext());
+        }
+
+        return achievementEntries;
+    }
+
+
+    /*
+    * Updating an achievement
+    */
+    public int updateAchievement(DbAchievement achievement) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_TITLE, achievement.getTitle());
+        values.put(KEY_DESCRIPTION, achievement.getDescription());
+        values.put(KEY_REQUIRED, achievement.getRequired());
+        values.put(KEY_ACHIEVED, achievement.getAchieved());
+        values.put(KEY_FULFILLED, achievement.getFulfilled());
+        values.put(KEY_CREATED_AT, getDateTime());
+        values.put(KEY_CREATED_AT_UNIX, getUnix());
+
+        // updating row
+        return db.update(TABLE_ACHIEVEMENT, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(achievement.getId()) });
+    }
+
+    /*
+    * Deleting an achievement entry
+    */
+    public void deleteAchievement(long achievement_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_ACHIEVEMENT, KEY_ID + " = ?",
+                new String[] { String.valueOf(achievement_id) });
+    }
+
     public String getDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "dd.MM.yyyy HH:mm:ss", Locale.getDefault());
@@ -685,7 +819,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return dateFormat.format(date);
     }
 
-    public static Long getUnix() {
+    public Long getUnix() {
         long currentUnix = System.currentTimeMillis()/1000L;
         return currentUnix;
     }
@@ -695,5 +829,21 @@ public class DbHelper extends SQLiteOpenHelper {
         bmp.compress(Bitmap.CompressFormat.PNG, 100, bos);
         byte[] bArray = bos.toByteArray();
         return bArray;
+    }
+
+    /*
+    * check if Achievement was unlocked
+     */
+    public int checkAchievementState(DbAchievement achievement){
+        Log.i("DbHelper.checkAchievementState","checking achievement, called from "+achievement.getTitle());
+        if (achievement.getRequired()<=achievement.getAchieved()){
+            if(achievement.getFulfilled()!=1){
+                Toast toast = Toast.makeText(MainActivity.getAppContext(),"Achievement unlocked:\n" + achievement.getTitle(), Toast.LENGTH_LONG);
+                toast.show();
+            }
+            return 1;
+        }else{
+            return 0;
+        }
     }
 }

@@ -98,7 +98,7 @@ public class BaseActivity extends ActionBarActivity {
         profileNextLevel.setText(level.toString());
 
         profileArmyStrength = (TextView) findViewById(R.id.left_drawer_user_profile_armystrength_number);
-        List<DbSoldier> limitedSoldiers = db.getLimitedSoldiers(GameMechanics.getMaxArmySize(level));
+        List<DbSoldier> limitedSoldiers = db.getLimitedSoldiers(GameMechanics.getMaxArmySize(level-1));
         Integer ownStrength = GameMechanics.getArmyStrength(limitedSoldiers);
         profileArmyStrength.setText(ownStrength.toString());
 
@@ -179,9 +179,22 @@ public class BaseActivity extends ActionBarActivity {
                 // calling onPrepareOptionsMenu() to hide action bar icons
                 supportInvalidateOptionsMenu();
                 profile = db.getProfile(parseDb.getUserID());
+
+                //update progressBar
                 int progress = (int)(100*GameMechanics.getPlayerLevelProgress(profile.getEp()));
                 profileEpBar.setProgress(progress);
+                Integer level = GameMechanics.getPlayerLevelForEp(profile.getEp());
+                profileCurrentLevel.setText(level.toString());
+                level = level + 1;
+                profileNextLevel.setText(level.toString());
+
+                //update picture
                 profileUserImage.setImageBitmap(profile.getImg());
+
+                //update ArmyStrength
+                List<DbSoldier> limitedSoldiers = db.getLimitedSoldiers(GameMechanics.getMaxArmySize(level-1));
+                Integer ownStrength = GameMechanics.getArmyStrength(limitedSoldiers);
+                profileArmyStrength.setText(ownStrength.toString());
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);

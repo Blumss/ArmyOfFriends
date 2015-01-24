@@ -31,6 +31,7 @@ import com.parse.ParseUser;
 import com.pemws14.armyoffriends.army.ArmyActivity;
 import com.pemws14.armyoffriends.background.BackgroundReceiver;
 import com.pemws14.armyoffriends.background.BackgroundService;
+import com.pemws14.armyoffriends.database.DbAchievement;
 import com.pemws14.armyoffriends.database.DbFight;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbProfile;
@@ -39,6 +40,7 @@ import com.pemws14.armyoffriends.database.ParseDb;
 import com.pemws14.armyoffriends.fight.FightActivity;
 import com.pemws14.armyoffriends.history.HistoryActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -111,6 +113,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         LayoutInflater inflatter =(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); // getting access to laytou inflatter
 
         createDailyChallengeEntry();
+        createAchievements();
         initDB();
 
       //  View v = new ImageView()
@@ -254,9 +257,54 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         }
     }
 
+    /*
+    * Creates all possible achievements if not already done
+     */
+    private void createAchievements() {
+        if (db.getAllAchievements().isEmpty()){
+            Log.i("MainActivity.createAchievements","Creating all Achievements");
+            List<DbAchievement> achievements = setRequirements();
+            for(DbAchievement achievement: achievements){
+                db.createAchievement(achievement);
+                Log.i("MainActivity.createAchievements", "Creating #" + achievement.getId() + ": " + achievement.getTitle());
+            }
+        }else{
+            Log.i("MainActivity.createAchievements","Achievements already existing!");
+        }
+    }
+
+    private List<DbAchievement> setRequirements(){
+        List<DbAchievement> achievements = new ArrayList<DbAchievement>();
+        achievements.add(new DbAchievement("Fire!","Start a fight", 1, 0));
+        achievements.add(new DbAchievement("Just starting...","Win a fight", 1, 0));
+        achievements.add(new DbAchievement("Getting into it","Win 10 fights", 10, 0));
+        achievements.add(new DbAchievement("I'm lovin' it","Win 25 fights", 25, 0));
+        achievements.add(new DbAchievement("Nice fighting","Win 50 fights", 50, 0));
+        achievements.add(new DbAchievement("Fearless!","Win 100 fights", 100, 0));
+        achievements.add(new DbAchievement("Dominator!","Win 250 fights", 250, 0));
+        achievements.add(new DbAchievement("Fearless!","Win 500 fights", 500, 0));
+        achievements.add(new DbAchievement("Just a little setback","Lose 1 fight", 1, 0));
+        achievements.add(new DbAchievement("Lucky you!","Win 10 close fights", 10, 0));
+        achievements.add(new DbAchievement("Need a lucky charm?","Lose 10 close fights", 10, 0));
+        achievements.add(new DbAchievement("Time to strike","First soldier added", 1, 0));
+        achievements.add(new DbAchievement("MOAR soldiers","10 soldiers added", 10, 0));
+        achievements.add(new DbAchievement("Army!","100 soldiers added", 100, 0));
+        achievements.add(new DbAchievement("Private party","Have 25 privates in your army", 25, 0));
+        achievements.add(new DbAchievement("Major upgrade","Get a soldier to rank Major", 1, 0));
+        achievements.add(new DbAchievement("General upgrade","Get a soldier to rank General ", 1, 0));
+        achievements.add(new DbAchievement("Monster hunter","Win a daily challenge", 1, 0));
+        achievements.add(new DbAchievement("Monster smasher","Win 30 daily challenges", 30, 0));
+        achievements.add(new DbAchievement("Growing stronger","ArmyStrength over 500", 500, 0));
+        achievements.add(new DbAchievement("Strong enough","ArmyStrength over 2500", 2500, 0));
+        achievements.add(new DbAchievement("Great power - Great responsibility","ArmyStrength over 5000", 5000, 0));
+        achievements.add(new DbAchievement("Overpowered","ArmyStrength over 10000", 10000, 0));
+        achievements.add(new DbAchievement("Getting an upgrade","Get an EP-level-up", 2, 0));
+        return achievements;
+    }
+
     private void createSoldiers(){
-        for(int i=0; i<200;i++) {
-            db.createSoldier(new DbSoldier("Prename Surname #"+i, i));
+        for(int i=0; i<20;i++) {
+            db.createSoldier(new DbSoldier("Prename Surname #"+i, BitmapFactory.decodeResource(getResources(),R.drawable.userpic_placeholder), i));
         }
         List<DbSoldier> solis = db.getAllSoldiers();
         for(DbSoldier s : solis ){

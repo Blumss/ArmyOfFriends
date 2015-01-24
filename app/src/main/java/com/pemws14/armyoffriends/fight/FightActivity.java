@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.pemws14.armyoffriends.GameMechanics;
 import com.pemws14.armyoffriends.R;
+import com.pemws14.armyoffriends.database.DbAchievement;
 import com.pemws14.armyoffriends.database.DbFight;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbHistory;
@@ -43,6 +44,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     private long currentTime;
 
     private List<DbFight> fightList;
+    private List<DbAchievement> achievementList;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter fightAdapter;
 
@@ -71,11 +73,11 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
 
         //get fights
         dbHelper = DbHelper.getInstance(getApplicationContext());
-        currentTime = DbHelper.getUnix();
+        currentTime = dbHelper.getUnix();
         parseDb = new ParseDb();
         dbProfile = dbHelper.getProfile(parseDb.getUserID());
 
-        //createDummies();
+        createDummies();
 
         fightList = dbHelper.getAllFights();
         fightList.remove(0);
@@ -92,10 +94,12 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
 
         maxOwnStrength = GameMechanics.getArmyStrength(getSoldiers);
         ownStrength = GameMechanics.getArmyStrength(dbHelper.getLimitedSoldiers(armySize));
-        armyStrength.setText(ownStrength.toString() + "/" + maxOwnStrength.toString());
+        armyStrength.setText(" " + ownStrength.toString() + "/" + maxOwnStrength.toString());
         ownLevel.setText(level.toString());
 
         checkFights(currentTime);
+
+        achievementList = dbHelper.getAllAchievements();
 
         //TODO: remove the part below when not needed anymore
 //        level = GameMechanics.getPlayerLevelForEp(1000);
@@ -189,7 +193,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         resultFrag.show(ft, dbFight.getName());
 
         // Save result in DBs & update Activity
-        updateDBs(dbFight, result, chance);
+        updateDBs(dbFight, result, random, chance);
         updateView(fightId, position);
     }
 
@@ -220,12 +224,66 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     /*
     update Databases after Fight (History and Profile)
      */
-    public void updateDBs(DbFight dbFight, Boolean result, double chance){
+    public void updateDBs(DbFight dbFight, Boolean result, double random, double chance){
+        //update History
         dbHistory = new DbHistory(level, ownStrength, dbHelper.getMaxLevel(), dbFight.getName(), dbFight.getPlayerLevel(), dbFight.getStrength(), dbFight.getMaxLevel(), result);
         dbHelper.createHistory(dbHistory);
+
+        //update Achievements & ProfileEPs
+        //*set AchievementFirstFight
+        achievementList.get(0).setAchieved(achievementList.get(0).getAchieved() + 1);
+        achievementList.get(0).setFulfilled(dbHelper.checkAchievementState(achievementList.get(0)));
+        dbHelper.updateAchievement(achievementList.get(0));
+        //*others
+        //**if won
         if(result){
+            //***Overall win Achievements update
+            for (int i = 1; i<8; i++) {
+                DbAchievement achievement = achievementList.get(i);
+                achievement.setAchieved(achievement.getAchieved() + 1);
+                achievement.setFulfilled(dbHelper.checkAchievementState(achievement));
+                dbHelper.updateAchievement(achievement);
+            }
+            //***Close win Achievement
+            if(chance-random<=0.1){
+                DbAchievement achievement = achievementList.get(9);
+                achievement.setAchieved(achievement.getAchieved()+1);
+                achievement.setFulfilled(dbHelper.checkAchievementState(achievement));
+                dbHelper.updateAchievement(achievement);
+            }
+            //***Daily Challenge Achievements update
+            if(dbFight.getId()==1){
+                DbAchievement achievement1 = achievementList.get(17);
+                DbAchievement achievement2 = achievementList.get(18);
+                achievement1.setAchieved(achievement1.getAchieved()+1);
+                achievement2.setAchieved(achievement2.getAchieved()+1);
+                achievement1.setFulfilled(dbHelper.checkAchievementState(achievement1));
+                achievement2.setFulfilled(dbHelper.checkAchievementState(achievement2));
+                dbHelper.updateAchievement(achievement1);
+                dbHelper.updateAchievement(achievement2);
+            }
+            //***update EPs, Level aaaaand EP-Achievement
             dbProfile.setEp(dbProfile.getEp() + (int)(GameMechanics.getEpBaseReward(dbFight.getPlayerLevel())*chance));
+            dbProfile.setPlayerLevel(GameMechanics.getPlayerLevelForEp(dbProfile.getEp()));
             dbHelper.updateProfile(dbProfile);
+            DbAchievement achievement = achievementList.get(23);
+            achievement.setAchieved(dbProfile.getPlayerLevel());
+            achievement.setFulfilled(dbHelper.checkAchievementState(achievement));
+            dbHelper.updateAchievement(achievement);
+        //**if lost
+        }else{
+            //***Loose achievement update
+            DbAchievement achievement1 = achievementList.get(8);
+            achievement1.setAchieved(achievement1.getAchieved()+1);
+            achievement1.setFulfilled(dbHelper.checkAchievementState(achievement1));
+            dbHelper.updateAchievement(achievement1);
+            //***lost closely
+            if(chance-random<=0.1){
+                DbAchievement achievement2 = achievementList.get(10);
+                achievement2.setAchieved(achievement2.getAchieved()+1);
+                achievement2.setFulfilled(dbHelper.checkAchievementState(achievement2));
+                dbHelper.updateAchievement(achievement2);
+            }
         }
     }
 

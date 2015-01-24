@@ -1,5 +1,7 @@
 package com.pemws14.armyoffriends.army;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Schnabeltier on 07.12.2014.
  */
@@ -8,6 +10,7 @@ public class ChildRow
     private String name;
     private String level;
     private String levelNextRank;
+    private Bitmap image;
 
     public String getName()
     {
@@ -37,5 +40,13 @@ public class ChildRow
     public void setLevelNextRank(String levelNextRank)
     {
         this.levelNextRank = levelNextRank;
+    }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image){
+        this.image = image;
     }
 }

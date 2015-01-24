@@ -16,15 +16,15 @@ public class DbSoldier {
     public DbSoldier() {
     }
 
-    public DbSoldier(String name, int level) {
+    public DbSoldier(String name, Bitmap img, int level) {
         this.setName(name);
+        this.img = img;
         this.setLevel(level);
         this.setRank(GameMechanics.getRankByLevel(level));
     }
 
     public DbSoldier(int id, String name, Bitmap img, int level, int rank, String created_at, Long created_at_unix) {
-        this(name, level);
-        this.img = img;
+        this(name, img, level);
         this.setId(id);
         this.setCreated_at(created_at);
         this.setCreated_at_Unix(created_at_unix);

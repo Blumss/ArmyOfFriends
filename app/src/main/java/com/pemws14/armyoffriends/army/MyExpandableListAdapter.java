@@ -100,12 +100,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter
         ((TextView) convertView.findViewById(R.id.soldier_name)).setText(child.getName());
         ((TextView) convertView.findViewById(R.id.level)).setText(child.getLevel());
         ((TextView) convertView.findViewById(R.id.level_next_rank)).setText(child.getLevelNextRank());
-
-        ImageView image=(ImageView)convertView.findViewById(R.id.image);
-        image.setImageResource(
+        ((ImageView) convertView.findViewById(R.id.image)).setImageBitmap(child.getImage());
+        /*image.setImageResource(
                 mActivity.getResources().getIdentifier(
                         "com.androidexample.customexpandablelist:drawable/setting"+parent.getName(),null,null));
-
+*/
         return convertView;
     }
 
