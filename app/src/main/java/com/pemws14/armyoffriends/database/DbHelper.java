@@ -212,6 +212,33 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     /*
+    * SELECT * FROM soldier WHERE name = soldierName;
+    */
+    public DbSoldier getSoldier(String soldierName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " WHERE "
+                + KEY_PLAYER_NAME + " = " + soldierName;
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        DbSoldier soldier = new DbSoldier();
+        soldier.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+        soldier.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+        byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+        soldier.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
+        soldier.setLevel(c.getInt(c.getColumnIndex(KEY_SOLDIER_LEVEL)));
+        soldier.setRank(c.getInt(c.getColumnIndex(KEY_RANK)));
+        soldier.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+        soldier.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
+
+        return soldier;
+    }
+
+    /*
     * SELECT * FROM soldier WHERE rank = r;
     */
     public List<DbSoldier> getSoldiersWithRank(int soldier_rank) {
