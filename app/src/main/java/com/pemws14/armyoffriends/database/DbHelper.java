@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.pemws14.armyoffriends.GameMechanics;
+
 import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -305,6 +307,26 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_SOLDIER_LEVEL, soldier.getLevel());
         values.put(KEY_PICTURE, bitmapToBArray(soldier.getImg()));
         values.put(KEY_RANK, soldier.getRank());
+        values.put(KEY_CREATED_AT, soldier.getCreated_at());
+        values.put(KEY_CREATED_AT_UNIX, soldier.getCreated_at_Unix());
+
+        // updating row
+        return db.update(TABLE_SOLDIER, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(soldier.getId()) });
+    }
+
+    /*
+    * Updating a soldier
+    */
+    public int levelUpSoldier(DbSoldier soldier) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int increasedLevel = soldier.getLevel() + 1;
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_PLAYER_NAME, soldier.getName());
+        values.put(KEY_SOLDIER_LEVEL, increasedLevel);
+        values.put(KEY_PICTURE, bitmapToBArray(soldier.getImg()));
+        values.put(KEY_RANK, GameMechanics.getRankByLevel(increasedLevel));
         values.put(KEY_CREATED_AT, soldier.getCreated_at());
         values.put(KEY_CREATED_AT_UNIX, soldier.getCreated_at_Unix());
 
