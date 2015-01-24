@@ -55,7 +55,6 @@ public class BackgroundService extends Service {
     ParseDb parseDb;
 
 
-
     Calendar cur_cal = Calendar.getInstance();
     public static int counter = 0; // zählt wie oft der Service schon gestartet wurde
     public static final String LOCATION = "location";
@@ -69,12 +68,12 @@ public class BackgroundService extends Service {
     public ParseGeoPoint UserLocation, TestUserLocation;
     public ArrayList<ParseGeoPoint> UserLocList;
     public int numberUsers;
-    public  ParseUser currentUser;
+    public ParseUser currentUser;
 
     public ParseQuery<ParseObject> armyStrengthQuery;
 
     // save armyStuff
-    public ParseObject ArmyStrength ;
+    public ParseObject ArmyStrength;
     int armyStrength;
     int defaultPlayerLevel = 1;
     int defaultEP = 0;
@@ -90,17 +89,17 @@ public class BackgroundService extends Service {
         Toast.makeText(this, " First Service Started" + "  " + counter, Toast.LENGTH_SHORT).show();
 
         Location location = intent.getParcelableExtra(LocationClient.KEY_LOCATION_CHANGED);
-        if(location !=null){
+        if (location != null) {
             System.out.println("BackgroundService - onHandleIntent - Location available");
-            System.out.println("BackgroundService - onHandleIntent - Location available: "+location);
-            System.out.println("BackgroundService - onHandleIntent - Location available - Latitude: "+location.getLatitude());
-            System.out.println("BackgroundService - onHandleIntent - Location available - Longitude: "+location.getLongitude());
+            System.out.println("BackgroundService - onHandleIntent - Location available: " + location);
+            System.out.println("BackgroundService - onHandleIntent - Location available - Latitude: " + location.getLatitude());
+            System.out.println("BackgroundService - onHandleIntent - Location available - Longitude: " + location.getLongitude());
             Toast.makeText(this, "new Location!", Toast.LENGTH_SHORT).show();
 
             parseDb.setCurrentLocation(location);
             getNearbyUsers(parseDb.getCurrentLocation(), location);
             saveArmyStuff();
-           // sendLocResult(location);
+            // sendLocResult(location);
         }
 
         //TODO do something useful
@@ -122,18 +121,18 @@ public class BackgroundService extends Service {
         parseDb = new ParseDb();
 
         // Parse Test
-      //  User = new ParseObject("TestObject");
+        //  User = new ParseObject("TestObject");
         currentUser = ParseUser.getCurrentUser();
         ArmyStrength = new ParseObject("ArmyyStrength");
 
-   //     currentUser.put("location",TestUserLocation);
+        //     currentUser.put("location",TestUserLocation);
 
-      //  TestUser = new ParseObject("TestObject");
-     //   TestUserLocation = new ParseGeoPoint(48.1529363,11.5681098);
-      //  TestUser.put("location",TestUserLocation);
+        //  TestUser = new ParseObject("TestObject");
+        //   TestUserLocation = new ParseGeoPoint(48.1529363,11.5681098);
+        //  TestUser.put("location",TestUserLocation);
 
-      //  User.saveInBackground();
-      //  TestUser.saveInBackground();
+        //  User.saveInBackground();
+        //  TestUser.saveInBackground();
 
         System.out.println("BackgroundService - onCreate");
         Toast.makeText(this, "First Service was Created", Toast.LENGTH_SHORT).show();
@@ -149,7 +148,8 @@ public class BackgroundService extends Service {
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, cur_cal.getTimeInMillis(), 60 * 1000*1, pintent); // repeat alle 1 Minute
         */
     }
-//    @Override
+
+    //    @Override
 //    public void onStart(Intent intent, int startId) {
 //        counter++;
 //        Toast.makeText(this, " First Service Started" + "  " + counter, Toast.LENGTH_SHORT).show();
@@ -163,13 +163,14 @@ public class BackgroundService extends Service {
         System.out.println("BackgroundService - onDestroy");
         Toast.makeText(this, "Service Destroyed", Toast.LENGTH_SHORT).show();
     }
-    public void onTaskRemoved (Intent rootIntent){
+
+    public void onTaskRemoved(Intent rootIntent) {
 
         MainActivity.alarm.cancel(MainActivity.pintent);
         this.stopSelf();
     }
 
-    public void sendLocResult(Location location, int UserNum){
+    public void sendLocResult(Location location, int UserNum) {
         Intent intent = new Intent("com.pemws14.armyoffriends");
         intent.putExtra(LOCATION, location);
         intent.putExtra(LATITUDE, location.getLatitude());
@@ -178,7 +179,7 @@ public class BackgroundService extends Service {
         sendBroadcast(intent);
     }
 
-    public void getNearbyUsers(ParseGeoPoint geoPoint, Location location){
+    public void getNearbyUsers(ParseGeoPoint geoPoint, Location location) {
 
         UserLocation = geoPoint;
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
@@ -209,7 +210,8 @@ public class BackgroundService extends Service {
 
         sendLocResult(location, numberUsers);
     }
-    public void saveArmyStuff(){
+
+    public void saveArmyStuff() {
 
         dbSoldiers = dbHelper.getAllSoldiers();
         armyStrength = gameMechanics.getArmyStrength(dbSoldiers);
@@ -252,22 +254,23 @@ public class BackgroundService extends Service {
         notificationManager.notify(0, noti);
 
     }
-    public void meet(List<ParseUser> parseUsers){
+
+    public void meet(List<ParseUser> parseUsers) {
         System.out.println("meet");
-        List<ParseUser> ListParseUser = parseDb.getMetPeopleToday();
-        System.out.println("List ParseUser, heute schon getroffene User: "+ListParseUser);
+        List<ParseUser> listParseUser = parseDb.getMetPeopleToday();
+        System.out.println("List ParseUser, heute schon getroffene User: " + listParseUser);
 
         /* man hat jemanden getroffen */
-        if(parseUsers!=null){
-            System.out.println("Meet Success! Retrieved parseUsers: "+parseUsers);
-            numberUsers =  parseUsers.toArray().length;
-            System.out.println("Success! Number Users: "+numberUsers);
+        if (parseUsers != null) {
+            System.out.println("Meet Success! Retrieved parseUsers: " + parseUsers);
+            numberUsers = parseUsers.toArray().length;
+            System.out.println("Success! Number Users: " + numberUsers);
 
 
             /* der currentUser hat noch niemanden getroffen */
-            if(ListParseUser == null){
-                for(ParseUser parseUser : parseUsers){
-                    System.out.println("CurrentUser: "+currentUser+" hat User: "+parseUser+" heute zum ERSTEN MAL getroffen! (Hatte noch niemanden getroffen)");
+            if (listParseUser == null) {
+                for (ParseUser parseUser : parseUsers) {
+                    System.out.println("CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (Hatte noch niemanden getroffen)");
                     displayNotification();
 
                     /* gegenseitig hinzufügen */
@@ -277,20 +280,20 @@ public class BackgroundService extends Service {
                         pu.add("metPeopleToday", currentUser);
                         pu.saveInBackground();
                     }*/
-                    System.out.println("currentUser: "+currentUser+" hat User: "+pu+" hinzugefügt!");
-                //   currentUser.add("metPeopleToday", pu);
-                 //   currentUser.saveInBackground();
+                    System.out.println("currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
+                    //   currentUser.add("metPeopleToday", pu);
+                    //   currentUser.saveInBackground();
                     addSoldier(pu);
                 }
 
             /* der currentUser hat schon jemanden getroffen */
-            }else {
-                for(ParseUser parseUser : parseUsers){
-                    for(ParseUser parseUser2 : ListParseUser) {
+            } else {
+                for (ParseUser parseUser : parseUsers) {
+                    for (ParseUser parseUser2 : listParseUser) {
                         if (parseUser.hasSameId(parseUser2)) {
-                            System.out.println("CurrentUser: "+currentUser+" hat User: "+parseUser+" heute leider schon getroffen!");
-                        }else {
-                            System.out.println("CurrentUser: "+currentUser+" hat User: "+parseUser+" heute zum ERSTEN MAL getroffen! (hat aber schon andere getroffen)");
+                            System.out.println("CurrentUser: " + currentUser + " hat User: " + parseUser + " heute leider schon getroffen!");
+                        } else {
+                            System.out.println("CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (hat aber schon andere getroffen)");
                             displayNotification();
 
                             /* gegenseitig hinzufügen */
@@ -300,54 +303,54 @@ public class BackgroundService extends Service {
                                 pu.add("metPeopleToday", currentUser);
                                 pu.saveInBackground();
                             }*/
-                            System.out.println("currentUser: "+currentUser+" hat User: "+pu+" hinzugefügt!");
-                          //  currentUser.add("metPeopleToday", pu);
-                         //   currentUser.saveInBackground();
+                            System.out.println("currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
+                            //  currentUser.add("metPeopleToday", pu);
+                            //   currentUser.saveInBackground();
                             addSoldier(pu);
                         }
                     }
                 }
             }
-        }else {
+        } else {
             System.out.println("leider niemanden getroffen!");
         }
 
     }
 
-    public void addSoldier(ParseUser parseUser){
-        System.out.println("addSoldier: "+parseUser.getUsername());
+    public void addSoldier(ParseUser parseUser) {
+        System.out.println("addSoldier: " + parseUser.getUsername());
         String userName = parseUser.getUsername();
         List<DbSoldier> listDbSoldiers = dbHelper.getAllSoldiers();
 
         currentUser.add("metPeopleToday", parseUser);
         currentUser.saveInBackground();
 
-        System.out.println("listDbSoldiers.toArray().length: "+listDbSoldiers.toArray().length);
-        if(listDbSoldiers.toArray().length>0){
+        System.out.println("listDbSoldiers.toArray().length: " + listDbSoldiers.toArray().length);
+        if (listDbSoldiers.toArray().length > 0) {
             System.out.println("min ein Soldat drin");
-            for(DbSoldier dbSoldier : listDbSoldiers){
-                if(dbSoldier.getName().equals(userName)){
+            for (DbSoldier dbSoldier : listDbSoldiers) {
+                if (dbSoldier.getName().equals(userName)) {
                     System.out.println("lvl up Soldier: ");
                     dbHelper.levelUpSoldier(dbSoldier);
                     createFightEntry(dbSoldier);
 
-                }else{
+                } else {
                     System.out.println("create Soldier in der forschleife: ");
-                    DbSoldier dbSoldierr = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),1);
+                    DbSoldier dbSoldierr = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder), 1);
                     dbHelper.createSoldier(dbSoldierr);
                     createFightEntry(dbSoldierr);
                 }
             }
-        }else{
+        } else {
             System.out.println("create Soldier im else zweig: ");
-            DbSoldier dbSoldier = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),1);
+            DbSoldier dbSoldier = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder), 1);
             dbHelper.createSoldier(dbSoldier);
             createFightEntry(dbSoldier);
         }
     }
 
-    public void createFightEntry(DbSoldier dbSoldier){
-        dbFight = new DbFight(dbSoldier.getName(),dbSoldier.getLevel(),gameMechanics.getArmyStrength(dbHelper.getAllSoldiers()),dbHelper.getMaxLevel());
+    public void createFightEntry(DbSoldier dbSoldier) {
+        dbFight = new DbFight(dbSoldier.getName(), dbSoldier.getLevel(), gameMechanics.getArmyStrength(dbHelper.getAllSoldiers()), dbHelper.getMaxLevel());
         dbHelper.createFight(dbFight);
     }
 }
