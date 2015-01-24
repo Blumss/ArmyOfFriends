@@ -152,6 +152,17 @@ public class ParseDb {
 
 /************ Methoden *************/
 
+    public void addPeople(){
+
+    }
+
+    public void deleteMetPeople(){
+        CURRENT_USER.remove("metPeopleToday");
+        CURRENT_USER.saveInBackground();
+    }
+
+   // public void
+
     public void refreshParseUser(){
         System.out.println("refreshParseDbArmy");
         CURRENT_USER.fetchInBackground(new GetCallback<ParseUser>() {

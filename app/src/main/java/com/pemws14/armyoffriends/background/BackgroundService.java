@@ -16,7 +16,6 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.pemws14.armyoffriends.fight.FightActivity;
 import com.pemws14.armyoffriends.GameMechanics;
 import com.pemws14.armyoffriends.MainActivity;
 import com.pemws14.armyoffriends.ProfileActivity;
@@ -26,6 +25,7 @@ import com.pemws14.armyoffriends.army.ArmyActivity;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.database.ParseDb;
+import com.pemws14.armyoffriends.fight.FightActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,6 +42,8 @@ public class BackgroundService extends Service {
     String fightAction = "Fight!";
     String armyAction = "Your Army";
     String yourProfile = "Your Profile";
+
+    private long currentTime;
 
     DbHelper dbHelper;
     GameMechanics gameMechanics;
@@ -179,11 +181,17 @@ public class BackgroundService extends Service {
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
 
         userQuery.whereWithinKilometers("location",UserLocation,0.05);
+        userQuery.whereNotEqualTo("username",currentUser.getUsername());
         userQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
                 if (e == null) {
-                    meet(parseUsers);
+                    if(parseUsers.toArray().length>0){
+                        System.out.println("parseUsers: "+parseUsers);
+                        meet(parseUsers);
+                    }else{
+                        System.out.println("Niemanden getroffen");
+                    }
                     // Hooray! Let them use the app now.
 
                 } else {
@@ -242,21 +250,63 @@ public class BackgroundService extends Service {
 
     }
     public void meet(List<ParseUser> parseUsers){
-        numberUsers =  parseUsers.toArray().length;
-        System.out.println("Background Service - saveUserLocParse - query.findinBackground");
-        System.out.println("Success! Number Users: "+numberUsers);
-        System.out.println("Success! Retrieved: "+parseUsers);
+        System.out.println("meet");
+        List<ParseUser> ListParseUser = parseDb.getMetPeopleToday();
+        System.out.println("List ParseUser, heute schon getroffene User: "+ListParseUser);
 
-        if(numberUsers>=2){
-            ParseObject pO = parseUsers.get(1);
-            System.out.println("ID: "+pO.getObjectId());
-            displayNotification();
+        /* man hat jemanden getroffen */
+        if(parseUsers!=null){
+            System.out.println("Meet Success! Retrieved parseUsers: "+parseUsers);
+            numberUsers =  parseUsers.toArray().length;
+            System.out.println("Success! Number Users: "+numberUsers);
+
+
+            /* der currentUser hat noch niemanden getroffen */
+            if(ListParseUser == null){
+                for(ParseUser parseUser : parseUsers){
+                    System.out.println("CurrentUser: "+currentUser+" hat User: "+parseUser+" heute zum ERSTEN MAL getroffen! (Hatte noch niemanden getroffen)");
+                    displayNotification();
+
+                    /* gegenseitig hinzufügen */
+                    ParseUser pu = parseUser;
+                    if(pu!=currentUser){
+                        System.out.println("User: "+pu+" hat currentUser: "+currentUser+" hinzugefügt!");
+                        pu.add("metPeopleToday", currentUser);
+                        pu.saveInBackground();
+                    }
+                    System.out.println("currentUser: "+currentUser+" hat User: "+pu+" hinzugefügt!");
+                    currentUser.add("metPeopleToday", pu);
+                    currentUser.saveInBackground();
+                }
+
+            /* der currentUser hat schon jemanden getroffen */
+            }else {
+                for(ParseUser parseUser : parseUsers){
+                    for(ParseUser parseUser2 : ListParseUser) {
+                        if (parseUser.hasSameId(parseUser2)) {
+                            System.out.println("CurrentUser: "+currentUser+" hat User: "+parseUser+" heute leider schon getroffen!");
+                        }else {
+                            System.out.println("CurrentUser: "+currentUser+" hat User: "+parseUser+" heute zum ERSTEN MAL getroffen! (hat aber schon andere getroffen)");
+                            displayNotification();
+
+                            /* gegenseitig hinzufügen */
+                            ParseUser pu = parseUser;
+                            if(pu!=currentUser){
+                                System.out.println("User: "+pu+" hat currentUser: "+currentUser+" hinzugefügt!");
+                                pu.add("metPeopleToday", currentUser);
+                                pu.saveInBackground();
+                            }
+                            System.out.println("currentUser: "+currentUser+" hat User: "+pu+" hinzugefügt!");
+                            currentUser.add("metPeopleToday", pu);
+                            currentUser.saveInBackground();
+                        }
+                    }
+                }
+            }
+        }else {
+            System.out.println("leider niemanden getroffen!");
         }
-        for(int i=0;i<numberUsers;i++){
-            ParseUser pu = parseUsers.get(i);
-            currentUser.add("metPeopleToday", pu);
-            currentUser.saveInBackground();
-        }
+
     }
 
     /*brauch ich für dailyzeug:
