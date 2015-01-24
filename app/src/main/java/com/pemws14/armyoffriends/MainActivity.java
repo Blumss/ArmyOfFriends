@@ -225,7 +225,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             }
         });
 
-        createSoldiers();
+        //createSoldiers();
     }
 
     /*
