@@ -225,7 +225,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             }
         });
 
-        //createSoldiers();
+        createSoldiers();
     }
 
     /*
@@ -303,14 +303,15 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     }
 
     private void createSoldiers(){
-        for(int i=0; i<20;i++) {
-            db.createSoldier(new DbSoldier("Prename Surname #"+i, BitmapFactory.decodeResource(getResources(),R.drawable.userpic_placeholder), i));
-        }
-        List<DbSoldier> solis = db.getAllSoldiers();
-        for(DbSoldier s : solis ){
-            Log.i("Soldiers", ""+s.getId()+", "+s.getName()+", " +s.getLevel()+", "+s.getRank()+", "+s.getCreated_at());
-        }
-
+//        for(int i=0; i<20;i++) {
+//            db.createSoldier(new DbSoldier("Prename Surname #"+i, BitmapFactory.decodeResource(getResources(),R.drawable.userpic_placeholder), i));
+//        }
+//        List<DbSoldier> solis = db.getAllSoldiers();
+//        for(DbSoldier s : solis ){
+//            Log.i("Soldiers", ""+s.getId()+", "+s.getName()+", " +s.getLevel()+", "+s.getRank()+", "+s.getCreated_at());
+//        }
+        db.createSoldier(new DbSoldier("Prename_Surname", BitmapFactory.decodeResource(getResources(),R.drawable.userpic_placeholder), 1));
+        System.out.println(db.getSoldier("Prename_Surname").getName());
     }
 
     public static Context getAppContext() {

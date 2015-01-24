@@ -218,7 +218,7 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT  * FROM " + TABLE_SOLDIER + " WHERE "
-                + KEY_PLAYER_NAME + " = " + soldierName;
+                + KEY_PLAYER_NAME + " = '" + soldierName + "'";
 
         Cursor c = db.rawQuery(selectQuery, null);
 
