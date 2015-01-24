@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pemws14.armyoffriends.AchievementsFragment">
+    tools:context="com.pemws14.armyoffriends.profile_achievements.AchievementsFragment">
 
     <ListView
         android:id="@+id/achievements_list"

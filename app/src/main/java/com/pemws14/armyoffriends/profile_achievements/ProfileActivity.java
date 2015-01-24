@@ -1,4 +1,4 @@
-package com.pemws14.armyoffriends;
+package com.pemws14.armyoffriends.profile_achievements;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.drawer.BaseActivity;
 
 

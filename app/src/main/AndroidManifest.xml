@@ -69,7 +69,7 @@
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name=".ProfileActivity"
+            android:name=".profile_achievements.ProfileActivity"
             android:label="@string/title_activity_your_profile"
             android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >

@@ -18,7 +18,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.pemws14.armyoffriends.GameMechanics;
 import com.pemws14.armyoffriends.MainActivity;
-import com.pemws14.armyoffriends.ProfileActivity;
+import com.pemws14.armyoffriends.profile_achievements.ProfileActivity;
 import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.UserProfile;
 import com.pemws14.armyoffriends.army.ArmyActivity;

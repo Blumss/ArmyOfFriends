@@ -39,6 +39,7 @@ import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.database.ParseDb;
 import com.pemws14.armyoffriends.fight.FightActivity;
 import com.pemws14.armyoffriends.history.HistoryActivity;
+import com.pemws14.armyoffriends.profile_achievements.ProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;

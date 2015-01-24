@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.pemws14.armyoffriends.army.ArmyActivity;
 import com.pemws14.armyoffriends.fight.FightActivity;
+import com.pemws14.armyoffriends.profile_achievements.ProfileActivity;
 
 
 public class CreateNotificationActivity extends Activity {

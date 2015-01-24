@@ -23,7 +23,7 @@ import com.pemws14.armyoffriends.fight.FightActivity;
 import com.pemws14.armyoffriends.GameMechanics;
 import com.pemws14.armyoffriends.ImpressumActivity;
 import com.pemws14.armyoffriends.history.HistoryActivity;
-import com.pemws14.armyoffriends.ProfileActivity;
+import com.pemws14.armyoffriends.profile_achievements.ProfileActivity;
 import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.army.ArmyActivity;
 import com.pemws14.armyoffriends.database.DbHelper;
