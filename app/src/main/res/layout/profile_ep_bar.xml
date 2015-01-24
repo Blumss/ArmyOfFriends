@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/profile_fragment">
+
+    <ProgressBar
+        android:id="@+id/profile_ep_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:paddingTop="3dp"
+        android:progressDrawable="@drawable/layout_ep_bar" />
+
+    <TextView
+        style="@style/ProgressbarTextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/profile_ep_bar"
+        android:layout_alignLeft="@id/profile_ep_bar"
+        android:layout_alignRight="@id/profile_ep_bar"
+        android:layout_alignTop="@id/profile_ep_bar"
+        android:background="#00000000"
+        android:gravity="center_horizontal"
+        android:text="@string/profile_level"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/profile_current_level"
+        style="@style/ProgressbarTextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/profile_ep_bar"
+        android:layout_alignLeft="@id/profile_ep_bar"
+        android:layout_alignRight="@id/profile_ep_bar"
+        android:layout_alignTop="@id/profile_ep_bar"
+        android:layout_marginLeft="5dp"
+        android:gravity="left"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/profile_next_level"
+        style="@style/ProgressbarTextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/profile_ep_bar"
+        android:layout_alignLeft="@id/profile_ep_bar"
+        android:layout_alignRight="@id/profile_ep_bar"
+        android:layout_alignTop="@id/profile_ep_bar"
+        android:layout_marginRight="5dp"
+        android:gravity="right"
+        android:textSize="15sp" />
+</RelativeLayout>
+
+        

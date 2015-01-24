@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/activity_base"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp">
+
+    <ProgressBar
+        android:id="@+id/left_drawer_user_profile_ep_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+        android:paddingTop="3dp"
+        android:progressDrawable="@drawable/layout_ep_bar" />
+
+    <TextView
+        android:id="@+id/left_drawer_user_profile_lvl_caption"
+        style="@style/ProgressbarTextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/left_drawer_user_profile_ep_bar"
+        android:layout_alignLeft="@id/left_drawer_user_profile_ep_bar"
+        android:layout_alignRight="@id/left_drawer_user_profile_ep_bar"
+        android:layout_alignTop="@id/left_drawer_user_profile_ep_bar"
+        android:background="#00000000"
+        android:gravity="center_horizontal"
+        android:text="@string/level_label"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/left_drawer_user_profile_current_lvl_number"
+        style="@style/ProgressbarTextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_alignBottom="@id/left_drawer_user_profile_ep_bar"
+        android:layout_alignLeft="@id/left_drawer_user_profile_ep_bar"
+        android:layout_alignRight="@id/left_drawer_user_profile_ep_bar"
+        android:layout_alignTop="@id/left_drawer_user_profile_ep_bar"
+        android:gravity="left"
+        android:layout_marginLeft="2dp"/>
+
+    <TextView
+        android:id="@+id/left_drawer_user_profile_next_lvl_number"
+        style="@style/ProgressbarTextColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:layout_alignBottom="@id/left_drawer_user_profile_ep_bar"
+        android:layout_alignLeft="@id/left_drawer_user_profile_ep_bar"
+        android:layout_alignRight="@id/left_drawer_user_profile_ep_bar"
+        android:layout_alignTop="@id/left_drawer_user_profile_ep_bar"
+        android:gravity="right"
+        android:layout_marginRight="2dp"/>
+</RelativeLayout>
