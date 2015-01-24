@@ -23,6 +23,7 @@ import com.pemws14.armyoffriends.ProfileActivity;
 import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.UserProfile;
 import com.pemws14.armyoffriends.army.ArmyActivity;
+import com.pemws14.armyoffriends.database.DbFight;
 import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.database.ParseDb;
@@ -47,6 +48,7 @@ public class BackgroundService extends Service {
     private long currentTime;
 
     DbHelper dbHelper;
+    DbFight dbFight;
     GameMechanics gameMechanics;
     UserProfile userProfile;
     List<DbSoldier> dbSoldiers;
@@ -327,16 +329,26 @@ public class BackgroundService extends Service {
                 if(dbSoldier.getName().equals(userName)){
                     System.out.println("lvl up Soldier: ");
                     dbHelper.levelUpSoldier(dbSoldier);
+                    createFightEntry(dbSoldier);
 
                 }else{
                     System.out.println("create Soldier in der forschleife: ");
-                    dbHelper.createSoldier(new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),1));
+                    DbSoldier dbSoldierr = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),1);
+                    dbHelper.createSoldier(dbSoldierr);
+                    createFightEntry(dbSoldierr);
                 }
             }
         }else{
             System.out.println("create Soldier im else zweig: ");
-            dbHelper.createSoldier(new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),1));
+            DbSoldier dbSoldier = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),1);
+            dbHelper.createSoldier(dbSoldier);
+            createFightEntry(dbSoldier);
         }
+    }
+
+    public void createFightEntry(DbSoldier dbSoldier){
+        dbFight = new DbFight(dbSoldier.getName(),dbSoldier.getLevel(),gameMechanics.getArmyStrength(dbHelper.getAllSoldiers()),dbHelper.getMaxLevel());
+        dbHelper.createFight(dbFight);
     }
 }
 
