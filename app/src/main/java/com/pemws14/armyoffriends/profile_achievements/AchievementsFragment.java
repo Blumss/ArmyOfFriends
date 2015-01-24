@@ -1,4 +1,4 @@
-package com.pemws14.armyoffriends;
+package com.pemws14.armyoffriends.profile_achievements;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.database.DbAchievement;
 import com.pemws14.armyoffriends.database.DbHelper;
 

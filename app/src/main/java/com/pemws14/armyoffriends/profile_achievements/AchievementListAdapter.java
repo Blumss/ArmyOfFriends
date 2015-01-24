@@ -1,4 +1,4 @@
-package com.pemws14.armyoffriends;
+package com.pemws14.armyoffriends.profile_achievements;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.database.DbAchievement;
 
 import java.sql.SQLException;
