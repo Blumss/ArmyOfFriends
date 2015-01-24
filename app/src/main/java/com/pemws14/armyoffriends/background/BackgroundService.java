@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.IBinder;
 import android.widget.Toast;
@@ -180,16 +181,16 @@ public class BackgroundService extends Service {
         UserLocation = geoPoint;
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
 
-        userQuery.whereWithinKilometers("location",UserLocation,0.05);
-        userQuery.whereNotEqualTo("username",currentUser.getUsername());
+        userQuery.whereWithinKilometers("location", UserLocation, 0.05);
+        userQuery.whereNotEqualTo("username", currentUser.getUsername());
         userQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
                 if (e == null) {
-                    if(parseUsers.toArray().length>0){
-                        System.out.println("parseUsers: "+parseUsers);
+                    if (parseUsers.toArray().length > 0) {
+                        System.out.println("parseUsers: " + parseUsers);
                         meet(parseUsers);
-                    }else{
+                    } else {
                         System.out.println("Niemanden getroffen");
                     }
                     // Hooray! Let them use the app now.
@@ -198,7 +199,7 @@ public class BackgroundService extends Service {
                     // Sign up didn't succeed. Look at the ParseException
                     // to figure out what went wrong
                     System.out.println("Background Service - saveUserLocParse - query.findinBackground");
-                    System.out.println("Error: "+e.getMessage());
+                    System.out.println("Error: " + e.getMessage());
                 }
             }
         });
@@ -269,14 +270,15 @@ public class BackgroundService extends Service {
 
                     /* gegenseitig hinzufügen */
                     ParseUser pu = parseUser;
-                    if(pu!=currentUser){
+                 /*   if(pu!=currentUser){
                         System.out.println("User: "+pu+" hat currentUser: "+currentUser+" hinzugefügt!");
                         pu.add("metPeopleToday", currentUser);
                         pu.saveInBackground();
-                    }
+                    }*/
                     System.out.println("currentUser: "+currentUser+" hat User: "+pu+" hinzugefügt!");
-                    currentUser.add("metPeopleToday", pu);
-                    currentUser.saveInBackground();
+                //   currentUser.add("metPeopleToday", pu);
+                 //   currentUser.saveInBackground();
+                    addSoldier(pu);
                 }
 
             /* der currentUser hat schon jemanden getroffen */
@@ -291,14 +293,15 @@ public class BackgroundService extends Service {
 
                             /* gegenseitig hinzufügen */
                             ParseUser pu = parseUser;
-                            if(pu!=currentUser){
+                         /*   if(pu!=currentUser){
                                 System.out.println("User: "+pu+" hat currentUser: "+currentUser+" hinzugefügt!");
                                 pu.add("metPeopleToday", currentUser);
                                 pu.saveInBackground();
-                            }
+                            }*/
                             System.out.println("currentUser: "+currentUser+" hat User: "+pu+" hinzugefügt!");
-                            currentUser.add("metPeopleToday", pu);
-                            currentUser.saveInBackground();
+                          //  currentUser.add("metPeopleToday", pu);
+                         //   currentUser.saveInBackground();
+                            addSoldier(pu);
                         }
                     }
                 }
@@ -309,17 +312,31 @@ public class BackgroundService extends Service {
 
     }
 
-    /*brauch ich für dailyzeug:
-private long currentTime;
+    public void addSoldier(ParseUser parseUser){
+        System.out.println("addSoldier: "+parseUser.getUsername());
+        String userName = parseUser.getUsername();
+        List<DbSoldier> listDbSoldiers = dbHelper.getAllSoldiers();
 
-in oncreate:         currentTime = DbHelper.getUnix();
+        currentUser.add("metPeopleToday", parseUser);
+        currentUser.saveInBackground();
 
-in methode:
-        if (fight.getId() != 1){
-                if(fight.getCreated_at_Unix() < currentTime-86400) {
-                    dbHelper.deleteFight(fight.getId());
+        System.out.println("listDbSoldiers.toArray().length: "+listDbSoldiers.toArray().length);
+        if(listDbSoldiers.toArray().length>0){
+            System.out.println("min ein Soldat drin");
+            for(DbSoldier dbSoldier : listDbSoldiers){
+                if(dbSoldier.getName().equals(userName)){
+                    System.out.println("lvl up Soldier: ");
+                    dbHelper.levelUpSoldier(dbSoldier);
+
+                }else{
+                    System.out.println("create Soldier in der forschleife: ");
+                    dbHelper.createSoldier(new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),1));
                 }
-
-     */
+            }
+        }else{
+            System.out.println("create Soldier im else zweig: ");
+            dbHelper.createSoldier(new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),1));
+        }
+    }
 }
 
