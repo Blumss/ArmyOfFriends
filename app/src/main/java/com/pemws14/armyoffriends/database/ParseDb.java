@@ -3,6 +3,7 @@ package com.pemws14.armyoffriends.database;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.util.Log;
 
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
@@ -87,19 +88,50 @@ public class ParseDb {
         return ep;
     }
     public Bitmap getImage(){
-        System.out.println("getImage");
-        ParseFile imageFile = (ParseFile)CURRENT_USER.get("ImageFile");
-        imageFile.getDataInBackground(new GetDataCallback() {
-            public void done(byte[] data, ParseException e) {
-                if (e == null) {
 
-                    // data has the bytes for the image
-                    bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    System.out.println("Bild: "+bmp);
+//        ParseFile imageFile = (ParseFile)CURRENT_USER.get("ImageFile");
+//        imageFile.getDataInBackground(new GetDataCallback() {
+//            public void done(byte[] data, ParseException e) {
+//                if (e == null) {
+//
+//                    // data has the bytes for the image
+//                    bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+//                    System.out.println("Bild: "+bmp);
+//
+//                } else {
+//                    // something went wrong
+//                    System.out.println("getImage ERROR: "+e.getMessage());
+//                }
+//            }
+//        });
+//        return bmp;
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("ImageFile");
 
-                } else {
-                    // something went wrong
-                    System.out.println("getImage ERROR: "+e.getMessage());
+        System.out.println("getImage - ParseQuery: " + (query!=null));
+        Log.d("test", "User-ID: "+CURRENT_USER.getObjectId());
+        query.getInBackground(CURRENT_USER.getObjectId(), new GetCallback() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if(object == null){
+                    Log.d("test", "The object was not found...");
+                }
+                else {
+                    Log.d("test", "Retrieved the object.");
+                    ParseFile fileObject = (ParseFile) object.get("ImageFile");
+                    fileObject.getDataInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] data, ParseException e) {
+                            if(e == null){
+                                Log.d("test", "We've got data in data.");
+                                // data has the bytes for the image
+                                bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+                            }
+                            else {
+                                Log.d("test","There was a problem downloading the data.");
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -107,13 +139,13 @@ public class ParseDb {
     }
 
     public boolean existImage(){
-        System.out.println("existImage: ");
+        System.out.print("existImage: ");
         ParseFile imageFile = (ParseFile)CURRENT_USER.get("ImageFile");
         if(imageFile!=null){
-            System.out.print("true");
+            System.out.println("true");
             return true;
         }else  {
-            System.out.print("false");
+            System.out.println("false");
             return false;
         }
 
