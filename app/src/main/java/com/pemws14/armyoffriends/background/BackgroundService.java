@@ -256,6 +256,7 @@ public class BackgroundService extends Service {
     }
 
     public void meet(List<ParseUser> parseUsers) {
+
         System.out.println("meet");
         List<ParseUser> listParseUser = parseDb.getMetPeopleToday();
         System.out.println("List ParseUser, heute schon getroffene User: " + listParseUser);
@@ -288,25 +289,36 @@ public class BackgroundService extends Service {
 
             /* der currentUser hat schon jemanden getroffen */
             } else {
+                int k = listParseUser.toArray().length;
+
                 for (ParseUser parseUser : parseUsers) {
                     for (ParseUser parseUser2 : listParseUser) {
+                        int loopCount =0;
                         if (parseUser.hasSameId(parseUser2)) {
+                            loopCount =0;
                             System.out.println("CurrentUser: " + currentUser + " hat User: " + parseUser + " heute leider schon getroffen!");
+                            break;
                         } else {
-                            System.out.println("CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (hat aber schon andere getroffen)");
-                            displayNotification();
+                            loopCount++;
+                            if(loopCount==k){
+                                loopCount =0;
+
+                                System.out.println("CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (hat aber schon andere getroffen)");
+                                displayNotification();
 
                             /* gegenseitig hinzufügen */
-                            ParseUser pu = parseUser;
+                                ParseUser pu = parseUser;
                          /*   if(pu!=currentUser){
                                 System.out.println("User: "+pu+" hat currentUser: "+currentUser+" hinzugefügt!");
                                 pu.add("metPeopleToday", currentUser);
                                 pu.saveInBackground();
                             }*/
-                            System.out.println("currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
-                            //  currentUser.add("metPeopleToday", pu);
-                            //   currentUser.saveInBackground();
-                            addSoldier(pu);
+                                System.out.println("currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
+                                //  currentUser.add("metPeopleToday", pu);
+                                //   currentUser.saveInBackground();
+                                addSoldier(pu);
+                            }
+
                         }
                     }
                 }
@@ -321,24 +333,31 @@ public class BackgroundService extends Service {
         System.out.println("addSoldier: " + parseUser.getUsername());
         String userName = parseUser.getUsername();
         List<DbSoldier> listDbSoldiers = dbHelper.getAllSoldiers();
-
+        int k = listDbSoldiers.toArray().length;
         currentUser.add("metPeopleToday", parseUser);
         currentUser.saveInBackground();
-
+        int loopCount =0;
         System.out.println("listDbSoldiers.toArray().length: " + listDbSoldiers.toArray().length);
         if (listDbSoldiers.toArray().length > 0) {
             System.out.println("min ein Soldat drin");
             for (DbSoldier dbSoldier : listDbSoldiers) {
+
                 if (dbSoldier.getName().equals(userName)) {
+                    loopCount =0;
                     System.out.println("lvl up Soldier: ");
                     dbHelper.levelUpSoldier(dbSoldier);
                     createFightEntry(dbSoldier);
-
+                    break;
                 } else {
-                    System.out.println("create Soldier in der forschleife: ");
-                    DbSoldier dbSoldierr = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder), 1);
-                    dbHelper.createSoldier(dbSoldierr);
-                    createFightEntry(dbSoldierr);
+                    loopCount++;
+                    if(loopCount==k){
+                        loopCount =0;
+                        System.out.println("create Soldier in der forschleife: ");
+                        DbSoldier dbSoldierr = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder), 1);
+                        dbHelper.createSoldier(dbSoldierr);
+                        createFightEntry(dbSoldierr);
+                    }
+
                 }
             }
         } else {

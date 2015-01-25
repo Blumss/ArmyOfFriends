@@ -498,7 +498,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             for (DbProfile oneProfile: profiles) {
                 if (!(oneProfile.getServerID().equals(parseUserID))) {
                     Log.i("MainActivity.initDB", "Profile with ID " + parseUserID + " not under existing profiles. Creating it!");
-                    dbProfile = new DbProfile(parseDb.getUserID(), parseDb.getCurrentUserName(), parseDb.getPlayerLevel(), parseDb.getEP(), parseDb.getArmyStrength(), parseDb.getMaxLevel());
+                    dbProfile = new DbProfile(parseDb.getUserID(), parseDb.getCurrentUserName(), BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(), parseDb.getEP(), parseDb.getArmyStrength(), parseDb.getMaxLevel());
                     db.createProfile(dbProfile);
                     if(parseDb.getImage()!=null){
                         System.out.println("getimage != null -> bild wird aus db genommen");
