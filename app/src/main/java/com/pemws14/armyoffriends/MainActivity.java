@@ -14,7 +14,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,6 +41,7 @@ import com.pemws14.armyoffriends.history.HistoryActivity;
 import com.pemws14.armyoffriends.profile_achievements.ProfileActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -111,7 +111,9 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         db = DbHelper.getInstance(mainContext);
         parseDb = new ParseDb();
 
-        LayoutInflater inflatter =(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); // getting access to laytou inflatter
+        setAlarm();
+
+      //  LayoutInflater inflatter =(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); // getting access to laytou inflatter
 
         createDailyChallengeEntry();
         createAchievements();
@@ -593,6 +595,34 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         double lng = backgroundReceiver.getLongi();
         latitudeText.setText(String.valueOf(lat));
         longitudeText.setText(String.valueOf(lng));
+    }
+    public void setAlarm(){
+        System.out.println("setAlarm");
+        AlarmManager alarmMgr0 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent intent0 = new Intent(this, BackgroundReceiver.class);
+        intent0.setAction("com.pemws14.armyoffriends.ACTION");
+        PendingIntent pendingIntent0 = PendingIntent.getBroadcast(this, 0, intent0, 0);
+        Calendar timeOff9 = Calendar.getInstance();
+        timeOff9.set(Calendar.HOUR_OF_DAY, 00);
+        timeOff9.set(Calendar.MINUTE, 01);
+        timeOff9.set(Calendar.SECOND, 0);
+        alarmMgr0 .setRepeating(AlarmManager.RTC_WAKEUP,
+             //   SystemClock.elapsedRealtime()+
+             // AlarmManager.INTERVAL_DAY,
+                timeOff9.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent0);
+
+
+/*
+        Intent intent = new Intent(context, BackgroundReceiver.class);
+        intent.setAction("packagename.ACTION");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+                0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pendingIntent);
+        alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);*/
     }
 /*
     public void loginProcess(){

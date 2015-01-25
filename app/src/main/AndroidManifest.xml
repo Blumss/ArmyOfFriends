@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -51,25 +52,25 @@
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name=".army.ArmyActivity"
+            android:name="com.pemws14.armyoffriends.army.ArmyActivity"
             android:label="@string/title_activity_your_army"
             android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name=".fight.FightActivity"
+            android:name="com.pemws14.armyoffriends.fight.FightActivity"
             android:label="@string/title_activity_fight"
             android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name=".history.HistoryActivity"
+            android:name="com.pemws14.armyoffriends.history.HistoryActivity"
             android:label="@string/title_activity_history"
             android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
         </activity>
         <activity
-            android:name=".profile_achievements.ProfileActivity"
+            android:name="com.pemws14.armyoffriends.profile_achievements.ProfileActivity"
             android:label="@string/title_activity_your_profile"
             android:screenOrientation="portrait"
             android:theme="@style/OurDrawerTheme" >
@@ -91,16 +92,17 @@
         </activity>
 
         <service
-            android:name=".background.BackgroundService"
+            android:name="com.pemws14.armyoffriends.background.BackgroundService"
             android:enabled="true"
             android:exported="true"
             android:icon="@drawable/ic_launcher"
             android:label="Army of Friends - Backgroundservice"
             android:process=":background_process" />
 
-        <receiver android:name=".background.BackgroundReceiver" >
+        <receiver android:name="com.pemws14.armyoffriends.background.BackgroundReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
             </intent-filter>
         </receiver>
 
@@ -113,6 +115,7 @@
             android:name="com.pemws14.armyoffriends.CreateNotificationActivity"
             android:label="@string/title_activity_create_notification" >
         </activity>
+
     </application>
 
 </manifest>

@@ -157,8 +157,12 @@ public class ParseDb {
     }
 
     public void deleteMetPeople(){
-        CURRENT_USER.remove("metPeopleToday");
-        CURRENT_USER.saveInBackground();
+        List<ParseUser> parseUsers = getMetPeopleToday();
+        if(parseUsers!=null){
+            CURRENT_USER.removeAll("metPeopleToday",parseUsers);
+            CURRENT_USER.saveInBackground();
+        }
+
     }
 
    // public void
