@@ -105,7 +105,7 @@ public class ParseDb {
 //            }
 //        });
 //        return bmp;
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("ImageFile");
+        ParseQuery<ParseUser> query = userQuery;
 
         System.out.println("getImage - ParseQuery: " + (query!=null));
         Log.d("test", "User-ID: "+CURRENT_USER.getObjectId());

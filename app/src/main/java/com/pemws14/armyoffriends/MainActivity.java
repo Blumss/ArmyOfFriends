@@ -12,6 +12,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -488,9 +489,9 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         if(profiles.size()==0){
             Log.i("MainActivity.initDB", "No profiles found on device! Creating profile with ID " + parseUserID + ".");
             //TODO das profilbild sollte aus Parse noch geladen werden können - Funktioniert iwie nicht, da Nullpointer Exception...
-            //parseDb.getImage();
-            //dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),parseDb.existImage() ? parseDb.getImage(): BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
-            dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
+            System.out.println("GetImage returns with sth. "+ parseDb.getImage()!=null);
+            dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),parseDb.existImage() ? parseDb.getImage(): BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
+            //dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
             db.createProfile(dbProfile);
             if(parseDb.existImage()){
                 System.out.println("getimage != null -> bild wird aus db genommen");
