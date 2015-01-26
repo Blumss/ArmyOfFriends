@@ -38,6 +38,8 @@ public class BackgroundReceiver extends BroadcastReceiver{
             parseDb.deleteMetPeople();
         }
 
+
+
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             lati = bundle.getDouble(BackgroundService.LATITUDE);

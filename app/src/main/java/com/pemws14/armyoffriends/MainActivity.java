@@ -12,7 +12,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -608,8 +607,8 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         intent0.setAction("com.pemws14.armyoffriends.ACTION");
         PendingIntent pendingIntent0 = PendingIntent.getBroadcast(this, 0, intent0, 0);
         Calendar timeOff9 = Calendar.getInstance();
-        timeOff9.set(Calendar.HOUR_OF_DAY, 00);
-        timeOff9.set(Calendar.MINUTE, 01);
+        timeOff9.set(Calendar.HOUR_OF_DAY, 23);
+        timeOff9.set(Calendar.MINUTE, 59);
         timeOff9.set(Calendar.SECOND, 0);
         alarmMgr0 .setRepeating(AlarmManager.RTC_WAKEUP,
              //   SystemClock.elapsedRealtime()+

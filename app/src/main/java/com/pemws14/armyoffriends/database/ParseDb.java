@@ -195,7 +195,12 @@ public class ParseDb {
 
     }
 
-   // public void
+    public void deleteLocation(){
+        ParseGeoPoint currentLocation = CURRENT_USER.getParseGeoPoint("location");
+        if(currentLocation!=null){
+            CURRENT_USER.remove("location");
+        }
+    }
 
     public void refreshParseUser(){
         System.out.println("refreshParseDbArmy");
