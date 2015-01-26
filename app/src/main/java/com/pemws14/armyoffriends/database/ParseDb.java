@@ -87,7 +87,7 @@ public class ParseDb {
         int ep = CURRENT_USER.getInt("ep");
         return ep;
     }
-    public Bitmap getImage(){
+    public void getImage(final DbHelper dbHelper, final DbProfile dbProfile){
 
 //        ParseFile imageFile = (ParseFile)CURRENT_USER.get("ImageFile");
 //        imageFile.getDataInBackground(new GetDataCallback() {
@@ -112,30 +112,28 @@ public class ParseDb {
         query.getInBackground(CURRENT_USER.getObjectId(), new GetCallback() {
             @Override
             public void done(ParseObject object, ParseException e) {
-                if(object == null){
+                if (object == null) {
                     Log.d("test", "The object was not found...");
-                }
-                else {
+                } else {
                     Log.d("test", "Retrieved the object.");
                     ParseFile fileObject = (ParseFile) object.get("ImageFile");
                     fileObject.getDataInBackground(new GetDataCallback() {
                         @Override
                         public void done(byte[] data, ParseException e) {
-                            if(e == null){
+                            if (e == null) {
                                 Log.d("test", "We've got data in data.");
                                 // data has the bytes for the image
                                 bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-
-                            }
-                            else {
-                                Log.d("test","There was a problem downloading the data.");
+                                dbProfile.setImg(bmp);
+                                dbHelper.updateProfile(dbProfile);
+                            } else {
+                                Log.d("test", "There was a problem downloading the data.");
                             }
                         }
                     });
                 }
             }
         });
-        return bmp;
     }
 
     public boolean existImage(){

@@ -489,13 +489,15 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         if(profiles.size()==0){
             Log.i("MainActivity.initDB", "No profiles found on device! Creating profile with ID " + parseUserID + ".");
             //TODO das profilbild sollte aus Parse noch geladen werden können - Funktioniert iwie nicht, da Nullpointer Exception...
-            System.out.println("GetImage returns with sth. "+ parseDb.getImage()!=null);
-            dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),parseDb.existImage() ? parseDb.getImage(): BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
-            //dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
+            //System.out.println("GetImage returns with sth. "+ parseDb.getImage()!=null);
+            //dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),parseDb.existImage() ? parseDb.getImage(): BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
+            dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
+
             db.createProfile(dbProfile);
             if(parseDb.existImage()){
                 System.out.println("getimage != null -> bild wird aus db genommen");
-                dbProfile.setImg(parseDb.getImage());
+                //dbProfile.setImg(parseDb.getImage());
+                parseDb.getImage(db, dbProfile);
             }
 
         }else{
@@ -504,17 +506,18 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
                     Log.i("MainActivity.initDB", "Profile with ID " + parseUserID + " not under existing profiles. Creating it!");
                     dbProfile = new DbProfile(parseDb.getUserID(), parseDb.getCurrentUserName(), BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.profile_placeholder),parseDb.getPlayerLevel(), parseDb.getEP(), parseDb.getArmyStrength(), parseDb.getMaxLevel());
                     db.createProfile(dbProfile);
-                    if(parseDb.getImage()!=null){
+                    if(parseDb.existImage()){
                         System.out.println("getimage != null -> bild wird aus db genommen");
-                        dbProfile.setImg(parseDb.getImage());
+                        //dbProfile.setImg(parseDb.getImage());
+                        parseDb.getImage(db, dbProfile);
                     }
 
                 } else {
                     dbProfile = db.getProfile(parseUserID);
                     if(parseDb.existImage()){
                         System.out.println("getimage != null -> bild wird aus db genommen");
-                        dbProfile.setImg(parseDb.getImage());
-
+                        //dbProfile.setImg(parseDb.getImage());
+                        parseDb.getImage(db, dbProfile);
                     }
 
                     Log.i("MainActivity.initDB", "Profile with ID " + parseUserID + " already existing");
