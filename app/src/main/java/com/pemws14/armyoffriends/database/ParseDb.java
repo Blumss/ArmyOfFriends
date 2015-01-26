@@ -168,14 +168,14 @@ public class ParseDb {
         CURRENT_USER.saveInBackground();
     }
     public void setCurrentLocation(Location location){
-        ParseGeoPoint currentLocation = CURRENT_USER.getParseGeoPoint("location");
+       // ParseGeoPoint currentLocation = CURRENT_USER.getParseGeoPoint("location");
 
         UserLocation = new ParseGeoPoint(location.getLatitude(),location.getLongitude());
-        UserLocList = new ArrayList<ParseGeoPoint>();
-        UserLocList.add(UserLocation);
+     //   UserLocList = new ArrayList<ParseGeoPoint>();
+      //  UserLocList.add(UserLocation);
 
         CURRENT_USER.put("location", UserLocation);
-        CURRENT_USER.add("locationList", UserLocList);
+      //  CURRENT_USER.add("locationList", UserLocList);
 
         CURRENT_USER.saveInBackground();
     }

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.IBinder;
-import android.widget.Toast;
 
 import com.google.android.gms.location.LocationClient;
 import com.parse.FindCallback;
@@ -19,7 +18,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.pemws14.armyoffriends.GameMechanics;
 import com.pemws14.armyoffriends.MainActivity;
-import com.pemws14.armyoffriends.profile_achievements.ProfileActivity;
 import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.UserProfile;
 import com.pemws14.armyoffriends.army.ArmyActivity;
@@ -28,6 +26,7 @@ import com.pemws14.armyoffriends.database.DbHelper;
 import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.database.ParseDb;
 import com.pemws14.armyoffriends.fight.FightActivity;
+import com.pemws14.armyoffriends.profile_achievements.ProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -85,8 +84,8 @@ public class BackgroundService extends Service {
         currentUser = ParseUser.getCurrentUser();
 
         System.out.println("BackgroundService - onStartCommand");
-        counter++;
-        Toast.makeText(this, " First Service Started" + "  " + counter, Toast.LENGTH_SHORT).show();
+     //   counter++;
+     //   Toast.makeText(this, " First Service Started" + "  " + counter, Toast.LENGTH_SHORT).show();
 
         Location location = intent.getParcelableExtra(LocationClient.KEY_LOCATION_CHANGED);
         if (location != null) {
@@ -94,7 +93,7 @@ public class BackgroundService extends Service {
             System.out.println("BackgroundService - onHandleIntent - Location available: " + location);
             System.out.println("BackgroundService - onHandleIntent - Location available - Latitude: " + location.getLatitude());
             System.out.println("BackgroundService - onHandleIntent - Location available - Longitude: " + location.getLongitude());
-            Toast.makeText(this, "new Location!", Toast.LENGTH_SHORT).show();
+        //    Toast.makeText(this, "new Location!", Toast.LENGTH_SHORT).show();
 
             parseDb.setCurrentLocation(location);
             getNearbyUsers(parseDb.getCurrentLocation(), location);
@@ -135,7 +134,7 @@ public class BackgroundService extends Service {
         //  TestUser.saveInBackground();
 
         System.out.println("BackgroundService - onCreate");
-        Toast.makeText(this, "First Service was Created", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, "First Service was Created", Toast.LENGTH_SHORT).show();
         // TODO Auto-generated method stub
         super.onCreate();
         //
@@ -161,7 +160,7 @@ public class BackgroundService extends Service {
     @Override
     public void onDestroy() {
         System.out.println("BackgroundService - onDestroy");
-        Toast.makeText(this, "Service Destroyed", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_SHORT).show();
     }
 
     public void onTaskRemoved(Intent rootIntent) {

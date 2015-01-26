@@ -1,8 +1,10 @@
 package com.pemws14.armyoffriends.profile_achievements;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -46,12 +48,40 @@ public class ProfileFragment extends Fragment {
     private DbProfile profile;
     private ParseDb parseDb;
 
+    AlertDialog alert;
+    AlertDialog.Builder builder;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         view = inflater.inflate(R.layout.profile_fragment, container, false);
         setupDB();
+
+        /* Dialog Builder */
+        builder = new AlertDialog.Builder(view.getContext());
+        builder.setMessage("Do you want to change your Profile Picture?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Code der ausgeführt wird wenn JA geklickt wurde
+                        Intent i = new Intent(
+                                Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(i, RESULT_LOAD_IMAGE);
+                        //dialog.dismiss();
+                    }
+                });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Code der ausgeführt wird wenn NEIN geklickt wurde
+                dialog.dismiss();
+            }
+
+        });
+        alert = builder.create();
+
 
         // TODO connect userImg to DB
         profileUserImage = (ImageView) view.findViewById(R.id.profile_user_image);
@@ -93,11 +123,12 @@ public class ProfileFragment extends Fragment {
         profileUserImage.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(
-                        Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
+                alert.show();
             }
         });
+
+
+
         return view;
     }
 
