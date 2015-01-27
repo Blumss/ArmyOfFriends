@@ -13,6 +13,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.pemws14.armyoffriends.GameMechanics;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class ParseDb {
     Bitmap bmp;
 
     int listSize;
+    public DbFight dbFight;
+    public GameMechanics gameMechanics;
 
 /************ Get Methoden *************/
 
@@ -136,6 +139,80 @@ public class ParseDb {
         });
     }
 
+    public void getFightImage(ParseUser parseUser, final DbHelper dbHelper, final DbSoldier dbSoldier){
+        dbFight = new DbFight();
+        gameMechanics = new GameMechanics();
+        ParseQuery<ParseUser> query = userQuery;
+
+        System.out.println("getFightImage - ParseQuery: " + (query!=null));
+        Log.d("test", "User-ID: "+parseUser.getObjectId());
+        query.getInBackground(parseUser.getObjectId(), new GetCallback() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (object == null) {
+                    Log.d("test", "The object was not found...");
+                } else {
+                    Log.d("test", "Retrieved the object.");
+                    ParseFile fileObject = (ParseFile) object.get("ImageFile");
+                    fileObject.getDataInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] data, ParseException e) {
+                            if (e == null) {
+                                Log.d("test", "We've got data in data.");
+                                // data has the bytes for the image
+                                bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                dbSoldier.setImg(bmp);
+                                dbHelper.createSoldier(dbSoldier);
+                                dbFight = new DbFight(dbSoldier.getName(), dbSoldier.getImg(), dbSoldier.getLevel(), gameMechanics.getArmyStrength(dbHelper.getAllSoldiers()), dbHelper.getMaxLevel());
+                                dbHelper.createFight(dbFight);
+                                //dbHelper.(dbProfile);
+                            } else {
+                                Log.d("test", "There was a problem downloading the data.");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public void updateFightImage(ParseUser parseUser, final DbHelper dbHelper, final DbSoldier dbSoldier){
+        dbFight = new DbFight();
+        gameMechanics = new GameMechanics();
+        ParseQuery<ParseUser> query = userQuery;
+
+        System.out.println("getFightImage - ParseQuery: " + (query!=null));
+        Log.d("test", "User-ID: "+parseUser.getObjectId());
+        query.getInBackground(parseUser.getObjectId(), new GetCallback() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (object == null) {
+                    Log.d("test", "The object was not found...");
+                } else {
+                    Log.d("test", "Retrieved the object.");
+                    ParseFile fileObject = (ParseFile) object.get("ImageFile");
+                    fileObject.getDataInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] data, ParseException e) {
+                            if (e == null) {
+                                Log.d("test", "We've got data in data.");
+                                // data has the bytes for the image
+                                bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                dbSoldier.setImg(bmp);
+                              //  dbHelper.createSoldier(dbSoldier);
+                                dbFight = new DbFight(dbSoldier.getName(), dbSoldier.getImg(), dbSoldier.getLevel(), gameMechanics.getArmyStrength(dbHelper.getAllSoldiers()), dbHelper.getMaxLevel());
+                                dbHelper.createFight(dbFight);
+                                //dbHelper.(dbProfile);
+                            } else {
+                                Log.d("test", "There was a problem downloading the data.");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     public boolean existImage(){
         System.out.print("existImage: ");
         ParseFile imageFile = (ParseFile)CURRENT_USER.get("ImageFile");
@@ -146,7 +223,18 @@ public class ParseDb {
             System.out.println("false");
             return false;
         }
+    }
 
+    public boolean existFightImage(ParseUser parseUser){
+        System.out.print("existFightImage: ");
+        ParseFile imageFile = (ParseFile)parseUser.get("ImageFile");
+        if(imageFile!=null){
+            System.out.println("true");
+            return true;
+        }else  {
+            System.out.println("false");
+            return false;
+        }
     }
 
 /************ Set Methoden *************/
@@ -173,7 +261,7 @@ public class ParseDb {
         UserLocation = new ParseGeoPoint(location.getLatitude(),location.getLongitude());
      //   UserLocList = new ArrayList<ParseGeoPoint>();
       //  UserLocList.add(UserLocation);
-
+        System.out.println("CURRENT_USER: "+CURRENT_USER.getUsername());
         CURRENT_USER.put("location", UserLocation);
       //  CURRENT_USER.add("locationList", UserLocList);
 

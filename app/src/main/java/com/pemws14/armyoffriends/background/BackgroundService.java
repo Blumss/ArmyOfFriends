@@ -94,7 +94,7 @@ public class BackgroundService extends Service {
             System.out.println("BackgroundService - onHandleIntent - Location available - Latitude: " + location.getLatitude());
             System.out.println("BackgroundService - onHandleIntent - Location available - Longitude: " + location.getLongitude());
         //    Toast.makeText(this, "new Location!", Toast.LENGTH_SHORT).show();
-
+            parseDb = new ParseDb();
             parseDb.setCurrentLocation(location);
             getNearbyUsers(parseDb.getCurrentLocation(), location);
             saveArmyStuff();
@@ -163,6 +163,8 @@ public class BackgroundService extends Service {
        // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_SHORT).show();
     }
 
+
+
     public void onTaskRemoved(Intent rootIntent) {
 
         MainActivity.alarm.cancel(MainActivity.pintent);
@@ -179,7 +181,8 @@ public class BackgroundService extends Service {
     }
 
     public void getNearbyUsers(ParseGeoPoint geoPoint, Location location) {
-
+        parseDb = new ParseDb();
+        currentUser = ParseUser.getCurrentUser();
         UserLocation = geoPoint;
         ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
 
@@ -345,25 +348,38 @@ public class BackgroundService extends Service {
                     loopCount =0;
                     System.out.println("lvl up Soldier: ");
                     dbHelper.levelUpSoldier(dbSoldier);
-                    createFightEntry(dbSoldier);
-                    break;
+                    if(parseDb.existFightImage(parseUser)){
+                        parseDb.updateFightImage(parseUser,dbHelper,dbSoldier);
+                    }else {
+                        createFightEntry(dbSoldier);
+                        break;
+                    }
                 } else {
                     loopCount++;
                     if(loopCount==k){
                         loopCount =0;
                         System.out.println("create Soldier in der forschleife: ");
                         DbSoldier dbSoldierr = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder), 1);
-                        dbHelper.createSoldier(dbSoldierr);
-                        createFightEntry(dbSoldierr);
-                    }
+                        if(parseDb.existFightImage(parseUser)){
+                            parseDb.getFightImage(parseUser,dbHelper,dbSoldierr);
 
+                        }else {
+                            dbHelper.createSoldier(dbSoldierr);
+                            createFightEntry(dbSoldierr);
+                        }
+                    }
                 }
             }
         } else {
             System.out.println("create Soldier im else zweig: ");
             DbSoldier dbSoldier = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder), 1);
-            dbHelper.createSoldier(dbSoldier);
-            createFightEntry(dbSoldier);
+            if(parseDb.existFightImage(parseUser)){
+                parseDb.getFightImage(parseUser,dbHelper,dbSoldier);
+
+            }else {
+                dbHelper.createSoldier(dbSoldier);
+                createFightEntry(dbSoldier);
+            }
         }
     }
 

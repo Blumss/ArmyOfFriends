@@ -111,6 +111,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         db = DbHelper.getInstance(mainContext);
         parseDb = new ParseDb();
 
+
         setAlarm();
 
       //  LayoutInflater inflatter =(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); // getting access to laytou inflatter
