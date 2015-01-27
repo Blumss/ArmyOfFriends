@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -60,7 +61,12 @@ public class ProfileFragment extends Fragment {
         setupDB();
 
         /* Dialog Builder */
-        builder = new AlertDialog.Builder(view.getContext(), R.style.OurAlertDialog);
+
+        builder = new AlertDialog.Builder(view.getContext());
+        if (Build.VERSION.SDK_INT >= 20) {
+            System.out.println("Entering.......");
+            builder = new AlertDialog.Builder(view.getContext(), R.style.OurAlertDialog);
+        }
         builder.setMessage("Do you want to change your Profile Picture?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override

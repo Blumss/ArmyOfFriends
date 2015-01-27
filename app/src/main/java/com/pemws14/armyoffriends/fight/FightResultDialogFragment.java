@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +74,11 @@ public class FightResultDialogFragment extends DialogFragment{
         random = (int)(getArguments().getDouble("random")*1000);
         chance = (int)(getArguments().getDouble("chance")*1000);
 
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.OurAlertDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        if (Build.VERSION.SDK_INT >= 20) {
+            System.out.println("Entering.......");
+            builder = new AlertDialog.Builder(getActivity(), R.style.OurAlertDialog);
+        }
         final DbHelper dbHelper= DbHelper.getInstance(getActivity());
         int result = 1000;
 
