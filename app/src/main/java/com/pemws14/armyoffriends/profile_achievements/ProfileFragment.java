@@ -60,7 +60,7 @@ public class ProfileFragment extends Fragment {
         setupDB();
 
         /* Dialog Builder */
-        builder = new AlertDialog.Builder(view.getContext());
+        builder = new AlertDialog.Builder(view.getContext(), R.style.OurAlertDialog);
         builder.setMessage("Do you want to change your Profile Picture?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override

@@ -1,12 +1,15 @@
 package com.pemws14.armyoffriends.database;
 
 
+import android.graphics.Bitmap;
+
 public class DbHistory {
     private int id;
     private int ownPlayerLevel;
     private int ownStrength;
     private int ownMaxLevel;
     private String enemyName;
+    private Bitmap img;
     private int enemyPlayerLevel;
     private int enemyStrength;
     private int enemyMaxLevel;
@@ -18,19 +21,20 @@ public class DbHistory {
     public DbHistory() {
     }
 
-    public DbHistory(int ownPlayerLevel, int ownStrength, int ownMaxLevel, String enemyName, int enemyPlayerLevel, int enemyStrength, int enemyMaxLevel, boolean result) {
+    public DbHistory(int ownPlayerLevel, int ownStrength, int ownMaxLevel, String enemyName, Bitmap img, int enemyPlayerLevel, int enemyStrength, int enemyMaxLevel, boolean result) {
         this.setOwnPlayerLevel(ownPlayerLevel);
         this.setOwnStrength(ownStrength);
         this.setOwnMaxLevel(ownMaxLevel);
         this.setEnemyName(enemyName);
+        this.setImg(img);
         this.setEnemyPlayerLevel(enemyPlayerLevel);
         this.setEnemyStrength(enemyStrength);
         this.setEnemyMaxLevel(enemyMaxLevel);
         this.setResult(result);
     }
 
-    public DbHistory(int id, int ownPlayerLevel, int ownStrength, int ownMaxLevel, String enemyName, int enemyPlayerLevel, int enemyStrength, int enemyMaxLevel, boolean result, String created_at, long created_at_unix) {
-        this(ownPlayerLevel, ownStrength, ownMaxLevel, enemyName, enemyPlayerLevel, enemyStrength, enemyMaxLevel, result);
+    public DbHistory(int id, int ownPlayerLevel, int ownStrength, int ownMaxLevel, String enemyName, Bitmap img, int enemyPlayerLevel, int enemyStrength, int enemyMaxLevel, boolean result, String created_at, long created_at_unix) {
+        this(ownPlayerLevel, ownStrength, ownMaxLevel, enemyName, img, enemyPlayerLevel, enemyStrength, enemyMaxLevel, result);
         this.setId(id);
         this.setCreated_at(created_at);
         this.setCreated_at_Unix(created_at_unix);
@@ -74,6 +78,14 @@ public class DbHistory {
 
     public void setEnemyName(String enemyName) {
         this.enemyName = enemyName;
+    }
+
+    public Bitmap getImg() {
+        return img;
+    }
+
+    public void setImg(Bitmap img) {
+        this.img = img;
     }
 
     public int getEnemyPlayerLevel() {

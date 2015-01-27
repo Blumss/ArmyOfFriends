@@ -61,10 +61,11 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
         String[] ranks = mContext.getResources().getStringArray(R.array.army_ranks);
         final DbFight fight = mDataset.get(position);
 
+        holder.profilePic.setImageBitmap(fight.getImg());
         holder.name.setText(fight.getName());
         holder.strength.setText("Army strength: " + fight.getStrength());
         holder.level.setText("Level: " + fight.getPlayerLevel());
-        holder.bestFighter.setText("Best fighter: " + ranks[fight.getMaxLevel()]);
+        holder.bestFighter.setText("Best fighter: " + ranks[fight.getMaxLevel()-1]);
 
         holder.fightButton.setOnClickListener(new View.OnClickListener() {
             @Override

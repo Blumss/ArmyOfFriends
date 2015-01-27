@@ -368,7 +368,7 @@ public class BackgroundService extends Service {
     }
 
     public void createFightEntry(DbSoldier dbSoldier) {
-        dbFight = new DbFight(dbSoldier.getName(), dbSoldier.getLevel(), gameMechanics.getArmyStrength(dbHelper.getAllSoldiers()), dbHelper.getMaxLevel());
+        dbFight = new DbFight(dbSoldier.getName(), dbSoldier.getImg(), dbSoldier.getLevel(), gameMechanics.getArmyStrength(dbHelper.getAllSoldiers()), dbHelper.getMaxLevel());
         dbHelper.createFight(dbFight);
     }
 }

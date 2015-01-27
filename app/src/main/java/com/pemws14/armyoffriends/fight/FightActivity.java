@@ -3,6 +3,7 @@ package com.pemws14.armyoffriends.fight;
 import android.app.DialogFragment;
 import android.app.FragmentTransaction;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -77,7 +78,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         parseDb = new ParseDb();
         dbProfile = dbHelper.getProfile(parseDb.getUserID());
 
-        createDummies();
+        //createDummies();
 
         fightList = dbHelper.getAllFights();
         fightList.remove(0);
@@ -156,15 +157,15 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
      */
     private void createDummies(){
         /**********DUMMIES******************/
-        DbFight fight1 = new DbFight("abc",1,1,3);
-        DbFight fight2 = new DbFight("def",2,2,4);
-        DbFight fight3 = new DbFight("ghi",3,3,5);
-        DbFight fight4 = new DbFight("jkl",3,3,2);
-        DbFight fight5 = new DbFight("mno",4,4,9);
-        DbFight fight6 = new DbFight("pqr",5,5,7);
-        DbFight fight7 = new DbFight("stu",6,6,1);
-        DbFight fight8 = new DbFight("vwx",7,7,6);
-        DbFight fight9 = new DbFight("yz0",8,8,0);
+        DbFight fight1 = new DbFight("abc",BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),1,1,3);
+        DbFight fight2 = new DbFight("def",BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),2,2,4);
+        DbFight fight3 = new DbFight("ghi",BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),3,3,5);
+        DbFight fight4 = new DbFight("jkl",BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),3,3,2);
+        DbFight fight5 = new DbFight("mno",BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),4,4,9);
+        DbFight fight6 = new DbFight("pqr",BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),5,5,7);
+        DbFight fight7 = new DbFight("stu",BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),6,6,1);
+        DbFight fight8 = new DbFight("vwx",BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),7,7,6);
+        DbFight fight9 = new DbFight("yz0",BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder),8,8,0);
 
         dbHelper.createFight(fight1);
         dbHelper.createFight(fight2);
@@ -226,7 +227,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
      */
     public void updateDBs(DbFight dbFight, Boolean result, double random, double chance){
         //update History
-        dbHistory = new DbHistory(level, ownStrength, dbHelper.getMaxLevel(), dbFight.getName(), dbFight.getPlayerLevel(), dbFight.getStrength(), dbFight.getMaxLevel(), result);
+        dbHistory = new DbHistory(level, ownStrength, dbHelper.getMaxLevel(), dbFight.getName(), dbFight.getImg(), dbFight.getPlayerLevel(), dbFight.getStrength(), dbFight.getMaxLevel(), result);
         dbHelper.createHistory(dbHistory);
 
         //update Achievements & ProfileEPs

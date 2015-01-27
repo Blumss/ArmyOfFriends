@@ -18,7 +18,7 @@
             android:scaleType="center"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_menu_army"
+            android:src="@drawable/userpic_placeholder"
             android:layout_margin="10dp"
             android:contentDescription="UserPic"/>
 

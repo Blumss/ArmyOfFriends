@@ -1,8 +1,11 @@
 package com.pemws14.armyoffriends.database;
 
+import android.graphics.Bitmap;
+
 public class DbFight {
     private int id;
     private String name;
+    private Bitmap img;
     private int playerLevel;
     private int strength;
     private int maxLevel;
@@ -12,15 +15,16 @@ public class DbFight {
     public DbFight() {
     }
 
-    public DbFight(String name, int playerLevel, int strength, int maxLevel) {
+    public DbFight(String name, Bitmap img, int playerLevel, int strength, int maxLevel) {
         this.setName(name);
+        this.setImg(img);
         this.setPlayerLevel(playerLevel);
         this.setStrength(strength);
         this.setMaxLevel(maxLevel);
     }
 
-    public DbFight(int id, String name, int playerLevel, int strength, int maxLevel, String created_at, long created_at_unix) {
-        this(name, playerLevel, strength, maxLevel);
+    public DbFight(int id, String name, Bitmap img, int playerLevel, int strength, int maxLevel, String created_at, long created_at_unix) {
+        this(name, img, playerLevel, strength, maxLevel);
         this.setId(id);
         this.setCreated_at(created_at);
         this.setCreated_at_Unix(created_at_unix);
@@ -40,6 +44,14 @@ public class DbFight {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Bitmap getImg() {
+        return img;
+    }
+
+    public void setImg(Bitmap img) {
+        this.img = img;
     }
 
     public int getPlayerLevel() {

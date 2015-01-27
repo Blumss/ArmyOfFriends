@@ -86,13 +86,13 @@ public class DbHelper extends SQLiteOpenHelper {
     // fight table create statement
     private static final String CREATE_TABLE_FIGHT = "CREATE TABLE "
             + TABLE_FIGHT + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_PLAYER_NAME
-            + " TEXT," + KEY_PLAYER_LEVEL + " INTEGER," + KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
+            + " TEXT," + KEY_PICTURE + " BLOB," + KEY_PLAYER_LEVEL + " INTEGER," + KEY_STRENGTH + " INTEGER," + KEY_MAX_LEVEL + " INTEGER," + KEY_CREATED_AT
             + " DATETIME," + KEY_CREATED_AT_UNIX + " LONG" + ")";
 
     //history table create statement
     private static final String CREATE_TABLE_HISTORY = "CREATE TABLE "
             + TABLE_HISTORY + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_OWN_PLAYER_LEVEL + " INTEGER,"
-            + KEY_OWN_STRENGTH + " INTEGER," + KEY_OWN_MAX_LEVEL + " INTEGER,"  + KEY_ENEMY_NAME + " TEXT,"
+            + KEY_OWN_STRENGTH + " INTEGER," + KEY_OWN_MAX_LEVEL + " INTEGER,"  + KEY_ENEMY_NAME + " TEXT," + KEY_PICTURE + " BLOB,"
             + KEY_ENEMY_PLAYER_LEVEL + " INTEGER,"+ KEY_ENEMY_STRENGTH + " INTEGER," + KEY_ENEMY_MAX_LEVEL + " INTEGER,"
             + KEY_RESULT + " BOOLEAN," + KEY_CREATED_AT + " DATETIME," + KEY_CREATED_AT_UNIX + " LONG" + ")";
 
@@ -402,6 +402,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_PLAYER_NAME, fight.getName());
+        values.put(KEY_PICTURE, bitmapToBArray(fight.getImg()));
         values.put(KEY_PLAYER_LEVEL,fight.getPlayerLevel());
         values.put(KEY_STRENGTH,fight.getStrength());
         values.put(KEY_MAX_LEVEL, fight.getMaxLevel());
@@ -431,6 +432,8 @@ public class DbHelper extends SQLiteOpenHelper {
         DbFight fight = new DbFight();
         fight.setId(c.getInt(c.getColumnIndex(KEY_ID)));
         fight.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+        byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+        fight.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
         fight.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
         fight.setStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
         fight.setMaxLevel(c.getInt(c.getColumnIndex(KEY_MAX_LEVEL)));
@@ -457,6 +460,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 DbFight fight = new DbFight();
                 fight.setId(c.getInt(c.getColumnIndex(KEY_ID)));
                 fight.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+                byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+                fight.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
                 fight.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
                 fight.setStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
                 fight.setMaxLevel(c.getInt(c.getColumnIndex(KEY_MAX_LEVEL)));
@@ -479,6 +484,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_PLAYER_NAME, fight.getName());
+        values.put(KEY_PICTURE, bitmapToBArray(fight.getImg()));
         values.put(KEY_PLAYER_LEVEL,fight.getPlayerLevel());
         values.put(KEY_STRENGTH,fight.getStrength());
         values.put(KEY_MAX_LEVEL, fight.getMaxLevel());
@@ -510,6 +516,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_OWN_STRENGTH, history.getOwnStrength());
         values.put(KEY_OWN_MAX_LEVEL, history.getOwnMaxLevel());
         values.put(KEY_ENEMY_NAME, history.getEnemyName());
+        values.put(KEY_PICTURE, bitmapToBArray(history.getImg()));
         values.put(KEY_ENEMY_PLAYER_LEVEL, history.getEnemyPlayerLevel());
         values.put(KEY_ENEMY_STRENGTH, history.getEnemyStrength());
         values.put(KEY_ENEMY_MAX_LEVEL, history.getEnemyMaxLevel());
@@ -543,6 +550,8 @@ public class DbHelper extends SQLiteOpenHelper {
         history.setOwnStrength(c.getInt(c.getColumnIndex(KEY_OWN_STRENGTH)));
         history.setOwnMaxLevel(c.getInt(c.getColumnIndex(KEY_OWN_MAX_LEVEL)));
         history.setEnemyName(c.getString(c.getColumnIndex(KEY_ENEMY_NAME)));
+        byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+        history.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
         history.setEnemyPlayerLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_PLAYER_LEVEL)));
         history.setEnemyStrength(c.getInt(c.getColumnIndex(KEY_ENEMY_STRENGTH)));
         history.setEnemyMaxLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_MAX_LEVEL)));
@@ -572,6 +581,8 @@ public class DbHelper extends SQLiteOpenHelper {
                 history.setOwnStrength(c.getInt(c.getColumnIndex(KEY_OWN_STRENGTH)));
                 history.setOwnMaxLevel(c.getInt(c.getColumnIndex(KEY_OWN_MAX_LEVEL)));
                 history.setEnemyName(c.getString(c.getColumnIndex(KEY_ENEMY_NAME)));
+                byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+                history.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
                 history.setEnemyPlayerLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_PLAYER_LEVEL)));
                 history.setEnemyStrength(c.getInt(c.getColumnIndex(KEY_ENEMY_STRENGTH)));
                 history.setEnemyMaxLevel(c.getInt(c.getColumnIndex(KEY_ENEMY_MAX_LEVEL)));
@@ -599,6 +610,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_OWN_STRENGTH, history.getOwnStrength());
         values.put(KEY_OWN_MAX_LEVEL, history.getOwnMaxLevel());
         values.put(KEY_ENEMY_NAME, history.getEnemyName());
+        values.put(KEY_PICTURE, bitmapToBArray(history.getImg()));
         values.put(KEY_ENEMY_PLAYER_LEVEL, history.getEnemyPlayerLevel());
         values.put(KEY_ENEMY_STRENGTH, history.getEnemyStrength());
         values.put(KEY_ENEMY_MAX_LEVEL, history.getEnemyMaxLevel());

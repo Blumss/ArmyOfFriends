@@ -122,18 +122,19 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
       //  View v = new ImageView()
 
         // findViewbyIDs
-        locationIcon = (ImageView)findViewById(R.id.LocationButton);
         armyButton = (LinearLayout)findViewById(R.id.main_army);
         fightButton = (LinearLayout)findViewById(R.id.main_fight);
         historyButton = (LinearLayout)findViewById(R.id.main_latest);
         profileButton = (LinearLayout)findViewById(R.id.main_profile);
+        locationIcon = (ImageView)findViewById(R.id.LocationButton);
         logoutButton = (ImageView)findViewById(R.id.logout_button);
         profileView = (ImageView)findViewById(R.id.profile_user_image);
-      //  loginButton = (Button)findViewById(R.id.start_login_button);
+        /* FOR DEBUG ONLY
         locTextView = (TextView)findViewById(R.id.LocationText);
         longitudeText = (TextView)findViewById(R.id.LongitudeText);
         latitudeText = (TextView)findViewById(R.id.LatitudeText);
         userNumberText = (TextView)findViewById(R.id.CountNearUsersText);
+         */
 
         backgroundReceiver = new BackgroundReceiver();
         mIntentService = new Intent(this,BackgroundService.class);
@@ -166,17 +167,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
                 }
             }
         });
-/*
-        saveImageIcon.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-              //  Intent i = new Intent(
-             //   Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-             //   startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });*/
-
-
 
         armyButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -205,16 +195,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             }
         });
 
-        /*
-        loginButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Test.class);
-                startActivity(intent);
-            }
-        });
-        */
-
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -229,6 +209,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         });
 
         //createSoldiers();
+        //startLocationIntent();
     }
 
     /*
@@ -253,7 +234,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     private void createDailyChallengeEntry() {
         if (db.getAllFights().isEmpty()){
             Log.i("MainActivity.createDailyChallengeEntry","Creating initial Daily Challenge entry");
-            DbFight dailyChallenge = new DbFight(1, "Daily Challenge", 1, 0, 0, "0", 0);
+            DbFight dailyChallenge = new DbFight(1, "Daily Challenge", BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder), 1, 0, 0, "0", 0);
             db.createFight(dailyChallenge);
         }else if (db.getAllFights().get(0).getId()==1){
             Log.i("MainActivity.createDailyChallengeEntry","Daily Challenge already existing!");
@@ -343,16 +324,17 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         public void onReceive(Context context, Intent intent) {
 
             Bundle bundle = intent.getExtras();
-            if (bundle != null) {
+            //show coordinates
+            /*if (bundle != null) {
                 lati = bundle.getDouble(BackgroundService.LATITUDE);
                 longi = bundle.getDouble(BackgroundService.LONGITUDE);
                 numberUsers = bundle.getInt(BackgroundService.USER_COUNT) - 1;
                 // String string = bundle.getString(BackgroundService.LOCATION);
-                latitudeText.setText(String.valueOf(lati));
-                longitudeText.setText(String.valueOf(longi));
+                latitudeText.setText("Latitude: " + String.valueOf(lati));
+                longitudeText.setText("Longitude: " + String.valueOf(longi));
                 userNumberText.setText(String.valueOf(numberUsers));
 
-            }
+            }*/
 
             System.out.println("BackgroundReceiver - onReceive");
             if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
@@ -389,7 +371,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            //TODO: Start Settings-Intent
             return true;
         }
 
@@ -429,6 +410,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     @Override
     public void onConnected(Bundle connectionHint) {
         System.out.println("MainActivity - onConnected - Connection Status : Connected ");
+        startLocationIntent();
     }
 
     @Override
@@ -577,6 +559,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         locationrequest = LocationRequest.create();
         locationrequest.setInterval(200); // von 100 auf 200 geändert
         locationclient.requestLocationUpdates(locationrequest, mPendingIntent);
+        Toast.makeText(this, "Location tracking started!", Toast.LENGTH_LONG).show();
        // getTheLastLocation();
 
     }
@@ -585,6 +568,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         System.out.println("MainActivity - stopLocationIntent ");
         serviceOn = false;
         locationclient.removeLocationUpdates(mPendingIntent);
+        Toast.makeText(this, "Location tracking stopped!\nYou won't get any more soldiers!", Toast.LENGTH_LONG).show();
     }
 
     public void setLocText(Location location){
