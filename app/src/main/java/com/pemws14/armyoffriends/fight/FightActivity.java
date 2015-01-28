@@ -26,12 +26,8 @@ import com.pemws14.armyoffriends.database.DbSoldier;
 import com.pemws14.armyoffriends.database.ParseDb;
 import com.pemws14.armyoffriends.drawer.BaseActivity;
 import com.pemws14.armyoffriends.history.HistoryActivity;
-import com.pemws14.armyoffriends.history.HistoryListAdapter;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 
 public class FightActivity extends BaseActivity implements FightResultDialogFragment.NoticeDialogListener{
