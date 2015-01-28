@@ -271,7 +271,7 @@ public class BackgroundService extends Service {
 
 
             /* der currentUser hat noch niemanden getroffen */
-            if (listParseUser == null) {
+            if (listParseUser.size() == 0) {
                 for (ParseUser parseUser : parseUsers) {
                     System.out.println("CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (Hatte noch niemanden getroffen)");
                     displayNotification();
