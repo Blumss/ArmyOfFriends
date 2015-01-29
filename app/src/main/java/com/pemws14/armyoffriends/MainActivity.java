@@ -235,7 +235,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     private void createDailyChallengeEntry() {
         if (db.getAllFights().isEmpty()){
             Log.i("MainActivity.createDailyChallengeEntry","Creating initial Daily Challenge entry");
-            DbFight dailyChallenge = new DbFight(1, "Daily Challenge", BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder), 1, 0, 0, "0", 0);
+            DbFight dailyChallenge = new DbFight(1, "Daily Challenge", BitmapFactory.decodeResource(getResources(), R.drawable.daily), 1, 0, 0, "0", 0);
             db.createFight(dailyChallenge);
         }else if (db.getAllFights().get(0).getId()==1){
             Log.i("MainActivity.createDailyChallengeEntry","Daily Challenge already existing!");

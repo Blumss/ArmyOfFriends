@@ -2,6 +2,8 @@ package com.pemws14.armyoffriends.history;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +62,8 @@ public class HistoryListAdapter extends RecyclerView.Adapter<HistoryListAdapter.
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final DbHistory history = mDataset.get(position);
 
-        //set result, text and date
+        //set pic, result, text and date
+        holder.profilePic.setImageBitmap(history.getImg());
         holder.result.setText("Relations: " + history.getOwnStrength() + " vs. " + history.getEnemyStrength());
         if (history.getResult()){
             holder.detail.setText("You won against " + history.getEnemyName() + "!");

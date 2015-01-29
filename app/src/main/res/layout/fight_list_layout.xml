@@ -15,7 +15,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:scaleType="center"
+            android:scaleType="centerCrop"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:src="@drawable/userpic_placeholder"
