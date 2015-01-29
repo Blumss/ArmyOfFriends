@@ -187,11 +187,16 @@ public class GameMechanics {
     /*
     returns level multiplier used in randomEncounterLevel
     if r = 0 then 0.5
-    if r = 1 then 1.5
+    if r = 1 then 2
      */
     public static double randomMult(){
         double r = Math.random();
-        return 1.5*Math.asin(2*r-1)/Math.PI + 1.25;
+        if(r<0.5){
+            return Math.asin(2*r-1)/Math.PI + 1;
+        }
+        else{
+            return 1/(Math.asin(2*(1-r)-1)/Math.PI + 1);
+        }
     }
 
     /*
