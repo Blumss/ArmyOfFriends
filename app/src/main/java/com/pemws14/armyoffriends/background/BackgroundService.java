@@ -62,7 +62,7 @@ public class BackgroundService extends Service {
     public static final String BROADCAST_ACTION = "com.pemws14.armyoffriends";
     public static final String USER_COUNT = "usercount";
 
-
+    public ParseUser addSoldierUser;
     public ParseObject TestUser;
     public ParseGeoPoint UserLocation, TestUserLocation;
     public ArrayList<ParseGeoPoint> UserLocList;
@@ -332,6 +332,7 @@ public class BackgroundService extends Service {
     }
 
     public void addSoldier(ParseUser parseUser) {
+        addSoldierUser = parseUser;
         System.out.println("addSoldier: " + parseUser.getUsername());
         String userName = parseUser.getUsername();
         List<DbSoldier> listDbSoldiers = dbHelper.getAllSoldiers();
@@ -384,7 +385,7 @@ public class BackgroundService extends Service {
     }
 
     public void createFightEntry(DbSoldier dbSoldier) {
-        dbFight = new DbFight(dbSoldier.getName(), dbSoldier.getImg(), dbSoldier.getLevel(), gameMechanics.getArmyStrength(dbHelper.getAllSoldiers()), dbHelper.getMaxLevel());
+        dbFight = new DbFight(dbSoldier.getName(), dbSoldier.getImg(), dbSoldier.getLevel(), parseDb.getArmyStrength(addSoldierUser), parseDb.getMaxLevel(addSoldierUser));
         dbHelper.createFight(dbFight);
     }
 }

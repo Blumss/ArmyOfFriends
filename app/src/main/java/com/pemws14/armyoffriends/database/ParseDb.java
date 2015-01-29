@@ -62,8 +62,16 @@ public class ParseDb {
         int armyStrength = CURRENT_USER.getInt("army_strength");
         return armyStrength;
     }
+    public int getArmyStrength(ParseUser user){
+        int armyStrength = user.getInt("army_strength");
+        return armyStrength;
+    }
     public int getMaxLevel(){
         int maxLevel = CURRENT_USER.getInt("maxLevel");
+        return maxLevel;
+    }
+    public int getMaxLevel(ParseUser user){
+        int maxLevel = user.getInt("maxLevel");
         return maxLevel;
     }
     public int getPlayerLevel(){
