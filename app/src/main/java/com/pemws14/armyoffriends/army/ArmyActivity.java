@@ -227,11 +227,11 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
         //*get Privates, Majors and Generals
         int privates=0; int majors = 0; int generals = 0;
         for(DbSoldier soldier:soldiers) {
-            if (soldier.getRank()==0){
+            if (soldier.getRank()==1){
                 privates++;
-            }else if (soldier.getRank()==6){
+            }else if (soldier.getRank()==7){
                 majors++;
-            }else if (soldier.getRank()==9){
+            }else if (soldier.getRank()==10){
                 generals++;
             }
         }
