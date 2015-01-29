@@ -65,7 +65,7 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
         holder.name.setText(fight.getName());
         holder.strength.setText("Army strength: " + fight.getStrength());
         holder.level.setText("Level: " + fight.getPlayerLevel());
-        holder.bestFighter.setText("Best fighter: " + ranks[fight.getMaxLevel()-1]);
+        holder.bestFighter.setText("Best fighter: " + ranks[fight.getMaxLevel()]);
 
         holder.fightButton.setOnClickListener(new View.OnClickListener() {
             @Override

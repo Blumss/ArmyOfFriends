@@ -295,8 +295,9 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 //        for(DbSoldier s : solis ){
 //            Log.i("Soldiers", ""+s.getId()+", "+s.getName()+", " +s.getLevel()+", "+s.getRank()+", "+s.getCreated_at());
 //        }
-        db.createSoldier(new DbSoldier("Prename_Surname", BitmapFactory.decodeResource(getResources(),R.drawable.userpic_placeholder), 1));
-        System.out.println(db.getSoldier("Prename_Surname").getName());
+        db.createSoldier(new DbSoldier("schnabeltier", BitmapFactory.decodeResource(getResources(),R.drawable.userpic_placeholder), 2));
+        db.createSoldier(new DbSoldier("Mortifer", BitmapFactory.decodeResource(getResources(),R.drawable.userpic_placeholder), 3));
+        db.createSoldier(new DbSoldier("Benny", BitmapFactory.decodeResource(getResources(),R.drawable.userpic_placeholder), 10));
     }
 
     public static Context getAppContext() {
