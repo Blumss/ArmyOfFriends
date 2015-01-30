@@ -100,7 +100,7 @@ public class ParseDb {
     }
     public void getImage(final DbHelper dbHelper, final DbProfile dbProfile){
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-        Log.d("getImage","getImage - ParseQuery: " + (query!=null));
+        Log.d("getImage", "getImage - ParseQuery: " + (query != null));
         Log.d("getImage", "User-ID: "+CURRENT_USER.getObjectId());
         query.getInBackground(CURRENT_USER.getObjectId(), new GetCallback() {
             @Override
@@ -170,7 +170,7 @@ public class ParseDb {
             Log.d("existImage","true");
             return true;
         }else  {
-            Log.d("existImage","false");
+            Log.d("existImage", "false");
             return false;
         }
     }
@@ -178,10 +178,10 @@ public class ParseDb {
     public boolean existFightImage(ParseUser parseUser){
         ParseFile imageFile = (ParseFile)parseUser.get("ImageFile");
         if(imageFile!=null){
-            Log.d("existFightImage","true");
+            Log.d("existFightImage", "true");
             return true;
         }else  {
-            Log.d("existFightImage","false");
+            Log.d("existFightImage", "false");
             return false;
         }
     }
@@ -209,8 +209,8 @@ public class ParseDb {
 
         UserLocation = new ParseGeoPoint(location.getLatitude(),location.getLongitude());
      //   UserLocList = new ArrayList<ParseGeoPoint>();
-      //  UserLocList.add(UserLocation);
-        Log.d("setCurrentLocation","CURRENT_USER: "+CURRENT_USER.getUsername());
+      //  UserLocList.add(userLocation);
+        Log.d("setCurrentLocation", "CURRENT_USER: " + CURRENT_USER.getUsername());
         CURRENT_USER.put("location", UserLocation);
       //  CURRENT_USER.add("locationList", UserLocList);
 
@@ -245,17 +245,17 @@ public class ParseDb {
             public void done(ParseUser parseUser, ParseException e) {
                 if (e == null) {
                     // Success!
-                    Log.d("refreshParseUser","refreshParseDbArmy - Success!");
+                    Log.d("refreshParseUser", "refreshParseDbArmy - Success!");
                 } else {
                     // Failure!
-                    Log.d("refreshParseUser","refreshParseDbArmy - Failure!");
+                    Log.d("refreshParseUser", "refreshParseDbArmy - Failure!");
                 }
             }
         });
     }
 
     public void updateArmy(int armyStrength, int maxLevel, int playerLevel, int ep){
-        Log.d("updateArmy","newArmy");
+        Log.d("updateArmy", "newArmy");
 
         CURRENT_USER.put("army_strength", armyStrength);    // army_strength
         CURRENT_USER.put("maxLevel", maxLevel);             // maxLevel

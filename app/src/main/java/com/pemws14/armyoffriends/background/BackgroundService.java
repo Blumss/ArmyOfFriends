@@ -63,7 +63,7 @@ public class BackgroundService extends Service {
 
     public ParseUser addSoldierUser;
     public ParseObject TestUser;
-    public ParseGeoPoint UserLocation, TestUserLocation;
+    public ParseGeoPoint userLocation, TestUserLocation;
     public ArrayList<ParseGeoPoint> UserLocList;
     public int numberUsers;
     public ParseUser currentUser;
@@ -82,16 +82,16 @@ public class BackgroundService extends Service {
 
         currentUser = ParseUser.getCurrentUser();
 
-        Log.i("onStartCommand","BackgroundService - onStartCommand");
+        Log.i("onStartCommand", "BackgroundService - onStartCommand");
      //   counter++;
      //   Toast.makeText(this, " First Service Started" + "  " + counter, Toast.LENGTH_SHORT).show();
 
         Location location = intent.getParcelableExtra(LocationClient.KEY_LOCATION_CHANGED);
         if (location != null) {
-            Log.i("onStartCommand","BackgroundService - onHandleIntent - Location available");
-            Log.i("onStartCommand","BackgroundService - onHandleIntent - Location available: " + location);
-            Log.i("onStartCommand","BackgroundService - onHandleIntent - Location available - Latitude: " + location.getLatitude());
-            Log.i("onStartCommand","BackgroundService - onHandleIntent - Location available - Longitude: " + location.getLongitude());
+            Log.i("onStartCommand", "BackgroundService - onHandleIntent - Location available");
+            Log.i("onStartCommand", "BackgroundService - onHandleIntent - Location available: " + location);
+            Log.i("onStartCommand", "BackgroundService - onHandleIntent - Location available - Latitude: " + location.getLatitude());
+            Log.i("onStartCommand", "BackgroundService - onHandleIntent - Location available - Longitude: " + location.getLongitude());
         //    Toast.makeText(this, "new Location!", Toast.LENGTH_SHORT).show();
             parseDb = new ParseDb();
             parseDb.setCurrentLocation(location);
@@ -106,7 +106,7 @@ public class BackgroundService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        Log.i("onBind","BackgroundService - IBinder");
+        Log.i("onBind", "BackgroundService - IBinder");
         //TODO for communication return IBinder implementation
         return null;
     }
@@ -132,7 +132,7 @@ public class BackgroundService extends Service {
         //  User.saveInBackground();
         //  TestUser.saveInBackground();
 
-        Log.i("onCreate","BackgroundService");
+        Log.i("onCreate", "BackgroundService");
       //  Toast.makeText(this, "First Service was Created", Toast.LENGTH_SHORT).show();
         // TODO Auto-generated method stub
         super.onCreate();
@@ -158,7 +158,7 @@ public class BackgroundService extends Service {
 //    }
     @Override
     public void onDestroy() {
-        Log.i("onDestroy","BackgroundService - onDestroy");
+        Log.i("onDestroy", "BackgroundService - onDestroy");
        // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_SHORT).show();
     }
 
@@ -182,28 +182,32 @@ public class BackgroundService extends Service {
     public void getNearbyUsers(ParseGeoPoint geoPoint, Location location) {
         parseDb = new ParseDb();
         currentUser = ParseUser.getCurrentUser();
-        UserLocation = geoPoint;
-        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userLocation = geoPoint;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentUser.getUpdatedAt());
+        calendar.add(Calendar.MINUTE, -1);
 
-        userQuery.whereWithinKilometers("location", UserLocation, 0.05);
+        ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+        userQuery.whereWithinKilometers("location", userLocation, 0.05);
         userQuery.whereNotEqualTo("username", currentUser.getUsername());
+        userQuery.whereGreaterThan("updatedAt", calendar.getTime());
         userQuery.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> parseUsers, ParseException e) {
                 if (e == null) {
                     if (parseUsers.toArray().length > 0) {
-                        Log.i("getNearbyUsers","parseUsers: " + parseUsers);
+                        Log.i("getNearbyUsers", "parseUsers: " + parseUsers);
                         meet(parseUsers);
                     } else {
-                        Log.i("getNearbyUsers","Niemanden getroffen");
+                        Log.i("getNearbyUsers", "Niemanden getroffen");
                     }
                     // Hooray! Let them use the app now.
 
                 } else {
                     // Sign up didn't succeed. Look at the ParseException
                     // to figure out what went wrong
-                    Log.i("getNearbyUsers","Background Service - saveUserLocParse - query.findinBackground");
-                    Log.i("getNearbyUsers","Error: " + e.getMessage());
+                    Log.i("getNearbyUsers", "Background Service - saveUserLocParse - query.findinBackground");
+                    Log.i("getNearbyUsers", "Error: " + e.getMessage());
                 }
             }
         });
@@ -260,19 +264,19 @@ public class BackgroundService extends Service {
     public void meet(List<ParseUser> parseUsers) {
 
         List<ParseUser> listParseUser = parseDb.getMetPeopleToday();
-        Log.i("addSoldier","List ParseUser, heute schon getroffene User: " + listParseUser);
+        Log.i("addSoldier", "List ParseUser, heute schon getroffene User: " + listParseUser);
 
         /* man hat jemanden getroffen */
         if (parseUsers != null) {
             Log.i("meet", "Meet Success! Retrieved parseUsers: " + parseUsers);
             numberUsers = parseUsers.toArray().length;
-            Log.i("meet","Success! Number Users: " + numberUsers);
+            Log.i("meet", "Success! Number Users: " + numberUsers);
 
 
             /* der currentUser hat noch niemanden getroffen */
             if (listParseUser == null || listParseUser.size() == 0) {
                 for (ParseUser parseUser : parseUsers) {
-                    Log.i("meet","CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (Hatte noch niemanden getroffen)");
+                    Log.i("meet", "CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (Hatte noch niemanden getroffen)");
                     displayNotification();
 
                     /* gegenseitig hinzufügen */
@@ -282,7 +286,7 @@ public class BackgroundService extends Service {
                         pu.add("metPeopleToday", currentUser);
                         pu.saveInBackground();
                     }*/
-                    Log.i("meet","currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
+                    Log.i("meet", "currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
                     //   currentUser.add("metPeopleToday", pu);
                     //   currentUser.saveInBackground();
                     addSoldier(pu);
@@ -297,14 +301,14 @@ public class BackgroundService extends Service {
                         int loopCount =0;
                         if (parseUser.hasSameId(parseUser2)) {
                             loopCount =0;
-                            Log.i("meet","CurrentUser: " + currentUser + " hat User: " + parseUser + " heute leider schon getroffen!");
+                            Log.i("meet", "CurrentUser: " + currentUser + " hat User: " + parseUser + " heute leider schon getroffen!");
                             break;
                         } else {
                             loopCount++;
                             if(loopCount==k){
                                 loopCount =0;
 
-                                Log.i("meet","CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (hat aber schon andere getroffen)");
+                                Log.i("meet", "CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (hat aber schon andere getroffen)");
                                 displayNotification();
 
                             /* gegenseitig hinzufügen */
@@ -314,7 +318,7 @@ public class BackgroundService extends Service {
                                 pu.add("metPeopleToday", currentUser);
                                 pu.saveInBackground();
                             }*/
-                                Log.i("meet","currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
+                                Log.i("meet", "currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
                                 //  currentUser.add("metPeopleToday", pu);
                                 //   currentUser.saveInBackground();
                                 addSoldier(pu);
@@ -325,21 +329,21 @@ public class BackgroundService extends Service {
                 }
             }
         } else {
-            Log.i("meet","leider niemanden getroffen!");
+            Log.i("meet", "leider niemanden getroffen!");
         }
 
     }
 
     public void addSoldier(ParseUser parseUser) {
         addSoldierUser = parseUser;
-        Log.i("addSoldier","addSoldier: " + parseUser.getUsername());
+        Log.i("addSoldier", "addSoldier: " + parseUser.getUsername());
         String userName = parseUser.getUsername();
         List<DbSoldier> listDbSoldiers = dbHelper.getAllSoldiers();
         int k = listDbSoldiers.toArray().length;
         currentUser.add("metPeopleToday", parseUser);
         currentUser.saveInBackground();
         int loopCount =0;
-        Log.i("addSoldier","listDbSoldiers.toArray().length: " + listDbSoldiers.toArray().length);
+        Log.i("addSoldier", "listDbSoldiers.toArray().length: " + listDbSoldiers.toArray().length);
         if (listDbSoldiers.toArray().length > 0) {
             //Log.i("addSoldier","min ein Soldat drin");
             for (DbSoldier dbSoldier : listDbSoldiers) {
@@ -372,7 +376,7 @@ public class BackgroundService extends Service {
                 }
             }
         } else {
-            Log.i("addSoldier","create Soldier im else zweig: ");
+            Log.i("addSoldier", "create Soldier im else zweig: ");
             DbSoldier dbSoldier = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder), 1);
             dbHelper.createSoldier(dbSoldier);
             createFightEntry(dbSoldier);
