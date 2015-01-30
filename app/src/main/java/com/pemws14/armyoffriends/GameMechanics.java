@@ -1,5 +1,7 @@
 package com.pemws14.armyoffriends;
 
+import android.util.Log;
+
 import com.pemws14.armyoffriends.database.DbSoldier;
 
 import java.util.List;
@@ -49,7 +51,7 @@ public class GameMechanics {
         if(n >= k && k >= 0)
             return factorial(n)/(factorial(k)*factorial(n-k));
         else
-            System.out.println("Invalid Invocation of binomial in GameMechanics");
+            Log.i("binomial","Invalid Invocation of binomial in GameMechanics");
             return -1;
     }
 

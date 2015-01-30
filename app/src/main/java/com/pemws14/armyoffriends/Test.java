@@ -3,6 +3,7 @@ package com.pemws14.armyoffriends;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,8 +35,7 @@ public class Test extends ActionBarActivity {
             public void onClick(View view) {
 
                 UserLogout();
-                System.out.println("User wurde ausgeloggt: ");
-                System.out.println("User ist: "+currentUser);
+                Log.i("onCreate", "User wurde ausgeloggt: "+currentUser);
             //    Intent intent = new Intent(getApplicationContext(), DispatchActivity.class);
            //     startActivity(intent);
               //  Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -76,12 +76,12 @@ public class Test extends ActionBarActivity {
         currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
             //showProfileLoggedIn();
-            System.out.println("User ist eingeloggt, Username: "+currentUser.getUsername());
+            Log.i("onStart","User ist eingeloggt, Username: "+currentUser.getUsername());
             UsernameTextView.setText("Username: "+currentUser.getUsername());
         } else {
             //showProfileLoggedOut();
             loginProcess();
-            System.out.println("User ist NICHT eingeloggt");
+            Log.i("onStart","User ist NICHT eingeloggt");
 
         }
     }

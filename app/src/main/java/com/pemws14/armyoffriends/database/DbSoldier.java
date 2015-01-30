@@ -60,6 +60,7 @@ public class DbSoldier {
 
     public void setLevel(int level) {
         this.level = level;
+        this.setRank(GameMechanics.getRankByLevel(level));
     }
 
     public int getRank() {

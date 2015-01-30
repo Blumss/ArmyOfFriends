@@ -102,7 +102,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("MainActivity - onCreate ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getActionBar().hide();
@@ -143,11 +142,11 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         int resp = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
         if(resp == ConnectionResult.SUCCESS){
-            System.out.println("MainActivity - onCreate - GooglePlayServiceConnection: SUCCESS ");
+            //Log.i("onCreate","GooglePlayServiceConnection: SUCCESS ");
             locationclient = new LocationClient(this,this,this);
             locationclient.connect();
         }else{
-            System.out.println("MainActivity - onCreate - GooglePlayServiceConnection: FAILURE ");
+            //Log.i("onCreate","GooglePlayServiceConnection: FAILURE ");
             Toast.makeText(this, "Google Play Service Error " + resp, Toast.LENGTH_LONG).show();
         }
 
@@ -312,11 +311,11 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
             //showProfileLoggedIn();
-            System.out.println("User ist eingeloggt, Username: "+currentUser.getUsername());
+            Log.i("onStart",""User ist eingeloggt, Username: "+currentUser.getUsername());
         } else {
             //showProfileLoggedOut();
             loginProcess();
-            System.out.println("User ist NICHT eingeloggt");
+            Log.i("onStart",""User ist NICHT eingeloggt");
 
         }
     }
@@ -338,9 +337,9 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
             }*/
 
-            System.out.println("BackgroundReceiver - onReceive");
+            //Log.i("onReceive","BackgroundReceiver - onReceive");
             if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
-                System.out.println("BackgroundReceiver - onReceive - if Schleife drin - Intent wird gestartet");
+                //Log.i("onReceive","BackgroundReceiver - if Schleife drin - Intent wird gestartet");
                 Intent pushIntent = new Intent(context, BackgroundService.class);
                 context.startService(pushIntent);
             }
@@ -411,30 +410,30 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        System.out.println("MainActivity - onConnected - Connection Status : Connected ");
+        Log.i("onConnected","Connection Status : Connected ");
         startLocationIntent();
     }
 
     @Override
     public void onDisconnected() {
-        System.out.println("MainActivity - onDisconnected - Connection Status : Disconnected ");
+        Log.i("onDisconnected","Connection Status : Disconnected ");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        System.out.println("MainActivity - onConnectionFailed - Connection Status : Fail ");
+        Log.i("onConnectedFailed","Connection Status : Fail ");
     }
 
     @Override
     public void onLocationChanged(Location location) {
 
         if(location!=null){
-            System.out.println("MainActivity - onLocationChanged - Location : available ");
+            Log.i("onLocationChanged","Location : available ");
 
           //  latitudeText.setText(""+location.getLatitude());
           //  longitudeText.setText(""+ location.getLongitude());
         } else {
-            System.out.println("MainActivity - onLocationChanged - Location : not available ");
+            Log.i("onLocationChanged","Location : not available ");
         }
 
     }
@@ -462,9 +461,9 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
     public void initDB(){
         if(parseDb.getPlayerLevel()>0){
-            System.out.println("parseDb.getPlayerLevel()>0 TRUE: "+parseDb.getPlayerLevel());   // wird ausgelöst, wenn es einen Eintrag gibt
+            Log.i("initDB","parseDb.getPlayerLevel()>0 TRUE: "+parseDb.getPlayerLevel());   // wird ausgelöst, wenn es einen Eintrag gibt
         }else {
-            System.out.println("parseDb.getPlayerLevel()>0 FALSE: "+parseDb.getPlayerLevel()); // wird ausgelöst, wenn es keinen Eintrag gibt
+            Log.i("initDB","parseDb.getPlayerLevel()>0 FALSE: "+parseDb.getPlayerLevel()); // wird ausgelöst, wenn es keinen Eintrag gibt
             parseDb.updateArmy(0,0,1,0);
         }
         String parseUserID= ParseUser.getCurrentUser().getObjectId();
@@ -472,13 +471,13 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         if(profiles.size()==0){
             Log.i("MainActivity.initDB", "No profiles found on device! Creating profile with ID " + parseUserID + ".");
             //TODO das profilbild sollte aus Parse noch geladen werden können - Funktioniert iwie nicht, da Nullpointer Exception...
-            //System.out.println("GetImage returns with sth. "+ parseDb.getImage()!=null);
+            //Log.i("initDB","GetImage returns with sth. "+ parseDb.getImage()!=null);
             //dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),parseDb.existImage() ? parseDb.getImage(): BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
             dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
 
             db.createProfile(dbProfile);
             if(parseDb.existImage()){
-                System.out.println("getimage != null -> bild wird aus db genommen");
+                Log.i("initDB","getimage != null -> bild wird aus db genommen");
                 //dbProfile.setImg(parseDb.getImage());
                 parseDb.getImage(db, dbProfile);
             }
@@ -490,7 +489,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
                     dbProfile = new DbProfile(parseDb.getUserID(), parseDb.getCurrentUserName(), BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder),parseDb.getPlayerLevel(), parseDb.getEP(), parseDb.getArmyStrength(), parseDb.getMaxLevel());
                     db.createProfile(dbProfile);
                     if(parseDb.existImage()){
-                        System.out.println("getimage != null -> bild wird aus db genommen");
+                        Log.i("initDB","getimage != null -> bild wird aus db genommen");
                         //dbProfile.setImg(parseDb.getImage());
                         parseDb.getImage(db, dbProfile);
                     }
@@ -498,7 +497,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
                 } else {
                     dbProfile = db.getProfile(parseUserID);
                     if(parseDb.existImage()){
-                        System.out.println("getimage != null -> bild wird aus db genommen");
+                        Log.i("initDB","getimage != null -> bild wird aus db genommen");
                         //dbProfile.setImg(parseDb.getImage());
                         parseDb.getImage(db, dbProfile);
                     }
@@ -507,43 +506,43 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
                 }
             }
         }
-        System.out.println("################# Profile logged #################");
+        Log.i("initDB","################# Profile logged #################");
 
 
 
 
-        //    System.out.println("Gibt es ein Profil: "+db.getProfile(parseDb.getUserID()));
+        //    Log.i("initDB","Gibt es ein Profil: "+db.getProfile(parseDb.getUserID()));
 /*
         if(db.getProfile(parseDb.getUserID())!=null){
-            System.out.println("#############################");
-            System.out.println("### Profil vorhanden ###");
-            System.out.println("#############################");
+            Log.i("initDB","#############################");
+            Log.i("initDB","### Profil vorhanden ###");
+            Log.i("initDB","#############################");
             db.updateProfile(dbProfile);
         }else{
-            System.out.println("#############################");
-            System.out.println("### kein Profil vorhanden ###");
-            System.out.println("#############################");
+            Log.i("initDB","#############################");
+            Log.i("initDB","### kein Profil vorhanden ###");
+            Log.i("initDB","#############################");
             db.createProfile(dbProfile);
         }*/
     }
 
     public void getTheLastLocation(){
-        System.out.println("MainActivity - getTheLastLocation ");
+        Log.i("getTheLastLocation","MainActivity - getTheLastLocation ");
         if(locationclient!=null && locationclient.isConnected()){
-            System.out.println("MainActivity - getTheLastLocation - Last Known Location available");
+            Log.i("getTheLastLocation","MainActivity - getTheLastLocation - Last Known Location available");
             Location loc = locationclient.getLastLocation();
             locTextView.setText("Last Known Location: ");
 
-            System.out.println("MainActivity - getTheLastLocation - Loc: "+loc);
-            System.out.println("MainActivity - getTheLastLocation - Latitude: "+loc.getLatitude());
-            System.out.println("MainActivity - getTheLastLocation - Longitude: "+loc.getLongitude());
+            Log.i("getTheLastLocation","MainActivity - getTheLastLocation - Loc: "+loc);
+            Log.i("getTheLastLocation","MainActivity - getTheLastLocation - Latitude: "+loc.getLatitude());
+            Log.i("getTheLastLocation","MainActivity - getTheLastLocation - Longitude: "+loc.getLongitude());
             setLocText(loc);
         }
     }
 
     /*
     public void startLocRequest(){
-        System.out.println("MainActivity - startLocRequest ");
+        Log.i("getTheLastLocation","MainActivity - startLocRequest ");
         if(locationclient!=null && locationclient.isConnected()) {
             locationrequest = LocationRequest.create();
             locationrequest.setInterval(Long.parseLong(etLocationInterval.getText().toString()));
@@ -556,7 +555,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     }
     */
     public void startLocationIntent(){
-        System.out.println("MainActivity - startLocationIntent ");
+        Log.i("startLocationIntent","MainActivity - startLocationIntent ");
         serviceOn = true;
         locationrequest = LocationRequest.create();
         locationrequest.setInterval(200); // von 100 auf 200 geändert
@@ -567,7 +566,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     }
 
     public void stopLocationIntent(){
-        System.out.println("MainActivity - stopLocationIntent ");
+        Log.i("stopLocationIntent","MainActivity - stopLocationIntent ");
         serviceOn = false;
         locationclient.removeLocationUpdates(mPendingIntent);
         Toast.makeText(this, "Location tracking stopped!\nYou won't get any more soldiers!", Toast.LENGTH_LONG).show();
@@ -587,7 +586,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         longitudeText.setText(String.valueOf(lng));
     }
     public void setAlarm(){
-        System.out.println("setAlarm");
+        Log.i("getTheLastLocation","setAlarm");
         AlarmManager alarmMgr0 = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent intent0 = new Intent(this, BackgroundReceiver.class);
         intent0.setAction("com.pemws14.armyoffriends.ACTION");

@@ -443,6 +443,33 @@ public class DbHelper extends SQLiteOpenHelper {
         return fight;
     }
 
+    /*
+* SELECT * FROM fight WHERE name = i;
+*/
+    public DbFight getFight(String fight_name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT  * FROM " + TABLE_FIGHT + " WHERE "
+                + KEY_PLAYER_NAME + " = '" + fight_name + "'";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        DbFight fight = new DbFight();
+        fight.setId(c.getInt(c.getColumnIndex(KEY_ID)));
+        fight.setName((c.getString(c.getColumnIndex(KEY_PLAYER_NAME))));
+        byte[] byteArray = c.getBlob(c.getColumnIndex(KEY_PICTURE));
+        fight.setImg(BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length));
+        fight.setPlayerLevel(c.getInt(c.getColumnIndex(KEY_PLAYER_LEVEL)));
+        fight.setStrength(c.getInt(c.getColumnIndex(KEY_STRENGTH)));
+        fight.setMaxLevel(c.getInt(c.getColumnIndex(KEY_MAX_LEVEL)));
+        fight.setCreated_at(c.getString(c.getColumnIndex(KEY_CREATED_AT)));
+        fight.setCreated_at_Unix(c.getLong(c.getColumnIndex(KEY_CREATED_AT_UNIX)));
+
+        return fight;
+    }
 
     /*
     * SELECT * FROM fight;
@@ -668,7 +695,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_STRENGTH,profile.getArmyStrength());
         values.put(KEY_MAX_LEVEL, profile.getMaxSoldierLevel());
         values.put(KEY_CREATED_AT, getDateTime());
-        System.out.println("DBHelper: Updated! CurEPs: " + profile.getEp());
+        Log.d("updateProfile","DBHelper: Updated! CurEPs: " + profile.getEp());
         // updating row
         return db.update(TABLE_PROFILE, values, KEY_SERVERID + " = ?",
                 new String[] { profile.getServerID() });

@@ -99,46 +99,28 @@ public class ParseDb {
         return ep;
     }
     public void getImage(final DbHelper dbHelper, final DbProfile dbProfile){
-
-//        ParseFile imageFile = (ParseFile)CURRENT_USER.get("ImageFile");
-//        imageFile.getDataInBackground(new GetDataCallback() {
-//            public void done(byte[] data, ParseException e) {
-//                if (e == null) {
-//
-//                    // data has the bytes for the image
-//                    bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-//                    System.out.println("Bild: "+bmp);
-//
-//                } else {
-//                    // something went wrong
-//                    System.out.println("getImage ERROR: "+e.getMessage());
-//                }
-//            }
-//        });
-//        return bmp;
-        ParseQuery<ParseUser> query = userQuery;
-
-        System.out.println("getImage - ParseQuery: " + (query!=null));
-        Log.d("test", "User-ID: "+CURRENT_USER.getObjectId());
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        Log.d("getImage","getImage - ParseQuery: " + (query!=null));
+        Log.d("getImage", "User-ID: "+CURRENT_USER.getObjectId());
         query.getInBackground(CURRENT_USER.getObjectId(), new GetCallback() {
             @Override
             public void done(ParseObject object, ParseException e) {
                 if (object == null) {
-                    Log.d("test", "The object was not found...");
+                    Log.d("getImage", "The object was not found...");
                 } else {
-                    Log.d("test", "Retrieved the object.");
+                    Log.d("getImage", "Retrieved the object.");
                     ParseFile fileObject = (ParseFile) object.get("ImageFile");
                     fileObject.getDataInBackground(new GetDataCallback() {
                         @Override
                         public void done(byte[] data, ParseException e) {
                             if (e == null) {
-                                Log.d("test", "We've got data in data.");
+                                Log.d("getImage", "We've got data in data.");
                                 // data has the bytes for the image
                                 bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
                                 dbProfile.setImg(bmp);
                                 dbHelper.updateProfile(dbProfile);
                             } else {
-                                Log.d("test", "There was a problem downloading the data.");
+                                Log.d("getImage", "There was a problem downloading the data.");
                             }
                         }
                     });
@@ -147,35 +129,32 @@ public class ParseDb {
         });
     }
 
-    public void getFightImage(ParseUser parseUser, final DbHelper dbHelper, final DbSoldier dbSoldier){
-        dbFight = new DbFight();
-        gameMechanics = new GameMechanics();
-        ParseQuery<ParseUser> query = userQuery;
-
-        System.out.println("getFightImage - ParseQuery: " + (query!=null));
-        Log.d("test", "User-ID: "+parseUser.getObjectId());
-        query.getInBackground(parseUser.getObjectId(), new GetCallback() {
+    public void getFightImage(ParseUser mParseUser, final DbHelper dbHelper, final DbSoldier dbSoldier, final DbFight mDbFight){
+        ParseQuery<ParseUser> query = mParseUser.getQuery();
+        Log.d("getFightImage", "User-ID: "+ mParseUser.getObjectId() + " UserName: "+ mParseUser.getUsername());
+        query.getInBackground(mParseUser.getObjectId(), new GetCallback() {
             @Override
             public void done(ParseObject object, ParseException e) {
                 if (object == null) {
-                    Log.d("test", "The object was not found...");
+                    Log.d("getFightImage", "The object was not found...");
                 } else {
-                    Log.d("test", "Retrieved the object.");
+                    Log.d("getFightImage", "Retrieved the object.");
                     ParseFile fileObject = (ParseFile) object.get("ImageFile");
                     fileObject.getDataInBackground(new GetDataCallback() {
                         @Override
                         public void done(byte[] data, ParseException e) {
                             if (e == null) {
-                                Log.d("test", "We've got data in data.");
+                                Log.d("getFightImage", "We've got data in data.");
                                 // data has the bytes for the image
                                 bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+
                                 dbSoldier.setImg(bmp);
-                                dbHelper.createSoldier(dbSoldier);
-                                dbFight = new DbFight(dbSoldier.getName(), dbSoldier.getImg(), dbSoldier.getLevel(), gameMechanics.getArmyStrength(dbHelper.getAllSoldiers()), dbHelper.getMaxLevel());
-                                dbHelper.createFight(dbFight);
-                                //dbHelper.(dbProfile);
+                                dbHelper.updateSoldier(dbSoldier);
+                                mDbFight.setImg(bmp);
+                                dbHelper.updateFight(mDbFight);
+
                             } else {
-                                Log.d("test", "There was a problem downloading the data.");
+                                Log.d("getFightImage", "There was a problem downloading the data.");
                             }
                         }
                     });
@@ -184,63 +163,25 @@ public class ParseDb {
         });
     }
 
-    public void updateFightImage(ParseUser parseUser, final DbHelper dbHelper, final DbSoldier dbSoldier){
-        dbFight = new DbFight();
-        gameMechanics = new GameMechanics();
-        ParseQuery<ParseUser> query = userQuery;
-
-        System.out.println("getFightImage - ParseQuery: " + (query!=null));
-        Log.d("test", "User-ID: "+parseUser.getObjectId());
-        query.getInBackground(parseUser.getObjectId(), new GetCallback() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (object == null) {
-                    Log.d("test", "The object was not found...");
-                } else {
-                    Log.d("test", "Retrieved the object.");
-                    ParseFile fileObject = (ParseFile) object.get("ImageFile");
-                    fileObject.getDataInBackground(new GetDataCallback() {
-                        @Override
-                        public void done(byte[] data, ParseException e) {
-                            if (e == null) {
-                                Log.d("test", "We've got data in data.");
-                                // data has the bytes for the image
-                                bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                                dbSoldier.setImg(bmp);
-                              //  dbHelper.createSoldier(dbSoldier);
-                                dbFight = new DbFight(dbSoldier.getName(), dbSoldier.getImg(), dbSoldier.getLevel(), gameMechanics.getArmyStrength(dbHelper.getAllSoldiers()), dbHelper.getMaxLevel());
-                                dbHelper.createFight(dbFight);
-                                //dbHelper.(dbProfile);
-                            } else {
-                                Log.d("test", "There was a problem downloading the data.");
-                            }
-                        }
-                    });
-                }
-            }
-        });
-    }
 
     public boolean existImage(){
-        System.out.print("existImage: ");
         ParseFile imageFile = (ParseFile)CURRENT_USER.get("ImageFile");
         if(imageFile!=null){
-            System.out.println("true");
+            Log.d("existImage","true");
             return true;
         }else  {
-            System.out.println("false");
+            Log.d("existImage","false");
             return false;
         }
     }
 
     public boolean existFightImage(ParseUser parseUser){
-        System.out.print("existFightImage: ");
         ParseFile imageFile = (ParseFile)parseUser.get("ImageFile");
         if(imageFile!=null){
-            System.out.println("true");
+            Log.d("existFightImage","true");
             return true;
         }else  {
-            System.out.println("false");
+            Log.d("existFightImage","false");
             return false;
         }
     }
@@ -269,7 +210,7 @@ public class ParseDb {
         UserLocation = new ParseGeoPoint(location.getLatitude(),location.getLongitude());
      //   UserLocList = new ArrayList<ParseGeoPoint>();
       //  UserLocList.add(UserLocation);
-        System.out.println("CURRENT_USER: "+CURRENT_USER.getUsername());
+        Log.d("setCurrentLocation","CURRENT_USER: "+CURRENT_USER.getUsername());
         CURRENT_USER.put("location", UserLocation);
       //  CURRENT_USER.add("locationList", UserLocList);
 
@@ -299,23 +240,22 @@ public class ParseDb {
     }
 
     public void refreshParseUser(){
-        System.out.println("refreshParseDbArmy");
         CURRENT_USER.fetchInBackground(new GetCallback<ParseUser>() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
                 if (e == null) {
                     // Success!
-                    System.out.println("refreshParseDbArmy - Success!");
+                    Log.d("refreshParseUser","refreshParseDbArmy - Success!");
                 } else {
                     // Failure!
-                    System.out.println("refreshParseDbArmy - Failure!");
+                    Log.d("refreshParseUser","refreshParseDbArmy - Failure!");
                 }
             }
         });
     }
 
     public void updateArmy(int armyStrength, int maxLevel, int playerLevel, int ep){
-        System.out.println("newArmy");
+        Log.d("updateArmy","newArmy");
 
         CURRENT_USER.put("army_strength", armyStrength);    // army_strength
         CURRENT_USER.put("maxLevel", maxLevel);             // maxLevel

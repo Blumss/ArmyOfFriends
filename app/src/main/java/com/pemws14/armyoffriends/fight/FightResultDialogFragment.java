@@ -9,6 +9,7 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,7 @@ public class FightResultDialogFragment extends DialogFragment{
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         if (Build.VERSION.SDK_INT >= 20) {
-            System.out.println("Entering.......");
+            Log.i("onCreateDialog", "Entering.......");
             builder = new AlertDialog.Builder(getActivity(), R.style.OurAlertDialog);
         }
         final DbHelper dbHelper= DbHelper.getInstance(getActivity());

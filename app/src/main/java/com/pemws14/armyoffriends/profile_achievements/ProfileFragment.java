@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,7 @@ public class ProfileFragment extends Fragment {
 
         builder = new AlertDialog.Builder(view.getContext());
         if (Build.VERSION.SDK_INT >= 20) {
-            System.out.println("Entering.......");
+            Log.i("onCreateView", "Entering.......");
             builder = new AlertDialog.Builder(view.getContext(), R.style.OurAlertDialog);
         }
         builder.setMessage("Do you want to change your Profile Picture?")
@@ -92,7 +93,7 @@ public class ProfileFragment extends Fragment {
         // TODO connect userImg to DB
         profileUserImage = (ImageView) view.findViewById(R.id.profile_user_image);
         profileUserImage.setImageBitmap(profile.getImg());
-        System.out.println("profil bild: "+profile.getImg());
+        Log.d("onCreateView","profil bild: "+profile.getImg());
 
         profileUsername = (TextView) view.findViewById(R.id.profile_username);
         profileUsername.setText(profile.getUserName());

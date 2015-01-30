@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.pemws14.armyoffriends.database.ParseDb;
 
@@ -23,18 +24,18 @@ public class BackgroundReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         parseDb = new ParseDb();
       //  String category = intent.getCategories().toString();
-        System.out.println("Action: "+intent.getAction());
-        System.out.println("SOMEACTION:: "+SOMEACTION);
-        System.out.println("BackgroundReceiver - onReceive, Intent Action: "+intent.getAction()+" Intent: "+intent+"  Intent Categorie:"+ intent.getCategories());
+        Log.i("onReceive", "Action: " + intent.getAction());
+        Log.i("onReceive","SOMEACTION:: "+SOMEACTION);
+        Log.i("onReceive","BackgroundReceiver - onReceive, Intent Action: "+intent.getAction()+" Intent: "+intent+"  Intent Categorie:"+ intent.getCategories());
         if (BOOT.equals(intent.getAction())) {
-            System.out.println("BackgroundReceiver - onReceive - if Schleife drin - Intent wird gestartet");
+            Log.i("onReceive","BackgroundReceiver - onReceive - if Schleife drin - Intent wird gestartet");
             Intent pushIntent = new Intent(context, BackgroundService.class);
             context.startService(pushIntent);
         }
 
         if(SOMEACTION.equals(intent.getAction())){
       //  else{
-            System.out.println("BackgroundReceiver - ALARM!!");
+            Log.i("onReceive","BackgroundReceiver - ALARM!!");
             parseDb.deleteMetPeople();
         }
 

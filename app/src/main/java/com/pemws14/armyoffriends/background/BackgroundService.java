@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.google.android.gms.location.LocationClient;
 import com.parse.FindCallback;
@@ -32,9 +33,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by Ben on 25.11.2014.
- */
+
 public class BackgroundService extends Service {
 
     String longText = "You met someone!";
@@ -83,16 +82,16 @@ public class BackgroundService extends Service {
 
         currentUser = ParseUser.getCurrentUser();
 
-        System.out.println("BackgroundService - onStartCommand");
+        Log.i("onStartCommand","BackgroundService - onStartCommand");
      //   counter++;
      //   Toast.makeText(this, " First Service Started" + "  " + counter, Toast.LENGTH_SHORT).show();
 
         Location location = intent.getParcelableExtra(LocationClient.KEY_LOCATION_CHANGED);
         if (location != null) {
-            System.out.println("BackgroundService - onHandleIntent - Location available");
-            System.out.println("BackgroundService - onHandleIntent - Location available: " + location);
-            System.out.println("BackgroundService - onHandleIntent - Location available - Latitude: " + location.getLatitude());
-            System.out.println("BackgroundService - onHandleIntent - Location available - Longitude: " + location.getLongitude());
+            Log.i("onStartCommand","BackgroundService - onHandleIntent - Location available");
+            Log.i("onStartCommand","BackgroundService - onHandleIntent - Location available: " + location);
+            Log.i("onStartCommand","BackgroundService - onHandleIntent - Location available - Latitude: " + location.getLatitude());
+            Log.i("onStartCommand","BackgroundService - onHandleIntent - Location available - Longitude: " + location.getLongitude());
         //    Toast.makeText(this, "new Location!", Toast.LENGTH_SHORT).show();
             parseDb = new ParseDb();
             parseDb.setCurrentLocation(location);
@@ -107,7 +106,7 @@ public class BackgroundService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        System.out.println("BackgroundService - IBinder");
+        Log.i("onBind","BackgroundService - IBinder");
         //TODO for communication return IBinder implementation
         return null;
     }
@@ -133,7 +132,7 @@ public class BackgroundService extends Service {
         //  User.saveInBackground();
         //  TestUser.saveInBackground();
 
-        System.out.println("BackgroundService - onCreate");
+        Log.i("onCreate","BackgroundService");
       //  Toast.makeText(this, "First Service was Created", Toast.LENGTH_SHORT).show();
         // TODO Auto-generated method stub
         super.onCreate();
@@ -152,14 +151,14 @@ public class BackgroundService extends Service {
 //    public void onStart(Intent intent, int startId) {
 //        counter++;
 //        Toast.makeText(this, " First Service Started" + "  " + counter, Toast.LENGTH_SHORT).show();
-//        System.out.println("BackgroundService - onStart");
+//        Log.i("onCreate","BackgroundService - onStart");
 //        // TODO Auto-generated method stub
 //        super.onStart(intent, startId);
 //        // your code for background process
 //    }
     @Override
     public void onDestroy() {
-        System.out.println("BackgroundService - onDestroy");
+        Log.i("onDestroy","BackgroundService - onDestroy");
        // Toast.makeText(this, "Service Destroyed", Toast.LENGTH_SHORT).show();
     }
 
@@ -193,18 +192,18 @@ public class BackgroundService extends Service {
             public void done(List<ParseUser> parseUsers, ParseException e) {
                 if (e == null) {
                     if (parseUsers.toArray().length > 0) {
-                        System.out.println("parseUsers: " + parseUsers);
+                        Log.i("getNearbyUsers","parseUsers: " + parseUsers);
                         meet(parseUsers);
                     } else {
-                        System.out.println("Niemanden getroffen");
+                        Log.i("getNearbyUsers","Niemanden getroffen");
                     }
                     // Hooray! Let them use the app now.
 
                 } else {
                     // Sign up didn't succeed. Look at the ParseException
                     // to figure out what went wrong
-                    System.out.println("Background Service - saveUserLocParse - query.findinBackground");
-                    System.out.println("Error: " + e.getMessage());
+                    Log.i("getNearbyUsers","Background Service - saveUserLocParse - query.findinBackground");
+                    Log.i("getNearbyUsers","Error: " + e.getMessage());
                 }
             }
         });
@@ -257,33 +256,33 @@ public class BackgroundService extends Service {
 
     }
 
+
     public void meet(List<ParseUser> parseUsers) {
 
-        System.out.println("meet");
         List<ParseUser> listParseUser = parseDb.getMetPeopleToday();
-        System.out.println("List ParseUser, heute schon getroffene User: " + listParseUser);
+        Log.i("addSoldier","List ParseUser, heute schon getroffene User: " + listParseUser);
 
         /* man hat jemanden getroffen */
         if (parseUsers != null) {
-            System.out.println("Meet Success! Retrieved parseUsers: " + parseUsers);
+            Log.i("meet", "Meet Success! Retrieved parseUsers: " + parseUsers);
             numberUsers = parseUsers.toArray().length;
-            System.out.println("Success! Number Users: " + numberUsers);
+            Log.i("meet","Success! Number Users: " + numberUsers);
 
 
             /* der currentUser hat noch niemanden getroffen */
             if (listParseUser == null || listParseUser.size() == 0) {
                 for (ParseUser parseUser : parseUsers) {
-                    System.out.println("CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (Hatte noch niemanden getroffen)");
+                    Log.i("meet","CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (Hatte noch niemanden getroffen)");
                     displayNotification();
 
                     /* gegenseitig hinzufügen */
                     ParseUser pu = parseUser;
                  /*   if(pu!=currentUser){
-                        System.out.println("User: "+pu+" hat currentUser: "+currentUser+" hinzugefügt!");
+                        Log.i("meet","User: "+pu+" hat currentUser: "+currentUser+" hinzugefügt!");
                         pu.add("metPeopleToday", currentUser);
                         pu.saveInBackground();
                     }*/
-                    System.out.println("currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
+                    Log.i("meet","currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
                     //   currentUser.add("metPeopleToday", pu);
                     //   currentUser.saveInBackground();
                     addSoldier(pu);
@@ -298,24 +297,24 @@ public class BackgroundService extends Service {
                         int loopCount =0;
                         if (parseUser.hasSameId(parseUser2)) {
                             loopCount =0;
-                            System.out.println("CurrentUser: " + currentUser + " hat User: " + parseUser + " heute leider schon getroffen!");
+                            Log.i("meet","CurrentUser: " + currentUser + " hat User: " + parseUser + " heute leider schon getroffen!");
                             break;
                         } else {
                             loopCount++;
                             if(loopCount==k){
                                 loopCount =0;
 
-                                System.out.println("CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (hat aber schon andere getroffen)");
+                                Log.i("meet","CurrentUser: " + currentUser + " hat User: " + parseUser + " heute zum ERSTEN MAL getroffen! (hat aber schon andere getroffen)");
                                 displayNotification();
 
                             /* gegenseitig hinzufügen */
                                 ParseUser pu = parseUser;
                          /*   if(pu!=currentUser){
-                                System.out.println("User: "+pu+" hat currentUser: "+currentUser+" hinzugefügt!");
+                                Log.i("meet","User: "+pu+" hat currentUser: "+currentUser+" hinzugefügt!");
                                 pu.add("metPeopleToday", currentUser);
                                 pu.saveInBackground();
                             }*/
-                                System.out.println("currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
+                                Log.i("meet","currentUser: " + currentUser + " hat User: " + pu + " hinzugefügt!");
                                 //  currentUser.add("metPeopleToday", pu);
                                 //   currentUser.saveInBackground();
                                 addSoldier(pu);
@@ -326,60 +325,60 @@ public class BackgroundService extends Service {
                 }
             }
         } else {
-            System.out.println("leider niemanden getroffen!");
+            Log.i("meet","leider niemanden getroffen!");
         }
 
     }
 
     public void addSoldier(ParseUser parseUser) {
         addSoldierUser = parseUser;
-        System.out.println("addSoldier: " + parseUser.getUsername());
+        Log.i("addSoldier","addSoldier: " + parseUser.getUsername());
         String userName = parseUser.getUsername();
         List<DbSoldier> listDbSoldiers = dbHelper.getAllSoldiers();
         int k = listDbSoldiers.toArray().length;
         currentUser.add("metPeopleToday", parseUser);
         currentUser.saveInBackground();
         int loopCount =0;
-        System.out.println("listDbSoldiers.toArray().length: " + listDbSoldiers.toArray().length);
+        Log.i("addSoldier","listDbSoldiers.toArray().length: " + listDbSoldiers.toArray().length);
         if (listDbSoldiers.toArray().length > 0) {
-            System.out.println("min ein Soldat drin");
+            //Log.i("addSoldier","min ein Soldat drin");
             for (DbSoldier dbSoldier : listDbSoldiers) {
 
                 if (dbSoldier.getName().equals(userName)) {
                     loopCount =0;
-                    System.out.println("lvl up Soldier: ");
+                    //Log.i("addSoldier","lvl up Soldier: ");
                     dbHelper.levelUpSoldier(dbSoldier);
+                    createFightEntry(dbSoldier);
                     if(parseDb.existFightImage(parseUser)){
-                        parseDb.updateFightImage(parseUser,dbHelper,dbSoldier);
+                        //wenn vorher eine Datenbank Updates erfahren hat, muss das Objekt neu aus der DB geholt werden (z.B. dbHelper.getSoldier(dbSoldier.getId()), dbHelper.getFight(dbFight.getId()), ...)
+                        parseDb.getFightImage(parseUser, dbHelper, dbHelper.getSoldier(dbSoldier.getName()), dbHelper.getFight(dbFight.getName()));
                     }else {
-                        createFightEntry(dbSoldier);
                         break;
                     }
                 } else {
                     loopCount++;
                     if(loopCount==k){
                         loopCount =0;
-                        System.out.println("create Soldier in der forschleife: ");
+                        //Log.i("addSoldier","create Soldier in der forschleife: ");
                         DbSoldier dbSoldierr = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder), 1);
+                        dbHelper.createSoldier(dbSoldierr);
+                        createFightEntry(dbSoldierr);
                         if(parseDb.existFightImage(parseUser)){
-                            parseDb.getFightImage(parseUser,dbHelper,dbSoldierr);
+                            //wenn vorher eine Datenbank Updates erfahren hat, muss das Objekt neu aus der DB geholt werden (z.B. dbHelper.getSoldier(dbSoldier.getId()), dbHelper.getFight(dbFight.getId()), ...)
+                            parseDb.getFightImage(parseUser, dbHelper, dbHelper.getSoldier(dbSoldierr.getName()), dbHelper.getFight(dbFight.getName()));
 
-                        }else {
-                            dbHelper.createSoldier(dbSoldierr);
-                            createFightEntry(dbSoldierr);
                         }
                     }
                 }
             }
         } else {
-            System.out.println("create Soldier im else zweig: ");
+            Log.i("addSoldier","create Soldier im else zweig: ");
             DbSoldier dbSoldier = new DbSoldier(userName, BitmapFactory.decodeResource(getResources(), R.drawable.userpic_placeholder), 1);
+            dbHelper.createSoldier(dbSoldier);
+            createFightEntry(dbSoldier);
             if(parseDb.existFightImage(parseUser)){
-                parseDb.getFightImage(parseUser,dbHelper,dbSoldier);
-
-            }else {
-                dbHelper.createSoldier(dbSoldier);
-                createFightEntry(dbSoldier);
+                //wenn vorher eine Datenbank Updates erfahren hat, muss das Objekt neu aus der DB geholt werden (z.B. dbHelper.getSoldier(dbSoldier.getId()), dbHelper.getFight(dbFight.getId()), ...)
+                parseDb.getFightImage(parseUser, dbHelper, dbHelper.getSoldier(dbSoldier.getName()), dbHelper.getFight(dbFight.getName()));
             }
         }
     }
@@ -387,6 +386,7 @@ public class BackgroundService extends Service {
     public void createFightEntry(DbSoldier dbSoldier) {
         dbFight = new DbFight(dbSoldier.getName(), dbSoldier.getImg(), dbSoldier.getLevel(), parseDb.getArmyStrength(addSoldierUser), parseDb.getMaxLevel(addSoldierUser));
         dbHelper.createFight(dbFight);
+
     }
 }
 

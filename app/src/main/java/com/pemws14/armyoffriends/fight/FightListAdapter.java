@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pemws14.armyoffriends.GameMechanics;
 import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.database.DbFight;
 
 import java.util.List;
 
-/**
- * Created by Martin on 27.12.2014.
- */
+
 public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.ViewHolder> {
     private List<DbFight> mDataset;
     public Context mContext;
@@ -65,8 +65,8 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
         holder.name.setText(fight.getName());
         holder.strength.setText("Army strength: " + fight.getStrength());
         holder.level.setText("Level: " + fight.getPlayerLevel());
-        holder.bestFighter.setText("Best fighter: " + ranks[fight.getMaxLevel()]);
-
+        //Log.d("onBindViewHolder", "ranks.length: "+ ranks.length + " fight.getMaxLevel: "+ fight.getMaxLevel());
+        holder.bestFighter.setText("Best fighter: " + ranks[GameMechanics.getRankByLevel(fight.getMaxLevel())]);
         holder.fightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //Show dailog to confirm or cancel fight-action
