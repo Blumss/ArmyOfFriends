@@ -143,7 +143,7 @@ public class GameMechanics {
         for (DbSoldier var : soldiers) {
             armyStrength += getStrengthByLevel(var.getLevel());
         }
-        return armyStrength;
+        return Math.max(armyStrength, 1);
     }
 
     /*

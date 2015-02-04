@@ -475,7 +475,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             Log.i("MainActivity.initDB", "No profiles found on device! Creating profile with ID " + parseUserID + ".");
             //Log.i("initDB","GetImage returns with sth. "+ parseDb.getImage()!=null);
             //dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),parseDb.existImage() ? parseDb.getImage(): BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
-            dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
+            dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder));
 
             db.createProfile(dbProfile);
             if(parseDb.existImage()){
@@ -488,7 +488,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             for (DbProfile oneProfile: profiles) {
                 if (!(oneProfile.getServerID().equals(parseUserID))) {
                     Log.i("MainActivity.initDB", "Profile with ID " + parseUserID + " not under existing profiles. Creating it!");
-                    dbProfile = new DbProfile(parseDb.getUserID(), parseDb.getCurrentUserName(), BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder),parseDb.getPlayerLevel(), parseDb.getEP(), parseDb.getArmyStrength(), parseDb.getMaxLevel());
+                    dbProfile = new DbProfile(parseDb.getUserID(), parseDb.getCurrentUserName(), BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder));
                     db.createProfile(dbProfile);
                     if(parseDb.existImage()){
                         Log.i("initDB","getimage != null -> bild wird aus db genommen");

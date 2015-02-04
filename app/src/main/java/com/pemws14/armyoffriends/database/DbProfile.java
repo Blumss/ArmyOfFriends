@@ -24,6 +24,12 @@ public class DbProfile {
         this.maxSoldierLevel = maxSoldierLevel;
     }
 
+    public DbProfile(String serverID, String userName, Bitmap img) {
+        this.serverID = serverID;
+        this.userName = userName;
+        this.img = img;
+        this.armyStrength = 1;
+    }
     public DbProfile(String serverID, String userName, Bitmap img, int playerLevel, int ep, int armyStrength, int maxSoldierLevel) {
         this(serverID, userName, playerLevel, ep, armyStrength, maxSoldierLevel);
         this.img = img;

@@ -66,7 +66,7 @@ public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.View
         holder.strength.setText("Army strength: " + fight.getStrength());
         holder.level.setText("Level: " + fight.getPlayerLevel());
         //Log.d("onBindViewHolder", "ranks.length: "+ ranks.length + " fight.getMaxLevel: "+ fight.getMaxLevel());
-        holder.bestFighter.setText("Best fighter: " + ranks[GameMechanics.getRankByLevel(fight.getMaxLevel())]);
+        holder.bestFighter.setText("Best fighter: " + ranks[GameMechanics.getRankByLevel(fight.getMaxLevel())-1]);
         holder.fightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { //Show dailog to confirm or cancel fight-action
