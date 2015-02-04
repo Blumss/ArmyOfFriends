@@ -73,7 +73,6 @@ public class BaseActivity extends ActionBarActivity {
 
         parseDb = new ParseDb();
         db = DbHelper.getInstance(getApplicationContext());
-        // TODO: getProfile & userId
          profile = db.getProfile(parseDb.getUserID());
     }
 
@@ -82,7 +81,6 @@ public class BaseActivity extends ActionBarActivity {
         //--------------
         //set profile data
         //--------------
-        //TODO replace placeholder
         head = (LinearLayout)findViewById(R.id.left_drawer_header);
         profileUserImage = (ImageView) findViewById(R.id.left_drawer_user_profile_image);
         profileUserImage.setImageBitmap(profile.getImg());
