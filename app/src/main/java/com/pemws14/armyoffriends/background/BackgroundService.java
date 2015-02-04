@@ -81,17 +81,12 @@ public class BackgroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         currentUser = ParseUser.getCurrentUser();
-
-        Log.i("onStartCommand", "BackgroundService - onStartCommand");
      //   counter++;
      //   Toast.makeText(this, " First Service Started" + "  " + counter, Toast.LENGTH_SHORT).show();
 
         Location location = intent.getParcelableExtra(LocationClient.KEY_LOCATION_CHANGED);
         if (location != null) {
-            Log.i("onStartCommand", "BackgroundService - onHandleIntent - Location available");
-            Log.i("onStartCommand", "BackgroundService - onHandleIntent - Location available: " + location);
-            Log.i("onStartCommand", "BackgroundService - onHandleIntent - Location available - Latitude: " + location.getLatitude());
-            Log.i("onStartCommand", "BackgroundService - onHandleIntent - Location available - Longitude: " + location.getLongitude());
+            Log.i("onStartCommand", "onHandleIntent - Location available: " + location + " - Latitude: " + location.getLatitude()+" - Longitude: " + location.getLongitude());
         //    Toast.makeText(this, "new Location!", Toast.LENGTH_SHORT).show();
             parseDb = new ParseDb();
             parseDb.setCurrentLocation(location);
