@@ -169,7 +169,6 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     public void onDialogPositiveClick(DialogFragment dialog, int fightId, int position) throws InterruptedException {
         dialog.dismiss();
         DbFight dbFight = dbHelper.getFight(fightId);
-
         fightResult = GameMechanics.getFightResult(ownStrength, dbFight.getStrength());
         double random = fightResult[0];
         double chance = fightResult[1];
@@ -250,8 +249,10 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
                 dbHelper.updateAchievement(achievement2);
             }
             //***update EPs, Level aaaaand EP-Achievement
+            Log.i("updateDBs","dbProfile.getEP " + dbProfile.getEp() + " " + (GameMechanics.getEpBaseReward(dbFight.getPlayerLevel()) + " " +chance));
             dbProfile.setEp(dbProfile.getEp() + (int)(GameMechanics.getEpBaseReward(dbFight.getPlayerLevel())*chance));
             dbProfile.setPlayerLevel(GameMechanics.getPlayerLevelForEp(dbProfile.getEp()));
+            Log.i("updateDBs","dbProfile.getEP " + dbProfile.getEp());
             dbHelper.updateProfile(dbProfile);
             DbAchievement achievement = achievementList.get(23);
             achievement.setAchieved(dbProfile.getPlayerLevel());
