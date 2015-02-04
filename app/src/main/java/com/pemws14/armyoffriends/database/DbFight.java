@@ -19,7 +19,7 @@ public class DbFight {
         this.setName(name);
         this.setImg(img);
         this.setPlayerLevel(playerLevel);
-        this.setStrength(strength);
+        this.setStrength(Math.max(strength,1));
         this.setMaxLevel(maxLevel);
     }
 
@@ -67,7 +67,7 @@ public class DbFight {
     }
 
     public void setStrength(int strength) {
-        this.strength = strength;
+        this.strength = Math.max(strength,1);
     }
 
     public int getMaxLevel() {

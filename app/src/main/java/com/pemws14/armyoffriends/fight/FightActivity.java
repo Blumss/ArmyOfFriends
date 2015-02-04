@@ -250,7 +250,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
                 dbHelper.updateAchievement(achievement2);
             }
             //***update EPs, Level aaaaand EP-Achievement
-            dbProfile.setEp(dbProfile.getEp() + (int)(GameMechanics.getEpBaseReward(dbFight.getPlayerLevel())*chance));
+            dbProfile.setEp(dbProfile.getEp() + (int)Math.max((GameMechanics.getEpBaseReward(dbFight.getPlayerLevel())*chance),1));
             dbProfile.setPlayerLevel(GameMechanics.getPlayerLevelForEp(dbProfile.getEp()));
             dbHelper.updateProfile(dbProfile);
             DbAchievement achievement = achievementList.get(23);
