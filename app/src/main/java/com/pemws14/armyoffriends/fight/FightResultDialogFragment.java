@@ -20,9 +20,6 @@ import android.widget.TextView;
 import com.pemws14.armyoffriends.R;
 import com.pemws14.armyoffriends.database.DbHelper;
 
-/**
- * Created by Martin on 06.01.2015.
- */
 public class FightResultDialogFragment extends DialogFragment{
     String enemy;
     int enemyStrength;
@@ -169,7 +166,7 @@ public class FightResultDialogFragment extends DialogFragment{
 
 
         } else if (toggle.isEmpty()) {
-            builder.setMessage("Do you really want to fight " + enemy + " ?")
+            builder.setMessage("Do you really want to fight " + enemy + "?")
                     .setPositiveButton("Fight!", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             try {
