@@ -139,6 +139,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         backgroundReceiver = new BackgroundReceiver();
         mIntentService = new Intent(this,BackgroundService.class);
         mPendingIntent = PendingIntent.getService(this, 1, mIntentService, 0);
+
         int resp = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
         if(resp == ConnectionResult.SUCCESS){
@@ -199,12 +200,14 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             @Override
             public void onClick(View view) {
                 stopLocationIntent();
+                destroyBackgroundService();
 
                 Intent intent;
                 currentUser = ParseUser.getCurrentUser();
                 ParseUser.logOut();
                 intent = new Intent(getApplicationContext(), DispatchActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -558,7 +561,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         Log.i("startLocationIntent","MainActivity - startLocationIntent ");
         serviceOn = true;
         locationrequest = LocationRequest.create();
-        locationrequest.setInterval(200); // von 100 auf 200 geändert
+        locationrequest.setInterval(200); // von 100(5sek) auf 200(10sek) geändert
         locationclient.requestLocationUpdates(locationrequest, mPendingIntent);
         Toast.makeText(this, "Location tracking started!", Toast.LENGTH_LONG).show();
        // getTheLastLocation();
@@ -570,6 +573,12 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         serviceOn = false;
         locationclient.removeLocationUpdates(mPendingIntent);
         Toast.makeText(this, "Location tracking stopped!\nYou won't get any more soldiers!", Toast.LENGTH_LONG).show();
+    }
+
+    public void destroyBackgroundService(){
+        Intent intent = new Intent();
+        intent = mIntentService;
+        stopService(intent);
     }
 
     public void setLocText(Location location){
