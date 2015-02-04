@@ -206,7 +206,7 @@ public class GameMechanics {
      */
     public static int[] randomEncounter(int ownLevel, int ownStrength){
         double rM = randomMult();
-        int[] result = {Math.round((float) (ownLevel * rM)),Math.round((float) (ownStrength * rM))};
+        int[] result = {Math.round((float) (ownLevel * rM)),Math.max(Math.round((float) (ownStrength * rM)),1)};
         return result;
     }
 
