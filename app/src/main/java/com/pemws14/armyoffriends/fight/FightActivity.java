@@ -97,16 +97,6 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         checkFights(currentTime);
 
         achievementList = dbHelper.getAllAchievements();
-
-        //TODO: remove the part below when not needed anymore
-//        level = GameMechanics.getPlayerLevelForEp(1000);
-//        armySize = GameMechanics.getMaxArmySize(level);
-//        List<DbSoldier> getSoldiers = dbHelper.getAllSoldiers();
-//        maxOwnStrength = GameMechanics.getArmyStrength(getSoldiers);
-//        ownStrength = GameMechanics.getArmyStrength(dbHelper.getLimitedSoldiers(GameMechanics.getMaxArmySize(level)));
-//        armyStrength.setText(ownStrength.toString() + "/" + maxOwnStrength.toString());
-//        ownLevel.setText(level.toString());
-        //TODO: remove the part above
     }
 
 
@@ -296,7 +286,6 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         int enemy = (int) (Math.random()*enemies.length);
         int[] challenge = GameMechanics.randomEncounter(profile.getPlayerLevel(), profile.getArmyStrength());
 
-        //TODO Get some badass frightening name
         daily.setName(enemies[enemy]);
         daily.setPlayerLevel(challenge[0]);
         daily.setStrength(challenge[1]);

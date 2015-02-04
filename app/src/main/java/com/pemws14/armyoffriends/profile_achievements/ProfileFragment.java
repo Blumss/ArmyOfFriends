@@ -89,8 +89,6 @@ public class ProfileFragment extends Fragment {
         });
         alert = builder.create();
 
-
-        // TODO connect userImg to DB
         profileUserImage = (ImageView) view.findViewById(R.id.profile_user_image);
         profileUserImage.setImageBitmap(profile.getImg());
         Log.d("onCreateView","profil bild: "+profile.getImg());

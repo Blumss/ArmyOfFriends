@@ -470,7 +470,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         List<DbProfile> profiles = db.getAllProfiles();
         if(profiles.size()==0){
             Log.i("MainActivity.initDB", "No profiles found on device! Creating profile with ID " + parseUserID + ".");
-            //TODO das profilbild sollte aus Parse noch geladen werden können - Funktioniert iwie nicht, da Nullpointer Exception...
             //Log.i("initDB","GetImage returns with sth. "+ parseDb.getImage()!=null);
             //dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),parseDb.existImage() ? parseDb.getImage(): BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
             dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
