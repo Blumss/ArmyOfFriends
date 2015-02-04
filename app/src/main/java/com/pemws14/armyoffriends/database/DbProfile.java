@@ -20,7 +20,7 @@ public class DbProfile {
         this.userName = userName;
         this.playerLevel = playerLevel;
         this.ep = ep;
-        this.armyStrength = armyStrength;
+        this.armyStrength = Math.max(armyStrength,1);
         this.maxSoldierLevel = maxSoldierLevel;
     }
 
@@ -79,7 +79,7 @@ public class DbProfile {
     }
 
     public void setArmyStrength(int armyStrength) {
-        this.armyStrength = armyStrength;
+        this.armyStrength = Math.max(armyStrength,1);
     }
 
     public int getMaxSoldierLevel() {
