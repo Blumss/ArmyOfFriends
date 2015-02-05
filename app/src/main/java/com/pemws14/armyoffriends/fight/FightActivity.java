@@ -32,6 +32,7 @@ import java.util.List;
 
 public class FightActivity extends BaseActivity implements FightResultDialogFragment.NoticeDialogListener{
     private View view;
+    private ViewGroup parent;
 
     private ParseDb parseDb;
     private DbHelper dbHelper;
@@ -57,7 +58,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         //<-- IN EVERY ACTIVITY WITH DRAWER
         super.set();
         // catches Frame, where to insert actual ActivityView
-        ViewGroup parent = (ViewGroup) findViewById(R.id.content_frame);
+        parent = (ViewGroup) findViewById(R.id.content_frame);
         //View of new activity
         view = LayoutInflater.from(this).inflate(R.layout.activity_fight, parent, false);
         parent.addView(view);
@@ -218,7 +219,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         //update Achievements & ProfileEPs
         //*set AchievementFirstFight
         achievementList.get(0).setAchieved(achievementList.get(0).getAchieved() + 1);
-        achievementList.get(0).setFulfilled(dbHelper.checkAchievementState(achievementList.get(0)));
+        achievementList.get(0).setFulfilled(dbHelper.checkAchievementState(achievementList.get(0), getApplicationContext(), parent));
         dbHelper.updateAchievement(achievementList.get(0));
         //*others
         //**if won
@@ -227,14 +228,14 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
             for (int i = 1; i<8; i++) {
                 DbAchievement achievement = achievementList.get(i);
                 achievement.setAchieved(achievement.getAchieved() + 1);
-                achievement.setFulfilled(dbHelper.checkAchievementState(achievement));
+                achievement.setFulfilled(dbHelper.checkAchievementState(achievement, getApplicationContext(), parent));
                 dbHelper.updateAchievement(achievement);
             }
             //***Close win Achievement
             if(chance-random<=0.1){
                 DbAchievement achievement = achievementList.get(9);
                 achievement.setAchieved(achievement.getAchieved()+1);
-                achievement.setFulfilled(dbHelper.checkAchievementState(achievement));
+                achievement.setFulfilled(dbHelper.checkAchievementState(achievement, getApplicationContext(), parent));
                 dbHelper.updateAchievement(achievement);
             }
             //***Daily Challenge Achievements update
@@ -243,8 +244,8 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
                 DbAchievement achievement2 = achievementList.get(18);
                 achievement1.setAchieved(achievement1.getAchieved()+1);
                 achievement2.setAchieved(achievement2.getAchieved()+1);
-                achievement1.setFulfilled(dbHelper.checkAchievementState(achievement1));
-                achievement2.setFulfilled(dbHelper.checkAchievementState(achievement2));
+                achievement1.setFulfilled(dbHelper.checkAchievementState(achievement1, getApplicationContext(), parent));
+                achievement2.setFulfilled(dbHelper.checkAchievementState(achievement2, getApplicationContext(), parent));
                 dbHelper.updateAchievement(achievement1);
                 dbHelper.updateAchievement(achievement2);
             }
@@ -255,20 +256,20 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
             dbHelper.updateProfile(dbProfile);
             DbAchievement achievement = achievementList.get(23);
             achievement.setAchieved(dbProfile.getPlayerLevel());
-            achievement.setFulfilled(dbHelper.checkAchievementState(achievement));
+            achievement.setFulfilled(dbHelper.checkAchievementState(achievement, getApplicationContext(), parent));
             dbHelper.updateAchievement(achievement);
         //**if lost
         }else{
             //***Loose achievement update
             DbAchievement achievement1 = achievementList.get(8);
             achievement1.setAchieved(achievement1.getAchieved()+1);
-            achievement1.setFulfilled(dbHelper.checkAchievementState(achievement1));
+            achievement1.setFulfilled(dbHelper.checkAchievementState(achievement1, getApplicationContext(), parent));
             dbHelper.updateAchievement(achievement1);
             //***lost closely
             if(chance-random<=0.1){
                 DbAchievement achievement2 = achievementList.get(10);
                 achievement2.setAchieved(achievement2.getAchieved()+1);
-                achievement2.setFulfilled(dbHelper.checkAchievementState(achievement2));
+                achievement2.setFulfilled(dbHelper.checkAchievementState(achievement2, getApplicationContext(), parent));
                 dbHelper.updateAchievement(achievement2);
             }
         }

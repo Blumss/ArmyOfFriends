@@ -2,18 +2,26 @@ package com.pemws14.armyoffriends.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pemws14.armyoffriends.MainActivity;
 
 import com.pemws14.armyoffriends.GameMechanics;
+import com.pemws14.armyoffriends.R;
 
 import org.apache.http.util.EntityUtils;
 
@@ -900,12 +908,31 @@ public class DbHelper extends SQLiteOpenHelper {
     /*
     * check if Achievement was unlocked
      */
-    public int checkAchievementState(DbAchievement achievement){
+    public int checkAchievementState(DbAchievement achievement, Context context, ViewGroup viewGroup){
         Log.i("DbHelper.checkAchievementState","checking achievement, called from "+achievement.getTitle());
         if (achievement.getRequired()<=achievement.getAchieved()){
             if(achievement.getFulfilled()!=1){
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View layout = inflater.inflate(R.layout.achievement, (ViewGroup) viewGroup.findViewById(R.id.achievement_parent));
+                layout.setBackgroundColor(Color.DKGRAY);
+                ImageView image = (ImageView) layout.findViewById(R.id.achivement_pic);
+                TextView title = (TextView) layout.findViewById(R.id.achievement_title);
+                TextView description = (TextView) layout.findViewById(R.id.achievement_description);
+                image.setImageResource(R.drawable.achievement_check);
+                title.setText("Achievement unlocked:");
+                description.setText(achievement.getTitle());
+                title.setTextColor(Color.WHITE);
+                description.setTextColor(Color.WHITE);
+
+                Toast toast = new Toast(context);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(layout);
+                toast.show();
+
+                /*
                 Toast toast = Toast.makeText(MainActivity.getAppContext(),"Achievement unlocked:\n" + achievement.getTitle(), Toast.LENGTH_LONG);
                 toast.show();
+                */
             }
             return 1;
         }else{

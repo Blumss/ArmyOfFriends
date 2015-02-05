@@ -30,6 +30,7 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
     private DbHelper db;
 
     private View view;
+    private ViewGroup parent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
         //<-- IN EVERY ACTIVITY WITH DRAWER
         super.set();
         // catches Frame, where to insert actual ActivityView
-        ViewGroup parent = (ViewGroup) findViewById(R.id.content_frame);
+        parent = (ViewGroup) findViewById(R.id.content_frame);
         //View of new activity
         view = LayoutInflater.from(this).inflate(R.layout.activity_army, parent, false);
         parent.addView(view);
@@ -220,7 +221,7 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
         for(int i = 11; i<14; i++){
             DbAchievement achievement = achievements.get(i);
             achievement.setAchieved(soldiers.size());
-            achievement.setFulfilled(db.checkAchievementState(achievement));
+            achievement.setFulfilled(db.checkAchievementState(achievement, getApplicationContext(), parent));
             db.updateAchievement(achievement);
         }
         //check SoldierRank achievements
@@ -239,15 +240,15 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
             DbAchievement achievement = achievements.get(i);
             switch (i){
                 case 14: achievement.setAchieved(privates);
-                    achievement.setFulfilled(db.checkAchievementState(achievement));
+                    achievement.setFulfilled(db.checkAchievementState(achievement, getApplicationContext(), parent));
                     db.updateAchievement(achievement);
                     break;
                 case 15: achievement.setAchieved(majors);
-                    achievement.setFulfilled(db.checkAchievementState(achievement));
+                    achievement.setFulfilled(db.checkAchievementState(achievement, getApplicationContext(), parent));
                     db.updateAchievement(achievement);
                     break;
                 case 16: achievement.setAchieved(generals);
-                    achievement.setFulfilled(db.checkAchievementState(achievement));
+                    achievement.setFulfilled(db.checkAchievementState(achievement, getApplicationContext(), parent));
                     db.updateAchievement(achievement);
                     break;
             }
@@ -256,7 +257,7 @@ public class ArmyActivity extends BaseActivity implements View.OnCreateContextMe
         for(int i = 19; i<23; i++){
             DbAchievement achievement = achievements.get(i);
             achievement.setAchieved(GameMechanics.getArmyStrength(soldiers));
-            achievement.setFulfilled(db.checkAchievementState(achievement));
+            achievement.setFulfilled(db.checkAchievementState(achievement, getApplicationContext(), parent));
             db.updateAchievement(achievement);
         }
     }
