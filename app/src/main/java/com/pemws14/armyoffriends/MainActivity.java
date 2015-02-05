@@ -2,9 +2,12 @@ package com.pemws14.armyoffriends;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.BitmapFactory;
@@ -12,7 +15,9 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -142,13 +147,14 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
 
         int resp = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 
+
         if(resp == ConnectionResult.SUCCESS){
-            //Log.i("onCreate","GooglePlayServiceConnection: SUCCESS ");
+            Log.i("Mainactivity - onCreate","GooglePlayServiceConnection: SUCCESS ");
             locationclient = new LocationClient(this,this,this);
             locationclient.connect();
         }else{
-            //Log.i("onCreate","GooglePlayServiceConnection: FAILURE ");
-            Toast.makeText(this, "Google Play Service Error " + resp, Toast.LENGTH_LONG).show();
+            Log.i("Mainactivity - onCreate","GooglePlayServiceConnection: FAILURE ");
+
         }
 
       //  ParseObject testObject = new ParseObject("TestObject");
@@ -558,11 +564,46 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
     */
     public void startLocationIntent(){
         Log.i("startLocationIntent","MainActivity - startLocationIntent ");
+
+        // Get Location Manager and check for GPS & Network location services
+        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if(!lm.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                !lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            // Build the alert dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            if (Build.VERSION.SDK_INT >= 20) {
+                Log.i("onCreateView", "Entering.......");
+                builder = new AlertDialog.Builder(this, R.style.OurAlertDialog);
+            }
+            builder.setTitle("Location Services Not Active");
+            builder.setMessage("Please enable Location Services and GPS");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    // Show location settings when the user acknowledges the alert dialog
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Code der ausgeführt wird wenn NEIN geklickt wurde
+                    dialog.dismiss();
+                }
+
+            });
+            Dialog alertDialog = builder.create();
+            alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.show();
+        }else{
+            Toast.makeText(this, "Location tracking started!", Toast.LENGTH_LONG).show();
+        }
+
         serviceOn = true;
         locationrequest = LocationRequest.create();
         locationrequest.setInterval(200); // von 100(5sek) auf 200(10sek) geändert
         locationclient.requestLocationUpdates(locationrequest, mPendingIntent);
-        Toast.makeText(this, "Location tracking started!", Toast.LENGTH_LONG).show();
+
        // getTheLastLocation();
 
     }
@@ -633,7 +674,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         // midnight wird durch das letzte parseupdate bestimmt. Grund: wenn das letzte update *heute* schon gemacht wurde, is der neue Reset um 23:59 des *heutigen* update datums, also größer als die aktuelle Uhrzeit, wesswegen das manuelle update nicht gemacht wird. - logisch oder? :D
         Calendar midnight = parseUpdateTime;
         midnight.set(Calendar.HOUR,23);
-        midnight.set(Calendar.MINUTE,59);
+        midnight.set(Calendar.MINUTE, 59);
         midnight.set(Calendar.SECOND,59);
         long midnightMilli = midnight.getTimeInMillis();
 
