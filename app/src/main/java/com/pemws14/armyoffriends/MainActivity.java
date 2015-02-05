@@ -110,7 +110,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         db = DbHelper.getInstance(mainContext);
         parseDb = new ParseDb();
 
-
+        resetMetPeople();
         setAlarm();
 
       //  LayoutInflater inflatter =(LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE); // getting access to laytou inflatter
@@ -475,7 +475,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             Log.i("MainActivity.initDB", "No profiles found on device! Creating profile with ID " + parseUserID + ".");
             //Log.i("initDB","GetImage returns with sth. "+ parseDb.getImage()!=null);
             //dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),parseDb.existImage() ? parseDb.getImage(): BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder),parseDb.getPlayerLevel(),parseDb.getEP(),parseDb.getArmyStrength(),parseDb.getMaxLevel());
-            dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder));
+            dbProfile = new DbProfile(parseDb.getUserID(),parseDb.getCurrentUserName(),BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.userpic_placeholder));
 
             db.createProfile(dbProfile);
             if(parseDb.existImage()){
@@ -488,7 +488,7 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             for (DbProfile oneProfile: profiles) {
                 if (!(oneProfile.getServerID().equals(parseUserID))) {
                     Log.i("MainActivity.initDB", "Profile with ID " + parseUserID + " not under existing profiles. Creating it!");
-                    dbProfile = new DbProfile(parseDb.getUserID(), parseDb.getCurrentUserName(), BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.userpic_placeholder));
+                    dbProfile = new DbProfile(parseDb.getUserID(), parseDb.getCurrentUserName(), BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.userpic_placeholder));
                     db.createProfile(dbProfile);
                     if(parseDb.existImage()){
                         Log.i("initDB","getimage != null -> bild wird aus db genommen");
@@ -620,6 +620,36 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarm.cancel(pendingIntent);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);*/
+    }
+    public void resetMetPeople(){
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        Calendar parseUpdateTime = Calendar.getInstance();
+        parseUpdateTime.setTime(currentUser.getUpdatedAt());
+        long parseMilli = parseUpdateTime.getTimeInMillis();
+
+        Calendar todayC = Calendar.getInstance();
+        long todayMilli = todayC.getTimeInMillis();
+
+        // midnight wird durch das letzte parseupdate bestimmt. Grund: wenn das letzte update *heute* schon gemacht wurde, is der neue Reset um 23:59 des *heutigen* update datums, also größer als die aktuelle Uhrzeit, wesswegen das manuelle update nicht gemacht wird. - logisch oder? :D
+        Calendar midnight = parseUpdateTime;
+        midnight.set(Calendar.HOUR,23);
+        midnight.set(Calendar.MINUTE,59);
+        midnight.set(Calendar.SECOND,59);
+        long midnightMilli = midnight.getTimeInMillis();
+
+        // REgeln:
+        // parseUpdateTime < today      - logisch
+        // parseUpdateTime < midnight   - muss vor mitternacht liegen das letzte update
+        // today > midnight             - siehe oben
+
+        Log.i("resetMetPeople","TIME: Today: "+todayC.toString()+", last ParseUpdate: "+parseUpdateTime.toString()+", Mitternacht: "+midnight.toString());
+        Log.i("resetMetPeople","todayMilli>parseMilli: "+(todayMilli>parseMilli)+", parseMilli < midnightMilli: "+(parseMilli < midnightMilli)+", todayMilli > midnightMilli: "+(todayMilli > midnightMilli));
+        if(todayMilli>parseMilli && parseMilli < midnightMilli && todayMilli > midnightMilli){
+            Log.i("deleteMetPeople","deleteMetPeople() if Zweig");
+            parseDb.deleteMetPeople();
+        }else{
+            Log.i("deleteMetPeople","deleteMetPeople() else Zweig");
+        }
     }
 /*
     public void loginProcess(){
