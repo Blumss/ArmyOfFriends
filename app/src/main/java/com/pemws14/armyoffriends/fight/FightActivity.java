@@ -78,7 +78,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         parseDb = new ParseDb();
         dbProfile = dbHelper.getProfile(parseDb.getUserID());
 
-        createDummies();
+        //createDummies();
 
         fightList = dbHelper.getAllFights();
         fightList.remove(0);
