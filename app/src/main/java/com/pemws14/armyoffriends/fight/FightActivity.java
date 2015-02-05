@@ -46,10 +46,13 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     private RecyclerView recyclerView;
     private RecyclerView.Adapter fightAdapter;
 
+    private TextView ownLevelText;
+    private TextView armyStrengthText;
+
     private Integer level;
-    private Integer ownStrength;
+    private Integer limitedStrength;
     private Integer maxOwnStrength;
-    private Integer armySize;
+    private Integer possibleArmySize;
     private double[] fightResult;
 
     @Override
@@ -75,7 +78,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         parseDb = new ParseDb();
         dbProfile = dbHelper.getProfile(parseDb.getUserID());
 
-        //createDummies();
+        createDummies();
 
         fightList = dbHelper.getAllFights();
         fightList.remove(0);
@@ -83,23 +86,34 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         recyclerView.setAdapter(fightAdapter);
 
         //get view for ownLevel and ownArmyStrength
-        TextView armyStrength = (TextView) view.findViewById(R.id.fight_info_strength);
-        TextView ownLevel = (TextView) view.findViewById(R.id.fight_info_level);
+        ownLevelText = (TextView) view.findViewById(R.id.fight_info_level);
+        armyStrengthText = (TextView) view.findViewById(R.id.fight_info_strength);
 
-        level = GameMechanics.getPlayerLevelForEp(dbProfile.getEp());
-        armySize = GameMechanics.getMaxArmySize(level);
+        //update Profile
         List<DbSoldier> getSoldiers = dbHelper.getAllSoldiers();
+        dbProfile.setArmyStrength(GameMechanics.getArmyStrength(getSoldiers));
+        dbProfile.setPlayerLevel(GameMechanics.getPlayerLevelForEp(dbProfile.getEp()));
+        dbHelper.updateProfile(dbProfile);
 
-        maxOwnStrength = GameMechanics.getArmyStrength(getSoldiers);
-        ownStrength = GameMechanics.getArmyStrength(dbHelper.getLimitedSoldiers(armySize));
-        armyStrength.setText(" " + ownStrength.toString() + "/" + maxOwnStrength.toString());
-        ownLevel.setText(level.toString());
-
+        generateTopBar();
         checkFights(currentTime);
 
         achievementList = dbHelper.getAllAchievements();
     }
 
+    /*
+    generates the top bar (Level and ArmyStrength display) in onCreate and after a won fight
+     */
+    public void generateTopBar(){
+        level = dbProfile.getPlayerLevel();
+        maxOwnStrength = dbProfile.getArmyStrength();
+
+        possibleArmySize = GameMechanics.getMaxArmySize(level);
+        limitedStrength = GameMechanics.getArmyStrength(dbHelper.getLimitedSoldiers(possibleArmySize));
+
+        ownLevelText.setText(level.toString());
+        armyStrengthText.setText(" " + limitedStrength.toString() + "/" + maxOwnStrength.toString());
+    }
 
     /*
     Checks, if Fight was created more than a day ago and if so deletes it from DbFight
@@ -170,7 +184,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
     public void onDialogPositiveClick(DialogFragment dialog, int fightId, int position) throws InterruptedException {
         dialog.dismiss();
         DbFight dbFight = dbHelper.getFight(fightId);
-        fightResult = GameMechanics.getFightResult(ownStrength, dbFight.getStrength());
+        fightResult = GameMechanics.getFightResult(limitedStrength, dbFight.getStrength());
         double random = fightResult[0];
         double chance = fightResult[1];
 
@@ -213,7 +227,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
      */
     public void updateDBs(DbFight dbFight, Boolean result, double random, double chance){
         //update History
-        dbHistory = new DbHistory(level, ownStrength, dbHelper.getMaxLevel(), dbFight.getName(), dbFight.getImg(), dbFight.getPlayerLevel(), dbFight.getStrength(), dbFight.getMaxLevel(), result);
+        dbHistory = new DbHistory(level, limitedStrength, dbHelper.getMaxLevel(), dbFight.getName(), dbFight.getImg(), dbFight.getPlayerLevel(), dbFight.getStrength(), dbFight.getMaxLevel(), result);
         dbHelper.createHistory(dbHistory);
 
         //update Achievements & ProfileEPs
@@ -249,15 +263,18 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
                 dbHelper.updateAchievement(achievement1);
                 dbHelper.updateAchievement(achievement2);
             }
-            //***update EPs, Level aaaaand EP-Achievement
+            //***update EPs, Level aaaaand EP-Achievement aaaaaaaaaaaaand generate the TopBar new (maybe upgrade in ArmyStrength)
             dbProfile.setEp(dbProfile.getEp() + (int)(GameMechanics.getEpBaseReward(dbFight.getPlayerLevel())*chance));
             dbProfile.setEp(dbProfile.getEp() + (int)Math.max((GameMechanics.getEpBaseReward(dbFight.getPlayerLevel())*chance),1));
             dbProfile.setPlayerLevel(GameMechanics.getPlayerLevelForEp(dbProfile.getEp()));
             dbHelper.updateProfile(dbProfile);
+
             DbAchievement achievement = achievementList.get(23);
             achievement.setAchieved(dbProfile.getPlayerLevel());
             achievement.setFulfilled(dbHelper.checkAchievementState(achievement, getApplicationContext(), parent));
             dbHelper.updateAchievement(achievement);
+
+            generateTopBar();
         //**if lost
         }else{
             //***Loose achievement update
@@ -285,7 +302,7 @@ public class FightActivity extends BaseActivity implements FightResultDialogFrag
         //generate new & update DbEntry
         String [] enemies = res.getStringArray(R.array.daily_challenge_enemies);
         int enemy = (int) (Math.random()*enemies.length);
-        int[] challenge = GameMechanics.randomEncounter(profile.getPlayerLevel(), profile.getArmyStrength());
+        int[] challenge = GameMechanics.randomEncounter(profile.getPlayerLevel()+1, profile.getArmyStrength()+1);
         daily.setName(enemies[enemy]);
         daily.setPlayerLevel(challenge[0]);
         daily.setStrength(challenge[1]);

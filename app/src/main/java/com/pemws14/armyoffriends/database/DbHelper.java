@@ -915,6 +915,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View layout = inflater.inflate(R.layout.achievement, (ViewGroup) viewGroup.findViewById(R.id.achievement_parent));
                 layout.setBackgroundColor(Color.DKGRAY);
+                layout.getBackground().setAlpha(230);
                 ImageView image = (ImageView) layout.findViewById(R.id.achivement_pic);
                 TextView title = (TextView) layout.findViewById(R.id.achievement_title);
                 TextView description = (TextView) layout.findViewById(R.id.achievement_description);

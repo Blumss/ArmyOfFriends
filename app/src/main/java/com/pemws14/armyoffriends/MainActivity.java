@@ -259,7 +259,6 @@ public class MainActivity extends Activity implements GooglePlayServicesClient.C
             List<DbAchievement> achievements = setRequirements();
             for(DbAchievement achievement: achievements){
                 db.createAchievement(achievement);
-                Log.i("MainActivity.createAchievements", "Creating #" + achievement.getId() + ": " + achievement.getTitle());
             }
         }else{
             Log.i("MainActivity.createAchievements","Achievements already existing!");
